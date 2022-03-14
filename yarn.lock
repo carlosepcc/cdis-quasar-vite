@@ -1669,6 +1669,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jwt-check-expiry@^1.0.10:
+  version "1.0.10"
+  resolved "http://nexus.prod.uci.cu/repository/npm-all/jwt-check-expiry/-/jwt-check-expiry-1.0.10.tgz#9159f2e41b7bbe4f816ea27ceaf2a5f46dea4971"
+  integrity sha512-DaqnmxMu9WSmCnCiL6mblrSxNwG5K7F8xbP9FVXhDlttglbxfluLRIzUqQE8W0mr5SU246HFMJEln/RXjWZkNQ==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "http://nexus.prod.uci.cu/repository/npm-all/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"

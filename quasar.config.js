@@ -50,6 +50,7 @@ module.exports = configure(function (/* ctx */) {
 
       'roboto-font', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
+      "material-icons-round",
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
@@ -92,10 +93,31 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {},
+      config: {dark: 'auto', // or Boolean true/false
+        brand: {
+          primary: "#D68F1F",
+          secondary: "#D7821D",
+          accent: "#ea5",
+
+          dark: "#1d1d1d",
+
+          positive: "#21BA45",
+          negative: "#C10015",
+          info: "#fb7",
+          warning: "#f2bd29",
+
+          brand: "#D68F1F",
+        },
+
+        notify: {
+          type: "positive",
+          message: "Acción completada con éxito",
+          position: "bottom",
+          timeout: 2000,
+        },},
 
       // iconSet: 'material-icons', // Quasar icon set
-      // lang: 'en-US', // Quasar language pack
+      lang: 'es',//'en-US', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact
       // (like functional components as one of the examples),
@@ -105,7 +127,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ["Notify", "Dialog"]
     },
 
     // animations: 'all', // --- includes all animations
