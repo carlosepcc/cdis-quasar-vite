@@ -1,17 +1,18 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
+  <q-page class="column items-center justify-evenly">
+    <LoginForm v-if="!state.loggedUser" />
+
+    <div class="text-grey-8 column items-center">
+      <q-icon name="r_support_agent" size="xl"></q-icon>
+      <p
+        class="text-center"
+      >Aún no tengo nueva información que mostrarle{{ state.loggedUser ? `, ${state.loggedUser.nombre}` : '' }}.</p>
+    </div>
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import state from 'src/composables/useState'
+import LoginForm from 'components/LoginForm'
 
-export default defineComponent({
-  name: 'PageIndex'
-})
 </script>
