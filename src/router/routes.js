@@ -7,7 +7,7 @@ const routes = [
       {name: "Comisiones Disciplinarias", path: "/comisiones", component: () => import("src/pages/lists/Comisiones.vue"),},
       {name: "Denuncias", path: "/denuncias", component: () => import("src/pages/lists/Denuncias.vue")},
       {name: "Usuarios", path: "/users", component: () => import("src/pages/lists/Users.vue")},
-      {name: "Ayuda", path: "/help", component: () => import("src/pages/Help.vue")},
+      {name: "Ayuda", path: "/help", component: () => import("pages/PageHelp.vue")},
       {name: "Acerca de", path: "/about", component: () => import("src/pages/About.vue")},
       {name: "Ajustes", path: "/settings", component: () => import("src/pages/Settings.vue")},
     ],
