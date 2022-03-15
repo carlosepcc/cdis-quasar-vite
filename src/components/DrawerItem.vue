@@ -14,7 +14,6 @@
   </div>
 </template>
 <script setup>
-import state from "src/composables/useState"
 const props = defineProps({
   title: {
     type: String,

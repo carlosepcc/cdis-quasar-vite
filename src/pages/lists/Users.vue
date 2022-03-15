@@ -15,11 +15,11 @@
 </template>
 
 <script setup>
-import ListPage from 'components/ListPage'
+import ListPage from 'components/ListPage.vue'
 import { ref, provide } from "vue";
-import listar, { eliminar } from 'src/composables/useAPI'
-import { usersArr } from 'src/composables/useState'
-import UserForm from 'components/forms/UserForm'
+import listar, { eliminar } from 'src/composables/useAPI.js'
+import { usersArr } from 'src/composables/useState.js'
+import UserForm from 'components/forms/UserForm.vue'
 
 const userFields = ref([
   { name: 'nombre', required: true, label: 'Nombres', align: 'left', field: 'nombre', sortable: true, },

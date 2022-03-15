@@ -1,11 +1,11 @@
 <script setup>
 // Components
-import BaseDrawer from 'components/BaseDrawer';
-import BaseBrand from 'src/components/BaseBrand';
-import UserInfo from 'src/components/UserInfo';
+import BaseDrawer from 'src/components/BaseDrawer.vue';
+import BaseBrand from 'src/components/BaseBrand.vue';
+import UserInfo from 'components/UserInfo.vue';
 import { ref } from 'vue';
-import state from 'src/composables/useState'
-import { autorizar } from 'src/composables/useAPI'
+import state from 'src/composables/useState.js'
+import { autorizar } from 'src/composables/useAPI.js'
 
 
 // DRAWER
@@ -43,8 +43,10 @@ autorizar()
 
 
         <!-- USER -->
+        <span class="q-ml-md text-bold text-amber-2 gt-xs">{{$router.currentRoute.value.name}}</span>
         <UserInfo v-if="state.loggedUser" />
         <q-btn
+          v-show="$router.currentRoute.value.fullPath !== '/'"
           :dense="state.dense"
           v-else
           flat
@@ -71,15 +73,15 @@ autorizar()
       </router-view>
     </q-page-container>
 
-    <q-footer  style="height:45px" reveal class="bg-secondary text-white">
-      <q-toolbar >
-        <q-toolbar-title >
+    <q-footer reveal class="bg-secondary text-white q-pa-xs">
+
           <q-avatar size="sm" color="white">
-            <img src="icons/imagotipo-economica.svg" alt="">
+<!--            <img src="src/public/brand/imagotipo-economica.webp" alt="">-->
+
+            <img style="" src="src/public/icons/imagotipo-economica.svg" alt="">
           </q-avatar>
-        </q-toolbar-title>
-        <span style="color: #fffa"  class="text-caption">Universidad de las Ciencias Informáticas. XAUCE, CDIS. © 2011-{{ new Date().getFullYear() }}</span>
-      </q-toolbar>
+        <span style="color: #fffa"  class="text-caption q-ml-sm">Universidad de las Ciencias Informáticas. XAUCE, CDIS. © 2021-2022</span>
+
     </q-footer>
   </q-layout>
 </template>

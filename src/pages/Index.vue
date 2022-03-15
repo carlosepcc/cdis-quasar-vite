@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import state from 'src/composables/useState'
-import LoginForm from 'components/LoginForm'
+import state from 'src/composables/useState.js'
+import LoginForm from 'components/LoginForm.vue'
 
 </script>

@@ -44,7 +44,7 @@ const logout = () => {
       <q-item-label class="text-yellow-1 text-bold">
         <span class>
           {{ state.loggedUser.nombre }}
-          <span class="gt-xs">{{ state.loggedUser.apellidos }}</span>
+          <span class="gt-sm">{{ state.loggedUser.apellidos }}</span>
         </span>
       </q-item-label>
       <q-item-label class="text-orange-1 text-bold" caption>

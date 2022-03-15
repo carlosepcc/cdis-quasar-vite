@@ -111,7 +111,7 @@ const url = inject('minutaUrl')
 
 
 //STATE
-const minutasArr = inject('minutasArr')
+const comisionesArr = inject('minutasArr')
 const minutaObject = inject('minutaObject')
 
 

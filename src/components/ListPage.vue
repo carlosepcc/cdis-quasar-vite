@@ -118,8 +118,8 @@
 
         <!-- BODY SLOT -->
       </template>
-      <template v-slot:body="props" cursor-pointer>
-        <q-tr
+      <template v-slot:body="props" >
+        <q-tr cursor-pointer
           :props="props"
           title="Haga click para modificar esta entrada"
           clickable

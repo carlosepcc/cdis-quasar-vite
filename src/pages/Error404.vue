@@ -6,7 +6,7 @@
       <div
         class="text-h2"
         style="opacity:.4"
-      >Ups. Nada aquí {{ state.loggedUser.name != '' ? state.loggedUser.name : '' }}...</div>
+      >Ups. Nada aquí {{ state.loggedUser ? `, ${state.loggedUser.nombre}` : '' }}...</div>
 
       <q-btn class="q-mt-xl" unelevated to="/" label="Volver al inicio" no-caps />
     </div>

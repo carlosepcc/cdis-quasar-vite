@@ -14,9 +14,9 @@
 </template>
 <script setup>
 import {ref, provide} from "vue";
-import ListPage from 'components/ListPage'
-import DenunciaForm from 'components/forms/DenunciaForm'
-import listar, {eliminar} from 'src/composables/useAPI'
+import ListPage from 'components/ListPage.vue'
+import DenunciaForm from 'components/forms/DenunciaForm.vue'
+import listar, {eliminar} from 'src/composables/useAPI.js'
 
 const denunciaFields = ref([
   {

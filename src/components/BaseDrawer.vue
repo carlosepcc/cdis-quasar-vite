@@ -1,8 +1,8 @@
 <script setup>
 // Components
-import DrawerItem from 'components/DrawerItem';
+import DrawerItem from 'components/DrawerItem.vue';
 import { ref } from 'vue';
-import state from 'src/composables/useState'
+import state from 'src/composables/useState.js'
 
 // DRAWER
 const miniState = ref(false);
