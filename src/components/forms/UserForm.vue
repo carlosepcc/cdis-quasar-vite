@@ -84,12 +84,13 @@
               clearable
               :dense="state.dense"
               label="Repita su contraseña"
+              v-model="passCheck"
               type="password"
               filled
               lazy-rules
               :rules="userObject.id ? false : [
                 (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-                (val) => (val == userObject.contrasena) || 'Por favor, escriba algo',
+                (val) => (val === userObject.contrasena) || 'Las contraseñas no coinciden',
               ]"
             >
               <template v-slot:append>
@@ -150,12 +151,13 @@
 </template>
 <script setup>
 import {ref, inject} from 'vue';
-import {guardar} from "src/composables/useAPI";
-import state, {usersArr} from "src/composables/useState"
+import {guardar} from "src/composables/useAPI.js";
+import state, {usersArr} from "src/composables/useState.js"
 
 //DOM
 const formulario = ref()
 const showPassword = ref(false)
+const passCheck = ref('')
 
 //COMPONENT
 const emits = defineEmits(['closeForm'])

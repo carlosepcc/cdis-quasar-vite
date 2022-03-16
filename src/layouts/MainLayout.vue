@@ -73,7 +73,7 @@ autorizar()
       </router-view>
     </q-page-container>
 
-    <q-footer reveal class="bg-secondary text-white q-pa-xs">
+    <q-footer v-once reveal class="bg-secondary text-white q-pa-xs">
 
           <q-avatar size="sm" color="white">
 <!--            <img src="src/public/brand/imagotipo-economica.webp" alt="">-->

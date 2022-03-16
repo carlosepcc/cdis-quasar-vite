@@ -3,63 +3,48 @@
     <q-card>
       <q-card-section
         class="text-h7 text-uppercase text-weight-light"
-      >{{ hallazgoObject.id ? 'Modificar' : 'Nuevo' }} Hallazgo</q-card-section>
+      >{{ denunciaObject.id ? 'Modificar' : 'Nueva' }} Denuncia</q-card-section>
       <q-separator />
       <q-card-section>
         <q-form ref="formulario" @submit="onSubmit" @reset="onReset">
-          <q-input
-            clearable
-            autofocus
-            :dense="state.dense"
-            filled
-            v-model.trim="hallazgoObject.productoAf"
-            label="Producto Afectado"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-            ]"
-          />
+
+<!--          Indisciplina-->
           <q-input
             clearable
             :dense="state.dense"
-            v-model.trim="hallazgoObject.ubicacion"
-            label="Ubicación"
             filled
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-            ]"
-          />
-          <q-input
-            clearable
-            :dense="state.dense"
-            label="Descripción"
-            v-model.trim="hallazgoObject.descripcion"
-            filled
-            autogrow
+            v-model.trim="denunciaObject.indisciplina"
+            label="Indisciplina"
             lazy-rules
             :rules="[
               (val) => (val && val.length > 0) || 'Por favor, escriba algo',
             ]"
           />
 
+          <q-select model-value="denunciaObject.estudiantes" multiple :options="state.usersArr"/>
           <q-select
             :dense="state.dense"
-            v-model="hallazgoObject.tipo"
+            v-model="denunciaObject.estudiantes"
             filled
-            :options="['No conformidad', 'Oportunidad de mejora']"
-            label="Tipo"
+            :options="state.usersArr"
+            map-options
+            option-label="nombre"
+            label="Estudiantes"
             lazy-rules
             :rules="[val || 'Por favor, seleccione algo']"
           />
-          <q-select
+          <!-- Descripción denuncia -->
+          <q-input
+            clearable
             :dense="state.dense"
-            v-model="hallazgoObject.impacto"
+            label="Descripción"
+            v-model.trim="denunciaObject.descripcion"
             filled
-            :options="['bajo', 'medio', 'alto']"
-            label="Impacto"
+            autogrow
             lazy-rules
-            :rules="[val || 'Por favor, seleccione algo']"
+            :rules="[
+                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+              ]"
           />
           <q-separator class="q-mb-sm q-mt-md" />
 
@@ -96,36 +81,32 @@
 </template>
 <script setup>
 import { ref, inject } from 'vue';
-import { guardar } from "src/composables/useAPI";
-import state from "src/composables/useState"
+import { guardar } from "src/composables/useAPI.js";
+import state from "src/composables/useState.js"
 
 //DOM
 const formulario = ref()
 
 //COMPONENT
 const emits = defineEmits(['closeForm'])
-const url = inject('hallazgoUrl')
+const url = inject('denunciaUrl')
 
 
 //STATE
-const denunciasArr = inject('hallazgosArr')
+const denunciasArr = inject('denunciasArr')
 
-const hallazgoObject = inject('hallazgoObject')
+const denunciaObject = inject('denunciaObject')
 
 //SUBMIT
 function onSubmit() {
-  guardar(hallazgoObject.value, hallazgosArr, url)
+  guardar(denunciaObject.value, denunciasArr, url)
   onReset()
 }
 
 //RESET FORM
 function onReset() {
   //Reset fields
-  hallazgoObject.value = {
-    id: hallazgoObject.value.id,
-    tipo: 'Oportunidad de mejora',
-    impacto: 'medio'
-  }
+  denunciaObject.value = null
   formulario.value.resetValidation();
 }
 </script>

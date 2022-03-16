@@ -10,7 +10,7 @@ const state = ref({
 });
 
 // Usuarios registrados
-export const usersArr = ref([]);
+export const usersArr = ref([{nombre:'Foo',username : 'foo',roles:['ROLE_BAR']}]);
 
 export const usersByRole = ref({
   Revisor: [],
