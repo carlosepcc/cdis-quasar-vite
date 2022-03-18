@@ -31,15 +31,19 @@ export const autorizar = (token) => {
 
   // Luego se procede a revisar si hay un token guardado en localStorage
   let storedToken = localStorage.getItem("token");
-  console.log("🚀 useAPI.js line 24 autorizar localStorageToken", storedToken);
+  console.log("🚀 useAPI.js autorizar localStorageToken", storedToken);
 
   // ..y, si este existe y no ha expirado, se actualiza el estado con los datos de usuario autenticado decodificado en localStorage y se establece el header de Autorization de axios
   if (storedToken && !isJwtTokenExpired(storedToken)) {
     state.value.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
     api.defaults.headers.common["Authorization"] = storedToken;
     console.log(
-      "🚀 useAPI.js line 29 autorizar state.value.loggedUser",
+      "🚀 useAPI.js 41 autorizar state.value.loggedUser",
       state.value.loggedUser
+    );
+    console.log(
+      "🚀 useAPI.js 45 autorizar api.defaults.headers.common[\"Authorization\"]",
+      api.defaults.headers.common["Authorization"]
     );
     // si no existe o ya expiró, se elimina de locaStorage y se enruta a la página inicial para que el usuario inicie sesión.
   } else {
@@ -150,7 +154,7 @@ const listar = (list = usersArr, url = "/usuario") => {
       notifyError(
         error,
         {
-          message: `Carga fallida de ${url}. ${error.response.data.message}`,
+          message: `Carga fallida de ${url}. ${error.response.data.mensaje}`,
         },
         noti
       );
@@ -168,7 +172,7 @@ export const guardar = (object, refArr, url = "/Usuario") => {
   });
 
   api({
-    method: object.id ? "put" : "post",
+    method: "put",
     url: url,
     data: object,
   })
@@ -180,7 +184,7 @@ export const guardar = (object, refArr, url = "/Usuario") => {
         message: "Acción realizada con éxito.",
         actions: [{label: "OK", color: "white"}],
       });
-      listar(refArr, url);
+      listar(refArr, url );
     })
     .catch((error) => {
       console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
@@ -256,6 +260,8 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
 };
 
 // LOCAL FUNCTIONS
+
+// CREAR LA NOTIFICACION VISUAL DE ERRORES
 const notifyError = (error, noti, heading = "Acción fallida", notiConfig) => {
   notiConfig = {
     ...{
@@ -271,8 +277,8 @@ const notifyError = (error, noti, heading = "Acción fallida", notiConfig) => {
 
   // handle error
   if (error.response) {
-    let serverMessage = error.response.data.message
-      ? error.response.data.message
+    let serverMessage = error.response.data.mensaje
+      ? error.response.data.mensaje
       : error.response.data.error == "Forbidden" &&
       error.response.data.path == "/login"
         ? "Credenciales inválidas"

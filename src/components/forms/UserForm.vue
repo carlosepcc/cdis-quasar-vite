@@ -6,6 +6,7 @@
         <q-btn color="grey" flat icon="close" @click="$emit('closeForm')"/>
       </q-card-section>
       <q-separator/>
+      {{userObject}}
       <q-card-section>
         <q-form ref="formulario" @submit="onSubmit" @reset="onReset">
           <!--  Example Value
@@ -50,7 +51,7 @@
               clearable
               :dense="state.dense"
               label="Nombre de usuario"
-              v-model="userObject.username"
+              v-model="userObject.usuario"
               filled
               lazy-rules
               :rules="[

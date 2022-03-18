@@ -50,7 +50,15 @@ const userObject = ref()
 provide('userObject', userObject)
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { roles: ["Administrador"] }) => {
+const openForm = (obj = {
+  "nombre": "Mai",
+  "apellidos": "Carballo",
+  "usuario": "mai",
+  "contrasena": "mai",
+  "roles": [
+    "Decano"
+  ]
+}) => {
   userObject.value = obj
   showForm.value = true
 }
