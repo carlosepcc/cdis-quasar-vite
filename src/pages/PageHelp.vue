@@ -2,7 +2,7 @@
   <q-page padding>
     <strong>Ayuda</strong>
     <br />
-    <q-btn push label="Obtener ayuda" icon="call" href="tel:103" />
+    ¿Cómo usar CDIS?
   </q-page>
 </template>
 

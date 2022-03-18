@@ -8,7 +8,7 @@
         style="opacity:.4"
       >Ups. Nada aquí {{ state.loggedUser ? `, ${state.loggedUser.nombre}` : '' }}...</div>
 
-      <q-btn class="q-mt-xl" unelevated to="/" label="Volver al inicio" no-caps />
+      <q-btn class="q-mt-xl" unelevated to="/" label="Volver al inicio" no-caps size="xl" />
     </div>
   </div>
 </template>

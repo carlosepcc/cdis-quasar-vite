@@ -1,12 +1,10 @@
 <script setup>
+import DarkModeControl from './DarkModeControl.vue';
 import state from "src/composables/useState"
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router"
-import {ref, watch} from "vue";
 const $router = useRouter()
 const $q = useQuasar()
-const darkMode = ref($q.dark.mode)
-watch(darkMode, val => $q.dark.set(val))
 const logout = () => {
   $q.dialog({
     title: 'Confirme cerrar sesión',
@@ -38,9 +36,8 @@ const logout = () => {
     class="text-white q-py-none absolute-right"
     :title="state.loggedUser.username + '. ' + state.loggedUser.nombre + '. ' + state.loggedUser.roles"
   >
-<!--    INFORMACIÓN DEL USUARIO-->
+    <!--    INFORMACIÓN DEL USUARIO-->
     <q-item-section>
-
       <q-item-label class="text-yellow-1 text-bold">
         <span class>
           {{ state.loggedUser.nombre }}
@@ -52,10 +49,15 @@ const logout = () => {
           state.loggedUser.roles[0].replace(/_/g, ' ')
         }}
       </q-item-label>
-    </q-item-section >
-      <!--    AVATAR-->
-      <q-item-section side>
-      <q-avatar size="xl" :color="$q.dark.isActive ? 'amber-8' : 'amber-1'" :text-color="$q.dark.isActive ? 'q-yellow-1' : 'primary'" class="text-weight-bolder text-uppercase">
+    </q-item-section>
+    <!--    AVATAR-->
+    <q-item-section side>
+      <q-avatar
+        size="xl"
+        :color="$q.dark.isActive ? 'amber-8' : 'amber-1'"
+        :text-color="$q.dark.isActive ? 'q-yellow-1' : 'primary'"
+        class="text-weight-bolder text-uppercase"
+      >
         <img
           v-if="state.loggedUser.img"
           :src="state.loggedUser.img"
@@ -79,51 +81,12 @@ const logout = () => {
       </q-avatar>
     </q-item-section>
 
-    <q-menu>
+    <q-menu fit :offset="[-10, 10]">
       <div class="row no-wrap q-pa-md">
         <div class="column">
           <div class="text-weight-light text-uppercase q-mb-md">Ajustes</div>
           <q-toggle v-model="state.dense" label="Interfaz densa" />
-          <br>
-          Modo
-          <q-btn-toggle
-            v-model="darkMode"
-            push
-            no-caps
-            toggle-color="primary"
-            :options="[
-          {value: 'auto', slot: 'auto'},
-          {value: false, slot: 'light'},
-          {value: true, slot: 'dark'}
-        ]"
-          >
-            <template v-slot:light>
-              <div class="row items-center no-wrap">
-                <div class="text-center">
-                  Claro
-                </div>
-                <q-icon right name="r_light_mode" />
-              </div>
-            </template>
-
-            <template v-slot:auto>
-              <div class="row items-center no-wrap" >
-                <div class="text-center">
-                  Sistema
-                </div>
-                <q-icon right name="r_brightness_medium" />
-              </div>
-            </template>
-
-            <template v-slot:dark >
-              <div class="row items-center no-wrap">
-                <div class="text-center">
-                  Oscuro
-                </div>
-                <q-icon right name="r_dark_mode" />
-              </div>
-            </template>
-          </q-btn-toggle>
+          <DarkModeControl />
         </div>
 
         <q-separator vertical inset class="q-mx-lg" />

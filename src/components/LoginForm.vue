@@ -1,6 +1,6 @@
 <template>
   <q-card class="q-pa-md shadow-1 hide-scrollbar rounded-borders" style="max-width: 400px">
-    <q-card-section class="text-h7 text-uppercase text-weight-light">Iniciar sesión</q-card-section>
+    <q-card-section class="text-h7 text-uppercase text-weight-light">Inicie sesión</q-card-section>
     <q-separator />
     <q-card-section>
       <q-form @submit="onSubmit" @reset="onReset" ref="formulario" class="q-gutter-md">

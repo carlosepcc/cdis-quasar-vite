@@ -1,10 +1,11 @@
 <template>
   <q-page padding class="q-gutter-sm">
+    <div>Interfaz</div>
     <!-- TABLE / GRID -->
     <q-btn-toggle
       title="Modo de presentación (Tabla o Rejilla)"
       v-model="state.grid"
-      push
+      flat
       toggle-color="primary"
       :options="[
         { label: 'Vista en Tabla', noCaps: true, value: false, slot: 'tableview' },
@@ -24,7 +25,7 @@
     <q-btn-toggle
       title="Densidad las filas en vista de tabla (Normal o Denso)"
       v-model="state.dense"
-      push
+      flat
       class="q-mx-sm"
       toggle-color="primary"
       :options="[
@@ -40,7 +41,9 @@
         <q-icon name="view_headline" class="on-right" />
       </template>
     </q-btn-toggle>
-
+    <DarkModeControl />
+<hr/>
+    <div>Desarrollo</div>
     <q-input
       autofocus
       style="max-width: 20em"
@@ -58,8 +61,10 @@
 </template>
 
 <script setup>
+
+import DarkModeControl from 'components/DarkModeControl.vue';
 import { ref } from "vue"
-import state from 'src/composables/useState'
+import state from 'src/composables/useState.js'
 import { api } from "boot/axios";
 const axiosBaseURL = ref(api.defaults.baseURL)
 

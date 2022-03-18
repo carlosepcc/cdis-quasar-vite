@@ -21,10 +21,10 @@ autorizar()
 
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header reveal elevated class="bg-primary text-white">
+    <q-header reveal class="bg-primary text-white">
       <q-toolbar class="brand-bar">
         <div id="brand-frame" class="text-primary">
-<!--          BOTON MENU-->
+          <!--          BOTON MENU-->
           <q-btn
             dense
             flat
@@ -36,14 +36,16 @@ autorizar()
           />
 
           <q-toolbar-title>
-            <BaseBrand brand="XAUCE" product="CDIS" :generic="'Gestión de Proceso de\nComisión Disciplinaria'" />
+            <BaseBrand
+              brand="XAUCE"
+              product="CDIS"
+              :generic="'Gestión de Proceso de\nComisión Disciplinaria'"
+            />
           </q-toolbar-title>
         </div>
 
-
-
         <!-- USER -->
-        <span class="q-ml-md text-bold text-amber-2 gt-xs">{{$router.currentRoute.value.name}}</span>
+        <span class="q-ml-md text-bold text-amber-2 gt-xs">{{ $router.currentRoute.value.name }}</span>
         <UserInfo v-if="state.loggedUser" />
         <q-btn
           v-show="$router.currentRoute.value.fullPath !== '/'"
@@ -63,7 +65,9 @@ autorizar()
     <BaseDrawer v-model="leftDrawerOpen" />
 
     <!-- CONTENEDOR DE PAGINAS -->
-    <q-page-container>
+    <q-page-container
+      style="background:url('https://akademos.uci.cu/public/images/blue_theme/interfaz-modulos.png') no-repeat bottom left"
+    >
       <router-view v-slot="{ Component, route }">
         <transition>
           <keep-alive>
@@ -73,15 +77,14 @@ autorizar()
       </router-view>
     </q-page-container>
 
-    <q-footer v-once reveal class="bg-secondary text-white q-pa-xs">
-
-          <q-avatar size="sm" color="white">
-<!--            <img src="src/public/brand/imagotipo-economica.webp" alt="">-->
-
-            <img style="" src="src/public/icons/imagotipo-economica.svg" alt="">
-          </q-avatar>
-        <span style="color: #fffa"  class="text-caption q-ml-sm">Universidad de las Ciencias Informáticas. XAUCE, CDIS. © 2021-2022</span>
-
+    <q-footer reveal class="bg-primary text-white q-pa-xs q-px-sm">
+      <q-avatar size="sm">
+        <img src="src/public/brand/brand-imagotipo-mini.png" style="opacity: 0.5" alt />
+      </q-avatar>
+      <span
+        style="color: #fffa"
+        class="text-caption q-ml-sm"
+      >Universidad de las Ciencias Informáticas. XAUCE, CDIS. © 2021-2022</span>
     </q-footer>
   </q-layout>
 </template>

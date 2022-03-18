@@ -8,6 +8,9 @@
       "app/*": [
         "*"
       ],
+      "composables/*": [
+        "src/composables/*"
+      ],
       "components/*": [
         "src/components/*"
       ],
