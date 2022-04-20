@@ -1,8 +1,9 @@
 <template>
   <q-dialog position="top" persistent>
     <q-card class="hide-scrollbar">
-      <q-card-section class="text-h7 text-uppercase text-weight-light">
-        {{ userObject.id ? 'Modificar' : 'Nuevo' }} Usuario
+      <q-card-section class="text-h7 text-uppercase text-weight-light row">
+        <span>{{ userObject.id ? 'Modificar' : 'Nuevo' }} Usuario</span>
+        <q-space/>
         <q-btn color="grey" flat icon="close" @click="$emit('closeForm')"/>
       </q-card-section>
       <q-separator/>

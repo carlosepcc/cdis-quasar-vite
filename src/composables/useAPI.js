@@ -133,7 +133,7 @@ export const listarUsersByRole = () => {
 };
 
 // LISTAR (Actualizar Arreglos en el cliente con datos del servidor)
-const listar = (list = usersArr, url = "/usuario") => {
+const listar = (list = usersArr, url = "/Usuario") => {
   let noti = Notify.create({
     type: "ongoing",
     message: `Accediendo al listado ${url}`,
@@ -184,7 +184,7 @@ export const guardar = (object, refArr, url = "/Usuario") => {
         message: "Acción realizada con éxito.",
         actions: [{label: "OK", color: "white"}],
       });
-      listar(refArr, url );
+      listar(refArr, url == '/Usuario/crearUsuario' ? '/Usuario' : url ); //TODO: Eliminar condicion una vez que se unifique la url
     })
     .catch((error) => {
       console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
@@ -259,9 +259,9 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
     });
 };
 
-// LOCAL FUNCTIONS
+//Funciones no exportadas.
 
-// CREAR LA NOTIFICACION VISUAL DE ERRORES
+// CREA UNA NOTIFICACION VISUAL DE ERRORES
 const notifyError = (error, noti, heading = "Acción fallida", notiConfig) => {
   notiConfig = {
     ...{

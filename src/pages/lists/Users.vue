@@ -11,6 +11,8 @@
       :rows="usersArr"
       :columns="userFields"
     ></ListPage>
+    <pre>usersArr[0].rolsistemaList[0].rol == {{ usersArr[0].rolsistemaList[0].rol }}</pre>
+    <pre>usersArr == {{ usersArr }}</pre>
   </q-page>
 </template>
 
@@ -24,8 +26,8 @@ import UserForm from 'components/forms/UserForm.vue'
 const userFields = ref([
   { name: 'nombre', required: true, label: 'Nombres', align: 'left', field: 'nombre', sortable: true, },
   { name: 'apellidos', required: true, label: 'Apellidos', align: 'left', field: 'apellidos', sortable: true, },
-  { name: 'username', required: true, label: 'Nombre de usuario', align: 'left', field: 'username', sortable: true, },
-  { name: 'roles', required: true, label: 'Rol', align: 'center', field: user => user.roles[0], sortable: true, }])
+  { name: 'username', required: true, label: 'Nombre de usuario', align: 'left', field: 'usuario', sortable: true, },
+  { name: 'roles', required: true, label: 'Rol', align: 'center', field: user => user.rolsistemaList, sortable: true, }])
 
 
 

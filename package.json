@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,css,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "qdev": "quasar dev"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -28,7 +29,7 @@
     "prettier": "^2.5.1"
   },
   "engines": {
-    "node": "14.x",
+    "node": ">= 14.x",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }
