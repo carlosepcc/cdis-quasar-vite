@@ -43,7 +43,7 @@
       </q-btn-toggle>
     </div>
     <q-table
-      :class='tableClass'
+      :class="tableClass"
       :title="heading"
       :rows="rows"
       :columns="columns"
@@ -62,7 +62,7 @@
     >
       <!-- :flat="!isTableGrid" -->
       <!-- TODO :loading="loading" -->
-      <template v-slot:top>
+      <template v-slot:top-left>
         <div class="q-gutter-sm row items-center">
           <!-- FILTER -->
           <q-input
@@ -78,14 +78,24 @@
               <q-icon name="r_search" />
             </template>
             <template v-slot:append>
-              <q-icon v-show="filter" name="r_close" @click="filter = ''" class="cursor-pointer" />
+              <q-icon
+                v-show="filter"
+                name="r_close"
+                @click="filter = ''"
+                class="cursor-pointer"
+              />
             </template>
           </q-input>
 
           <!-- NUEVA ENTRADA -->
           <q-btn
             v-show="isTableFullscreen || $q.screen.gt.xs"
-            v-if="!(heading == 'Reportes técnicos' && state.loggedUser.roles[0] == 'Coordinador_de_calidad')"
+            v-if="
+              !(
+                heading == 'Reportes técnicos' &&
+                state.loggedUser.roles[0] == 'Coordinador_de_calidad'
+              )
+            "
             icon="add"
             :dense="s.dense"
             label="Nuevo"
@@ -106,7 +116,14 @@
             :dense="s.dense"
           />
 
-          <!-- FULLSCREEN -->
+
+        </div>
+
+        <!-- BODY SLOT -->
+      </template>
+
+      <template v-slot:top-right>
+<!-- FULLSCREEN -->
           <q-toggle
             :dense="s.dense"
             size="lg"
@@ -114,12 +131,11 @@
             v-model="isTableFullscreen"
             title="Pantalla completa"
           />
-        </div>
-
-        <!-- BODY SLOT -->
       </template>
-      <template v-slot:body="props" >
-        <q-tr cursor-pointer
+
+      <template v-slot:body="props">
+        <q-tr
+          cursor-pointer
           :props="props"
           title="Haga click para modificar esta entrada"
           clickable
@@ -148,7 +164,9 @@
               icon="delete"
             />
           </q-td>
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">{{ col.value }}</q-td>
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">{{
+            col.value
+          }}</q-td>
         </q-tr>
       </template>
     </q-table>
@@ -167,28 +185,29 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+import state from "src/composables/useState";
 
-import { ref } from 'vue';
-import state from 'src/composables/useState'
+import { useQuasar } from "quasar";
+const $q = useQuasar();
 
-import { useQuasar } from 'quasar';
-const $q = useQuasar()
-
-var s = state.value
-const tableClass = `q-pb-xl overflow-hidden ${!$q.dark.isActive ? 'bg-light' : ''}`
+var s = state.value;
+const tableClass = `q-pb-xl overflow-hidden ${
+  !$q.dark.isActive ? "bg-light" : ""
+}`;
 const props = defineProps({
   heading: String,
   rows: Array,
   columns: Array,
   rowKey: {
     type: String,
-    default: 'id'
-  }
-})
-const emit = defineEmits(['openForm', 'deleteRows'])
+    default: "id",
+  },
+});
+const emit = defineEmits(["openForm", "deleteRows"]);
 
 // FILTRAR
-const filter = ref('');
+const filter = ref("");
 
 // SELECCIONAR
 const selected = ref([]);
@@ -196,6 +215,4 @@ const selected = ref([]);
 const isTableGrid = ref($q.screen.lt.sm);
 const isTableFullscreen = ref(false);
 const isTableDense = ref($q.screen.lt.sm);
-
 </script>
-
