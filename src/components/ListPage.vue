@@ -58,7 +58,7 @@
       selection="multiple"
       v-model:selected="selected"
       separator="vertical"
-      :pagination="{ rowsPerPage: 0 }"
+      :pagination="{ rowsPerPage: 20 }"
     >
       <!-- :flat="!isTableGrid" -->
       <!-- TODO :loading="loading" -->
@@ -115,22 +115,20 @@
             @click="$emit('deleteRows', selected)"
             :dense="s.dense"
           />
-
-
         </div>
 
         <!-- BODY SLOT -->
       </template>
 
       <template v-slot:top-right>
-<!-- FULLSCREEN -->
-          <q-toggle
-            :dense="s.dense"
-            size="lg"
-            icon="r_fullscreen"
-            v-model="isTableFullscreen"
-            title="Pantalla completa"
-          />
+        <!-- FULLSCREEN -->
+        <q-toggle
+          :dense="s.dense"
+          size="lg"
+          icon="r_fullscreen"
+          v-model="isTableFullscreen"
+          title="Pantalla completa"
+        />
       </template>
 
       <template v-slot:body="props">
