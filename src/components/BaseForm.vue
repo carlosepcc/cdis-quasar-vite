@@ -3,7 +3,7 @@
     <q-card>
       <q-card-section class="text-h7 text-uppercase text-weight-light"
         >{{
-          denunciaObject.id ? "Modificar" : "Nueva"
+          denunciaObject.id ? "Modificar" : "Nuevo"
         }}
         Denuncia</q-card-section
       >
@@ -53,7 +53,7 @@ import state from "src/composables/useState.js";
 const formulario = ref();
 
 //COMPONENT
-const emits = defineEmits(["closeForm"]);
+const emits = defineEmits(["closeForm","submit"]);
 const url = inject("denunciaUrl");
 
 //STATE
@@ -63,7 +63,7 @@ const denunciaObject = inject("denunciaObject");
 
 //SUBMIT
 function onSubmit() {
-  guardar(denunciaObject.value, denunciasArr, url);
+  emit("submit")
   onReset();
 }
 
