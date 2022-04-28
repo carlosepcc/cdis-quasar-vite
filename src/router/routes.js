@@ -17,7 +17,7 @@ const routes = [
   // but you can also remove it
   {name : "404",
     path: "/:catchAll(.*)*",
-    component: () => import("pages/Error404.vue"),
+    component: () => import("pages/PageError404.vue"),
   },
 ];
 
