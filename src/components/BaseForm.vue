@@ -2,14 +2,14 @@
   <q-dialog persistent position="top">
     <q-card>
       <q-card-section class="text-h7 text-uppercase text-weight-light"
-        >{{
-          denunciaObject.id ? "Modificar" : "Nuevo"
-        }}
-        Denuncia</q-card-section
+        ><slot name="header">
+        {{ props.isModifying ? "Modificar" : "Nueva" }}
+        {{ props.formTitle }}
+      </slot></q-card-section
       >
       <q-separator />
       <q-card-section>
-        <q-form ref="formulario" @submit="onSubmit" @reset="onReset">
+        <q-form ref="formulario" @submit="onSubmit" @reset="resetFormFields">
           <slot></slot>
           <q-separator class="q-mb-sm q-mt-md" />
 
@@ -53,6 +53,7 @@ import state from "src/composables/useState.js";
 const formulario = ref();
 
 //COMPONENT
+const props = defineProps({formTitle:String,isModifying: Boolean})
 const emits = defineEmits(["closeForm","submit"]);
 const url = inject("denunciaUrl");
 
@@ -64,11 +65,11 @@ const denunciaObject = inject("denunciaObject");
 //SUBMIT
 function onSubmit() {
   emit("submit")
-  onReset();
+  resetFormFields();
 }
 
 //RESET FORM
-function onReset() {
+function resetFormFields() {
   //Reset fields
   denunciaObject.value = null;
   formulario.value.resetValidation();

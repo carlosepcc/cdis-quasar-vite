@@ -1,7 +1,18 @@
 <template>
   <q-page padding class="q-pb-xl">
-    <DenunciaForm v-model="showForm" @close-form="closeForm"/>
+    <DenunciaForm @close-form="closeForm"/>
     <q-btn size="sm" dense flat icon="refresh" @click="listarDenuncias"/>
+    <BaseForm formTitle="Denuncia" v-model="showForm" @close-form="closeForm" @submit="submitFormData">
+      <template v-slot:default>
+        <!-- Descripción denuncia -->
+        <q-input
+          clearable
+          :dense="state.dense"
+          label="Descripción"
+          filled
+          autogrow/>
+      </template>
+    </BaseForm>
     <ListPage
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
@@ -14,9 +25,12 @@
 </template>
 <script setup>
 import {ref, provide} from "vue";
+import state from 'src/composables/useState.js'
 import ListPage from 'components/ListPage.vue'
 import DenunciaForm from 'components/forms/DenunciaForm.vue'
-import listar, {eliminar} from 'src/composables/useAPI.js'
+import BaseForm from 'components/BaseForm.vue'
+import listar, {eliminar, guardar} from 'src/composables/useAPI.js'
+
 
 const denunciaFields = ref([
   {
@@ -65,14 +79,18 @@ const closeForm = () => {
 }
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
-const hallazgoObject = ref({})
-provide('hallazgoObject', hallazgoObject)
+const denunciaObject = ref({})
+provide('denunciaObject', denunciaObject)
 
 //openForm triggered on: Nueva entrada, Modificar
 const openForm = (obj = {}) => {
-  hallazgoObject.value = obj
+  denunciaObject.value = obj
   showForm.value = true
-  console.log('openForm')
+  console.log(`openForm triggered. showForm.value is ${showForm.value}`)
+}
+//SUBMIT
+function submitFormData() {
+  guardar(denunciaObject.value, denunciasArr, url)
 }
 
 // delete tuples by array of objects
