@@ -43,9 +43,13 @@
     </q-btn-toggle>
     <DarkModeControl />
 <hr/>
-    <div>Desarrollo</div>
-    <q-input
-      autofocus
+    <details>
+    <summary>Opciones de desarrollador</summary>
+      <span>Base URL</span>
+    <q-select id="serverUrlsSelect"
+              style="width: 2em" v-model="axiosBaseURL" autofocus @change="setBaseURL" :options="baseUrlsArr" />
+      <q-input
+        label="Personalizada"
       style="max-width: 20em"
       list="serverUrls"
       v-model="axiosBaseURL"
@@ -53,10 +57,10 @@
       @change="setBaseURL"
     />
     <datalist id="serverUrls">
-      <option value="http://ac-cdis.herokuapp.com"></option>
-      <option value="http://localhost:9090"></option>
-      <option value="http://10.8.44.213:9090"></option>
+      <option value="http://localhost:8080"></option>
+      <option value="http://cdisserver.herokuapp.com"></option>
     </datalist>
+    </details>
   </q-page>
 </template>
 
@@ -67,6 +71,7 @@ import { ref } from "vue"
 import state from 'src/composables/useState.js'
 import { api } from "boot/axios";
 const axiosBaseURL = ref(api.defaults.baseURL)
+const baseUrlsArr = [axiosBaseURL.value,'http://cdisserver.herokuapp.com']
 
 const setBaseURL = (url = axiosBaseURL.value) => {
   api.defaults.baseURL = url

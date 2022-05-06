@@ -21,7 +21,7 @@
           tabindex="2"
           filled
           :dense="state.dense"
-          :type="showPassword ? 'password' : 'text'"
+          :type="showPassword ? 'text' : 'password'"
           v-model="loginObject.contrasena"
           label="Contraseña"
           lazy-rules
@@ -31,7 +31,7 @@
         >
           <template v-slot:append>
             <q-icon
-              :name="showPassword ? 'r_visibility_off' : 'r_visibility'"
+              :name="showPassword ? 'r_visibility' : 'r_visibility_off'"
               class="cursor-pointer"
               @click="showPassword = !showPassword"
             />
@@ -41,14 +41,14 @@
         <!-- <q-checkbox v-model="accept" label="Recordar usuario" />  -->
         <div>
           <q-btn-group push spread clas="full-width q-mt-md">
-            <q-btn
+<!--            <q-btn
               :size="state.dense ? 'sm' : 'md'"
               label="Restablecer"
               type="reset"
               no-caps
               push
               tabindex="4"
-            />
+            />-->
             <q-btn
               label="Entrar"
               push

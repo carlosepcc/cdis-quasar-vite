@@ -79,7 +79,7 @@ export const login = (loginObject) => {
   });
 
   api({
-    url: "/Usuario/loginUsuario",
+    url: "/Usuario/login",
     method: "POST",
     data: loginObject,
     headers: {"Content-Type": "application/json"},
