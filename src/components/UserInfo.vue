@@ -41,12 +41,11 @@ const logout = () => {
       <q-item-label class="text-yellow-1 text-bold">
         <span class>
           {{ state.loggedUser.nombre }}
-          <span class="gt-sm">{{ state.loggedUser.apellidos }}</span>
-        </span>
+          </span>
       </q-item-label>
       <q-item-label class="text-orange-1 text-bold" caption>
         {{
-          state.loggedUser.roles[0].replace(/_/g, ' ')
+          state.loggedUser.rol.replace(/_/g, ' ')
         }}
       </q-item-label>
     </q-item-section>
@@ -65,19 +64,16 @@ const logout = () => {
         />
         <span
           v-else
-        >{{ state.loggedUser.nombre.charAt(0) }}{{ state.loggedUser.apellidos.charAt(0) }}</span>
-        <!-- <ruby v-else>
-                {{ state.loggedUser.apellidos.replace(/[a-z]/g, '') }}
-                <rt>{{ state.loggedUser.nombre.replace(/[a-z]/g, '') }}</rt>
-        </ruby>-->
+        >{{ state.loggedUser.nombre.charAt(0) }}</span>
+
         <q-badge
           style="backdrop-filter:blur(5px);background:#c826 !important"
-          :title="state.loggedUser.roles[0]"
+          :title="state.loggedUser.rol"
           floating
           rounded
           color="transparent"
           class="text-weight-bold text-yellow-1"
-        >{{ state.loggedUser.roles[0].replace(/[a-z]/g, '').replace(/ROLE_/g, '')[0] }}</q-badge>
+        >{{ state.loggedUser.rol.replace(/[a-z]/g, '').replace(/ROLE_/g, '')[0] }}</q-badge>
       </q-avatar>
     </q-item-section>
 
