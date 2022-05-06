@@ -23,7 +23,7 @@
 
       <!-- DENSE / NORMAL -->
       <q-btn-toggle
-        title="Densidad las filas en vista de tabla (Normal o Denso)"
+        title="Densidad (Normal o Densa. Sólo en vista de tabla)"
         v-model="isTableDense"
         size="sm"
         class="q-mx-sm"
@@ -34,8 +34,8 @@
         ]"
       >
         <template v-slot:normal>
-          <q-icon name="r_table_rows" />
-        </template>
+          <q-icon name="r_table_rows"/>
+             </template>
 
         <template v-slot:dense>
           <q-icon name="view_headline" />
@@ -73,6 +73,7 @@
             placeholder="Escriba para filtrar.."
             :dense="s.dense"
             hide-bottom-space
+            title="Filtrar los elementos de la tabla por coincidencia de texto"
           >
             <template v-slot:prepend>
               <q-icon name="r_search" />
@@ -99,7 +100,8 @@
             "
             icon="add"
             :dense="s.dense"
-            label="Nuevo"
+            label="Nueva"
+            title="Añadir una nueva entrada en la tabla"
             no-caps
             @click="$emit('openForm')"
           />
@@ -119,7 +121,7 @@
       </template>
 
       <template v-slot:top-right>
-        <q-btn flat round icon="refresh" @click="$emit('updateList')"/>
+        <q-btn flat round icon="refresh" @click="$emit('updateList')" title="Actualizar datos"/>
         <!-- FULLSCREEN -->
         <q-toggle
           :dense="s.dense"

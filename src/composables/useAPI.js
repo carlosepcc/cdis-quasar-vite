@@ -103,6 +103,7 @@ export const login = (loginObject) => {
     })
     .catch((error) => {
       console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
+      console.log('loginObject: ',loginObject)
       notifyError(error, noti, "No se pudo iniciar sesión");
     });
 };

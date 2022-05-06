@@ -15,7 +15,6 @@
             ]"
         />
 
-        <q-select model-value="denunciaObject.estudiantes" multiple :options="state.usersArr"/>
         <q-select
           :dense="state.dense"
           v-model="denunciaObject.estudiantes"

@@ -46,8 +46,7 @@
     <details>
     <summary>Opciones de desarrollador</summary>
       <span>Base URL</span>
-    <q-select id="serverUrlsSelect"
-              style="width: 2em" v-model="axiosBaseURL" autofocus @change="setBaseURL" :options="baseUrlsArr" />
+    <q-select id="serverUrlsSelect" v-model="axiosBaseURL" autofocus @change="setBaseURL" :options="baseUrlsArr" />
       <q-input
         label="Personalizada"
       style="max-width: 20em"
@@ -71,7 +70,7 @@ import { ref } from "vue"
 import state from 'src/composables/useState.js'
 import { api } from "boot/axios";
 const axiosBaseURL = ref(api.defaults.baseURL)
-const baseUrlsArr = [axiosBaseURL.value,'http://cdisserver.herokuapp.com']
+const baseUrlsArr = [axiosBaseURL.value,'http://cdisserver.herokuapp.com','http://localhost:8080']
 
 const setBaseURL = (url = axiosBaseURL.value) => {
   api.defaults.baseURL = url
