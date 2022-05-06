@@ -1,8 +1,6 @@
 <template>
   <q-page padding class="q-pb-xl">
-    <DenunciaForm @close-form="closeForm"/>
-    <q-btn size="sm" dense flat icon="refresh" @click="listarDenuncias"/>
-    <BaseForm formTitle="Denuncia" v-model="showForm" @close-form="closeForm" @submit="submitFormData">
+   <BaseForm formTitle="Denuncia" v-model="showForm" @close-form="closeForm" @submit="submitFormData">
       <template v-slot:default>
         <!--          Indisciplina-->
         <q-input
@@ -45,6 +43,7 @@
       </template>
     </BaseForm>
     <ListPage
+      @updateList="listarDenuncias"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
       rowKey="id"

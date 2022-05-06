@@ -89,6 +89,7 @@
 
           <!-- NUEVA ENTRADA -->
           <q-btn
+            flat
             v-show="isTableFullscreen || $q.screen.gt.xs"
             v-if="
               !(
@@ -99,7 +100,6 @@
             icon="add"
             :dense="s.dense"
             label="Nuevo"
-            flat
             no-caps
             @click="$emit('openForm')"
           />
@@ -116,11 +116,10 @@
             :dense="s.dense"
           />
         </div>
-
-        <!-- BODY SLOT -->
       </template>
 
       <template v-slot:top-right>
+        <q-btn flat round icon="refresh" @click="$emit('updateList')"/>
         <!-- FULLSCREEN -->
         <q-toggle
           :dense="s.dense"
@@ -202,7 +201,7 @@ const props = defineProps({
     default: "id",
   },
 });
-const emit = defineEmits(["openForm", "deleteRows"]);
+const emit = defineEmits(["openForm", "deleteRows","updateList"]);
 
 // FILTRAR
 const filter = ref("");
