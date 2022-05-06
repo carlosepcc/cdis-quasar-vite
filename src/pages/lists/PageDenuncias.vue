@@ -4,13 +4,44 @@
     <q-btn size="sm" dense flat icon="refresh" @click="listarDenuncias"/>
     <BaseForm formTitle="Denuncia" v-model="showForm" @close-form="closeForm" @submit="submitFormData">
       <template v-slot:default>
+        <!--          Indisciplina-->
+        <q-input
+          clearable
+          :dense="state.dense"
+          filled
+          v-model.trim="denunciaObject.indisciplina"
+          label="Indisciplina"
+          lazy-rules
+          :rules="[
+              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+            ]"
+        />
+
+        <q-select model-value="denunciaObject.estudiantes" multiple :options="state.usersArr"/>
+        <q-select
+          :dense="state.dense"
+          v-model="denunciaObject.estudiantes"
+          filled
+          :options="state.usersArr"
+          map-options
+          option-label="nombre"
+          label="Estudiantes involucrados"
+          lazy-rules
+          :rules="[val || 'Por favor, seleccione algo']"
+        />
         <!-- Descripción denuncia -->
         <q-input
           clearable
           :dense="state.dense"
           label="Descripción"
+          v-model.trim="denunciaObject.descripcion"
           filled
-          autogrow/>
+          autogrow
+          lazy-rules
+          :rules="[
+                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+              ]"
+        />
       </template>
     </BaseForm>
     <ListPage
