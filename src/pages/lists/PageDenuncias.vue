@@ -19,13 +19,14 @@
           :dense="state.dense"
           v-model="denunciaObject.estudiantes"
           filled
-          :options="state.usersArr"
+          :options="usersArr"
           map-options
           option-label="nombre"
           label="Estudiantes involucrados"
           lazy-rules
           :rules="[val || 'Por favor, seleccione algo']"
         />
+        {{usersArr}}
         <!-- Descripción denuncia -->
         <q-input
           clearable
@@ -55,11 +56,11 @@
 <script setup>
 import {ref, provide} from "vue";
 import state from 'src/composables/useState.js'
+import {usersArr} from 'src/composables/useState.js'
 import ListPage from 'components/ListPage.vue'
 import DenunciaForm from 'components/forms/DenunciaForm.vue'
 import BaseForm from 'components/BaseForm.vue'
 import listar, {eliminar, guardar} from 'src/composables/useAPI.js'
-
 
 const denunciaFields = ref([
   {
@@ -82,7 +83,6 @@ const denunciaFields = ref([
   {name: 'fecha', required: true, label: 'Fecha', align: 'left', field: 'fecha', sortable: true,},
   {name: 'descripcion', required: true, label: 'Descripción', align: 'left', field: 'descripcion', sortable: true,},
 ])
-
 const denunciasArr = ref([{
   denunciante: {nombre: 'Pedro', apellidos: 'Aujares Torres'},
   involucrados: [{nombre: 'Carlos'}],

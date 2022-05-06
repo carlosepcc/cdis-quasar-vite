@@ -1,44 +1,40 @@
 <template>
   <q-dialog persistent position="top">
     <q-card>
-      <q-card-section class="text-h7 text-uppercase text-weight-light"
-        ><slot name="header">
-        {{ props.isModifying ? "Modificar" : "Nueva" }}
-        {{ props.formTitle }}
-      </slot></q-card-section
+      <q-card-section class="row text-h7 text-uppercase text-weight-light">
+        <slot name="header">
+          {{ props.isModifying ? "Modificar" : "Nueva" }}
+          {{ props.formTitle }}
+        </slot>
+        <q-space/>
+        <q-btn icon="close"
+               :size="state.dense ? 'sm' : 'md'" flat round title="Cerrar recuadro" @click="$emit('closeForm')" />
+
+      </q-card-section
       >
       <q-separator />
       <q-card-section>
         <q-form ref="formulario" @submit="onSubmit" @reset="resetFormFields">
           <slot></slot>
-          <q-separator class="q-mb-sm q-mt-md" />
+          <q-separator class="q-my-md" />
 
-          <div class="q-gutter-sm">
-            <q-btn-group outline spread clas="full-width q-mt-md">
+            <q-btn-group spread>
               <q-btn
+                push
                 :size="state.dense ? 'sm' : 'md'"
                 label="Restablecer"
                 type="reset"
-                flat
-                color="negative"
               />
               <q-btn
+                push
                 :size="state.dense ? 'sm' : 'md'"
-                label="Cancelar"
-                flat
-                @click="$emit('closeForm')"
+                class="full-width"
+                icon="r_save"
+                label="Guardar"
+                type="submit"
+                color="primary"
               />
             </q-btn-group>
-            <q-btn
-              push
-              :size="state.dense ? 'sm' : 'md'"
-              class="full-width"
-              icon="r_save"
-              label="Guardar"
-              type="submit"
-              color="primary"
-            />
-          </div>
         </q-form>
       </q-card-section>
     </q-card>
