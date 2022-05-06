@@ -44,9 +44,7 @@ const logout = () => {
           </span>
       </q-item-label>
       <q-item-label class="text-orange-1 text-bold" caption>
-        {{
-          state.loggedUser.rol.replace(/_/g, ' ')
-        }}
+        {{ state.loggedUser.rol.replace(/ROLE_/g, '') }}
       </q-item-label>
     </q-item-section>
     <!--    AVATAR-->
