@@ -85,7 +85,9 @@ const denunciaFields = ref([
 const denunciasArr = ref([{
   denunciante: {nombre: 'Pedro', apellidos: 'Aujares Torres'},
   involucrados: [{nombre: 'Carlos'}],
-  indisciplina: 'Mal comportamiento'
+  indisciplina: 'Mal comportamiento',
+  fecha:'2022-05-07',
+  descripcion:'Un grupo de estudiantes ingresó al aula inteligente y lorem ipsum dolor sit amet consectectur adspisicting'
 }])
 provide('denunciasArr', denunciasArr)
 const url = '/Denuncia'

@@ -17,7 +17,7 @@
         <q-form ref="formulario" @submit="onSubmit" @reset="resetFormFields">
           <slot></slot>
           <q-separator class="q-my-md"/>
-          <q-btn-group push>
+          <q-btn-group push spread>
             <q-btn
               push
               type="reset"

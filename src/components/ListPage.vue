@@ -60,29 +60,6 @@
       selection="multiple"
       separator="vertical"
     >
-      <template v-slot:item="props">
-        <div
-          :style="props.selected ? 'transition:.5s;transform: scale(0.95);' : ''"
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
-        >
-          <q-card :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-section>
-              <q-checkbox v-model="props.selected" :label="props.row.name" dense/>
-            </q-card-section>
-            <q-separator/>
-            <q-list dense>
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                <q-item-section>
-                  <q-item-label>{{ col.label }}</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-item-label caption>{{ col.value }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card>
-        </div>
-      </template>
 
       <!-- :flat="!isTableGrid" -->
       <!-- TODO :loading="loading" -->
@@ -161,14 +138,15 @@
         <q-tr
           :props="props"
           class="cursor-pointer"
-          clickable
-          cursor-pointer
+
           title="Haga click para ver o modificar esta entrada"
           @click="$emit('openForm', props.row)"
         >
           <q-td auto-width>
             <q-checkbox v-model="props.selected" :dense="isTableDense"/>
+
             <!-- TODO: MODIFY -->
+            <!-- 📝-->
             <q-btn
               :dense="isTableDense"
               flat
@@ -178,6 +156,8 @@
               text-color="accent"
               @click.stop="$emit('openForm', props.row)"
             />
+
+            <!-- 🗑-->
             <q-btn
               :dense="isTableDense"
               flat
@@ -193,6 +173,59 @@
             }}
           </q-td>
         </q-tr>
+      </template>
+
+      <!--      CARD VIEW-->
+
+      <template v-slot:item="props">
+        <div :style="props.selected ? 'transition:.2s;transform: scale(0.95);' : ''"
+             class="cursor-pointer q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+             title="Haga click para ver o modificar esta entrada"
+             @click.stop="$emit('openForm', props.row)"
+        >
+          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+            <!-- CARD HEADER-->
+            <q-card-section>
+              <q-checkbox v-model="props.selected" :label="props.cols[0].value" dense/>
+
+              <!-- 📝-->
+              <q-btn
+                :dense="isTableDense"
+                flat
+                icon="edit"
+                round
+                size="sm"
+                text-color="accent"
+                @click.stop="$emit('openForm', props.row)"
+              />
+
+              <!-- 🗑-->
+              <q-btn
+                :dense="isTableDense"
+                flat
+                icon="delete"
+                round
+                size="sm"
+                text-color="negative"
+                @click.stop="$emit('deleteRows', [props.row])"
+              />
+            </q-card-section>
+
+            <q-separator/>
+
+            <!-- CARD BODY-->
+            <q-list dense>
+              <q-item v-for="col in props.cols" :key="col.name">
+                <q-item-section class="col">
+                  <q-item-label>{{ col.label }}</q-item-label>
+                </q-item-section>
+                <q-item-section class="col" side>
+                  <q-item-label>{{ col.value }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
       </template>
     </q-table>
 
