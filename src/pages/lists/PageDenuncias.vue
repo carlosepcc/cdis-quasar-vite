@@ -26,7 +26,6 @@
           lazy-rules
           :rules="[val || 'Por favor, seleccione algo']"
         />
-        {{usersArr}}
         <!-- Descripción denuncia -->
         <q-input
           clearable

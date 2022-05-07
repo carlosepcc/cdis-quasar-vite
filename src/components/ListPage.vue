@@ -60,10 +60,34 @@
       separator="vertical"
       :pagination="{ rowsPerPage: 20 }"
     >
+      <template v-slot:item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+          :style="props.selected ? 'transition:.5s;transform: scale(0.95);' : ''"
+        >
+          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+            <q-card-section>
+              <q-checkbox dense v-model="props.selected" :label="props.row.name" />
+            </q-card-section>
+            <q-separator />
+            <q-list dense>
+              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                <q-item-section>
+                  <q-item-label>{{ col.label }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label caption>{{ col.value }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </template>
+
       <!-- :flat="!isTableGrid" -->
       <!-- TODO :loading="loading" -->
       <template v-slot:top-left>
-        <div class="q-gutter-sm row items-center">
+        <div class="q-gutter-sm row">
           <!-- FILTER -->
           <q-input
             borderless
@@ -108,7 +132,7 @@
 
           <!-- ELIMINAR SELECCIÓN-->
           <q-btn
-            v-show="selected.length > 0"
+            :disabled="selected.length == 0"
             icon="delete"
             label="Eliminar selección"
             no-caps
