@@ -36,7 +36,7 @@ export const autorizar = (token) => {
   // ..y, si este existe y no ha expirado, se actualiza el estado con los datos de usuario autenticado decodificado en localStorage y se establece el header de Autorization de axios
   if (storedToken && !isJwtTokenExpired(storedToken)) {
     state.value.loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
-    api.defaults.headers.common["Authorization"] = storedToken;
+    api.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
     console.log(
       "🚀 useAPI.js 41 autorizar state.value.loggedUser",
       state.value.loggedUser
@@ -147,11 +147,14 @@ const listar = (list = usersArr, url = "/Usuario") => {
     .then((response) => {
       noti({timeout: 100});
       // handle success
-      list.value = response.data;
+      console.log('antes',list.value)
+     // list.value = [{"id":1,"descripcion":"string","acusado":"admin","fecha":"2022-05-07","procesada":false,"casoList":[],"denunciante":"admin"}];
+      list.value = response.data
+      console.log('despues list.value: ',list.value)
     })
     .catch((error) => {
       // handle error
-      console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
+      console.log("🚀useAPI.js listar error: ", error);
       notifyError(
         error,
         {

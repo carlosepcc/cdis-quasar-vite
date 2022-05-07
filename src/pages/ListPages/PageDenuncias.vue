@@ -1,65 +1,53 @@
 <template>
-  <q-page padding class="q-pb-xl">
-   <BaseForm formTitle="Denuncia" v-model="showForm" @close-form="closeForm" @submit="submitFormData">
+  <q-page class="q-pb-xl" padding>
+    <BaseForm v-model="showForm" v-show="showForm" formTitle="Denuncia" @submit="submitFormData" @close-form="closeForm">
       <template v-slot:default>
-        <!--          Indisciplina-->
-        <q-input
-          clearable
-          :dense="state.dense"
-          filled
-          v-model.trim="denunciaObject.indisciplina"
-          label="Indisciplina"
-          lazy-rules
-          :rules="[
-              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-            ]"
-        />
-
         <q-select
-          :dense="state.dense"
           v-model="denunciaObject.estudiantes"
-          filled
+          :dense="state.dense"
           :options="usersArr"
-          map-options
-          option-label="nombre"
+          :rules="[val || 'Por favor, seleccione algo']"
+          filled
           label="Estudiantes involucrados"
           lazy-rules
-          :rules="[val || 'Por favor, seleccione algo']"
+          map-options
+          option-label="nombre"
         />
         <!-- Descripción denuncia -->
         <q-input
-          clearable
-          :dense="state.dense"
-          label="Descripción"
           v-model.trim="denunciaObject.descripcion"
-          filled
-          autogrow
-          lazy-rules
+          :dense="state.dense"
           :rules="[
                 (val) => (val && val.length > 0) || 'Por favor, escriba algo',
               ]"
+          autogrow
+          clearable
+          filled
+          label="Descripción"
+          lazy-rules
         />
       </template>
     </BaseForm>
     <ListPage
+      :columns="denunciaFields"
+      :rows="denunciasArr"
+      heading="Denuncias"
+      rowKey="id"
       @updateList="listarDenuncias"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
-      rowKey="id"
-      heading="Denuncias"
-      :rows="denunciasArr"
-      :columns="denunciaFields"
     ></ListPage>
+    {{ denunciasArr }}
   </q-page>
 </template>
 <script setup>
-import {ref, provide} from "vue";
-import state from 'src/composables/useState.js'
-import {usersArr} from 'src/composables/useState.js'
+import {provide, ref} from "vue";
 import ListPage from 'components/ListPage.vue'
-import DenunciaForm from 'components/forms/DenunciaForm.vue'
 import BaseForm from 'components/BaseForm.vue'
 import listar, {eliminar, guardar} from 'src/composables/useAPI.js'
+import state from 'src/composables/useState.js'
+
+import {usersArr} from 'src/composables/useState.js'
 
 const denunciaFields = ref([
   {
@@ -67,27 +55,21 @@ const denunciaFields = ref([
     required: true,
     label: 'Denunciante',
     align: 'left',
-    field: denuncia => `${denuncia.denunciante.nombre} ${denuncia.denunciante.apellidos}`,
+    field: denuncia => denuncia.denunciaUsuarioList[0].denunciante,
     sortable: true
   },
-  {
-    name: 'involucrados',
-    required: true,
-    label: 'Estudiantes involucrados',
-    align: 'left',
-    field: denuncia => `${denuncia.involucrados[0].nombre} ${denuncia.involucrados[0].apellidos}`,
-    sortable: true,
-  },
-  {name: 'indisciplina', required: true, label: 'Indisciplina', align: 'left', field: 'indisciplina', sortable: true,},
+  {name: 'acusado', required: true, label: 'Estudiantes implicados', align: 'left', field: 'acusado', sortable: true,},
   {name: 'fecha', required: true, label: 'Fecha', align: 'left', field: 'fecha', sortable: true,},
   {name: 'descripcion', required: true, label: 'Descripción', align: 'left', field: 'descripcion', sortable: true,},
 ])
 const denunciasArr = ref([{
-  denunciante: {nombre: 'Pedro', apellidos: 'Aujares Torres'},
-  involucrados: [{nombre: 'Carlos'}],
-  indisciplina: 'Mal comportamiento',
-  fecha:'2022-05-07',
-  descripcion:'Un grupo de estudiantes ingresó al aula inteligente y lorem ipsum dolor sit amet consectectur adspisicting'
+  id: 1,
+  acusado: "admin",
+  fecha: "2022-05-07",
+  descripcion: 'Un grupo de estudiantes ingresó al aula inteligente y lorem ipsum dolor sit amet consectectur adspisicting',
+  procesada: false,
+  denunciaUsuarioList: [{denunciante: "admin"}],
+  casoList: [],
 }])
 provide('denunciasArr', denunciasArr)
 const url = '/Denuncia'
@@ -118,6 +100,7 @@ const openForm = (obj = {}) => {
   showForm.value = true
   console.log(`openForm triggered. showForm.value is ${showForm.value}`)
 }
+
 //SUBMIT
 function submitFormData() {
   guardar(denunciaObject.value, denunciasArr, url)
