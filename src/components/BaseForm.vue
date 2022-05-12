@@ -49,13 +49,8 @@ const formulario = ref();
 
 //COMPONENT
 const props = defineProps({formTitle: String, isModifying: Boolean})
-const emits = defineEmits(["closeForm", "submit"]);
+const emit = defineEmits(["closeForm", "submit","reset"]);
 const url = inject("denunciaUrl");
-
-//STATE
-const denunciasArr = inject("denunciasArr");
-
-const denunciaObject = inject("denunciaObject");
 
 //SUBMIT
 function onSubmit() {
@@ -66,7 +61,7 @@ function onSubmit() {
 //RESET FORM
 function resetFormFields() {
   //Reset fields
-  denunciaObject.value = null;
+  emit("reset")
   formulario.value.resetValidation();
 }
 </script>
