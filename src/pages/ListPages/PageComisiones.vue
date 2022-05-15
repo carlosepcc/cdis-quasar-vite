@@ -35,7 +35,6 @@
           label="Descripción"
           lazy-rules
         />
-        {{ comisionObject }}
       </template>
     </BaseForm>
     <ListPage
@@ -47,7 +46,6 @@
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
-    {{ comisionesArr }}
   </q-page>
 </template>
 <script setup>
@@ -95,16 +93,14 @@ const comisionFields = ref([
 const comisionesArr = ref([
   {
     id: 1,
-    acusado: "admin",
+    idResolucion: 2022,
+    jefe: "admin",
+    secretario: "admin",
     fecha: "2022-05-07",
-    descripcion:
-      "Un grupo de estudiantes ingresó al aula inteligente y lorem ipsum dolor sit amet consectectur adspisicting",
     procesada: false,
-    comisionUsuarioList: [{ comisionnte: "admin" }],
-    casoList: [],
   },
 ]);
-const url = "/comision";
+const url = "/Comision";
 
 //listar
 const listarComisiones = () => listar(comisionesArr, url);
@@ -122,7 +118,7 @@ const closeForm = () => {
 const comisionObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { acusado: "admin", descripcion: "Sucedio que" }) => {
+const openForm = (obj = {}) => {
   comisionObject.value = obj;
   showForm.value = true;
   console.log(`openForm triggered. showForm.value is ${showForm.value}`);

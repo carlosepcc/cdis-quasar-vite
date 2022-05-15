@@ -1,61 +1,56 @@
 <template>
-  <q-page class="q-pb-xl" padding>
+  <q-page padding>
     <BaseForm
       v-model="showForm"
       v-show="showForm"
-      formTitle="Usuario"
+      formTitle="user"
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
     >
       <template v-slot:default>
         <q-select
-          v-model="userObject.usuario"
-          :dense="state.dense"
-          :options="usersArr"
-          :rules="[val || 'Por favor, seleccione algo']"
-          filled
-          label="Usuario"
-          lazy-rules
-          map-options
-          option-label="nombre"
-          emit-value
-          option-value="username"
-        />
-        <q-select
           v-model="userObject.permisos"
           :dense="state.dense"
-          :options="usersArr"
+          :options="permisos"
           :rules="[val || 'Por favor, seleccione algo']"
           filled
-          label="Estudiantes involucrados"
+          multiple
+          label="Permisos"
           lazy-rules
-          map-options
-          option-label="nombre"
-          emit-value
-          option-value="username"
+        />
+        <!-- Descripción user -->
+        <q-input
+          v-model.trim="userObject.descripcion"
+          :dense="state.dense"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+          ]"
+          autogrow
+          clearable
+          filled
+          label="Descripción"
+          lazy-rules
         />
       </template>
     </BaseForm>
     <ListPage
-      :columns="userFields"
-      :rows="usersArr"
-      heading="users"
-      rowKey="id"
-      @updateList="listarUsers"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
+      rowKey="id"
+      heading="Usuarios"
+      :rows="usersArr"
+      :columns="userFields"
     ></ListPage>
   </q-page>
 </template>
-<script setup>
-import { ref } from "vue";
-import ListPage from "components/ListPage.vue";
-import BaseForm from "components/BaseForm.vue";
-import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state from "src/composables/useState.js";
 
+<script setup>
+import ListPage from "components/ListPage.vue";
+import { ref } from "vue";
+import listar, { eliminar } from "src/composables/useAPI.js";
 import { usersArr } from "src/composables/useState.js";
+import BaseForm from "components/forms/BaseForm.vue";
 
 const userFields = ref([
   {
@@ -69,7 +64,7 @@ const userFields = ref([
   {
     name: "username",
     required: true,
-    label: "usuario",
+    label: "Nombre de usuario",
     align: "left",
     field: "usuario",
     sortable: true,
@@ -83,11 +78,10 @@ const userFields = ref([
     sortable: true,
   },
 ]);
-const url = "/user";
 
 //listar
-const listarUsers = () => listar(usersArr, url);
-// execute on component load listarUsers();
+const listarUsers = () => listar(usersArr);
+// execute on component load listarUsers()
 
 //form dialog model
 const showForm = ref(false);
@@ -101,21 +95,25 @@ const closeForm = () => {
 const userObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { acusado: "admin", descripcion: "Sucedio que" }) => {
+const openForm = (
+  obj = {
+    usuario: "mai",
+    permisos: ["ROLE_MODD"],
+  }
+) => {
   userObject.value = obj;
   showForm.value = true;
 };
 
 //SUBMIT
 function submitFormData() {
-  guardar(userObject.value, usersArr, `${url}/crear`);
+  guardar(denunciaObject.value, denunciasArr, `${url}/crear`);
 }
 //RESET
 function resetFormData() {
-  userObject.value = null;
+  denunciaObject.value = null;
 }
 
 // delete tuples by array of objects
-const deleteTuples = (selectedRows = []) =>
-  eliminar(selectedRows, usersArr, url);
+const deleteTuples = (selectedRows = []) => eliminar(selectedRows, usersArr);
 </script>

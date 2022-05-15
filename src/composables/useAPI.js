@@ -164,6 +164,7 @@ const listar = (list = usersArr, url = "/Usuario") => {
       );
     });
 };
+
 // Pedir registro de nuevo objeto o la modificación de uno existente en la base de datos
 export const guardar = (object, refArr, url = "/Usuario") => {
   console.log("🚀 useAPI 162 guardar refArr", refArr);

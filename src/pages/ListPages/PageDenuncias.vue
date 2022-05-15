@@ -35,7 +35,6 @@
           label="Descripción"
           lazy-rules
         />
-        {{ denunciaObject }}
       </template>
     </BaseForm>
     <ListPage
@@ -47,11 +46,10 @@
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
-    {{ denunciasArr }}
   </q-page>
 </template>
 <script setup>
-import { provide, ref } from "vue";
+import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
