@@ -1,26 +1,40 @@
 <script setup>
 // Components
-import DrawerItem from 'components/DrawerItem.vue';
-import { ref } from 'vue';
-import state from 'src/composables/useState.js'
+import DrawerItem from "components/DrawerItem.vue";
+import { ref } from "vue";
+import state from "src/composables/useState.js";
 
 // DRAWER
-const miniState = ref(false);
+const miniState = ref(true);
 
 const drawerItems = [
   { title: "Inicio", icon: "home", alt: "n", to: "/" },
 
   //REVISOR
-  { title: 'Denuncias', icon: 'r_announcement', to: 'denuncias', forRole: ['Profesor', 'Estudiante'] },
-  { title: 'Comisiones Disciplinarias', icon: 'r_admin_panel_settings', to: 'comisiones', forRole: ['Profesor'] },
-  { title: 'Usuarios', icon: 'r_manage_accounts', to: 'users', forRole: ['Administrador'] },
+  {
+    title: "Denuncias",
+    icon: "r_announcement",
+    to: "denuncias",
+    forRole: ["Profesor", "Estudiante"],
+  },
+  {
+    title: "Comisiones Disciplinarias",
+    icon: "r_admin_panel_settings",
+    to: "comisiones",
+    forRole: ["Profesor"],
+  },
+  {
+    title: "Usuarios",
+    icon: "r_manage_accounts",
+    to: "users",
+    forRole: ["Administrador"],
+  },
 
   // ALL USERS index 6 - 8 //, forRoles: ['Administrador', 'Asesor_de_calidad', 'Coordinador_de_calidad', 'Encargado_de_proyecto', 'Revisor']
-  { title: 'Ajustes', icon: 'settings', to: 'settings', separate: true },
-  { title: 'Ayuda', icon: 'help', to: 'help' },
-  { title: 'Acerca de', icon: 'info', to: 'about' },
+  { title: "Ajustes", icon: "settings", to: "settings", separate: true },
+  { title: "Ayuda", icon: "help", to: "help" },
+  { title: "Acerca de", icon: "info", to: "about" },
 ];
-
 </script>
 
 <template>
@@ -44,7 +58,14 @@ const drawerItems = [
             leave-active-class="animated fadeOut"
           >
             <DrawerItem
-              v-if="drawerItem.forRoles == undefined || (state.loggedUser ? state.loggedUser.roles.some(currentRol => drawerItem.forRoles.includes(currentRol)) : false)"
+              v-if="
+                drawerItem.forRoles == undefined ||
+                (state.loggedUser
+                  ? state.loggedUser.roles.some((currentRol) =>
+                      drawerItem.forRoles.includes(currentRol)
+                    )
+                  : false)
+              "
               v-bind="drawerItem"
             />
           </transition-group>
@@ -53,4 +74,3 @@ const drawerItems = [
     </q-scroll-area>
   </q-drawer>
 </template>
-

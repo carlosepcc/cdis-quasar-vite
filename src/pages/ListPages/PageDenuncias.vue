@@ -105,15 +105,11 @@ const denunciasArr = ref([
     casoList: [],
   },
 ]);
-provide("denunciasArr", denunciasArr);
 const url = "/Denuncia";
-provide("denunciaUrl", url);
 
 //listar
 const listarDenuncias = () => listar(denunciasArr, url);
-provide("listarDenuncias", listarDenuncias);
-// execute on component load
-listarDenuncias();
+// execute on component load listarDenuncias();
 
 //form dialog model
 const showForm = ref(false);
@@ -125,13 +121,11 @@ const closeForm = () => {
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
 const denunciaObject = ref({});
-provide("denunciaObject", denunciaObject);
 
 //openForm triggered on: Nueva entrada, Modificar
 const openForm = (obj = { acusado: "admin", descripcion: "Sucedio que" }) => {
   denunciaObject.value = obj;
   showForm.value = true;
-  console.log(`openForm triggered. showForm.value is ${showForm.value}`);
 };
 
 //SUBMIT
