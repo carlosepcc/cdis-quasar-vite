@@ -10,7 +10,7 @@
     >
       <template v-slot:default>
         <q-select
-          v-model="userObject.usuario"
+          v-model="userObject.username"
           :dense="state.dense"
           :options="usersArr"
           :rules="[val || 'Por favor, seleccione algo']"
@@ -28,20 +28,16 @@
           :options="usersArr"
           :rules="[val || 'Por favor, seleccione algo']"
           filled
-          label="Estudiantes involucrados"
+          label="Permisos"
           lazy-rules
-          map-options
-          option-label="nombre"
-          emit-value
-          option-value="username"
         />
       </template>
     </BaseForm>
     <ListPage
       :columns="userFields"
       :rows="usersArr"
-      heading="users"
-      rowKey="id"
+      heading="Usuarios"
+      rowKey="username"
       @updateList="listarUsers"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
@@ -69,9 +65,9 @@ const userFields = ref([
   {
     name: "username",
     required: true,
-    label: "usuario",
+    label: "Usuario",
     align: "left",
-    field: "usuario",
+    field: "username",
     sortable: true,
   },
   {
@@ -79,7 +75,15 @@ const userFields = ref([
     required: true,
     label: "Cargo",
     align: "center",
-    field: (user) => user.cargo,
+    field: "cargo",
+    sortable: true,
+  },
+  {
+    name: "permisos",
+    required: true,
+    label: "Permisos",
+    align: "center",
+    field: "permisos",
     sortable: true,
   },
 ]);
@@ -101,7 +105,7 @@ const closeForm = () => {
 const userObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { acusado: "admin", descripcion: "Sucedio que" }) => {
+const openForm = (obj) => {
   userObject.value = obj;
   showForm.value = true;
 };

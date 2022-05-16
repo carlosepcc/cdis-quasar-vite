@@ -1,6 +1,6 @@
 import { Screen } from "quasar";
 import { ref } from "vue";
-const hours = new Date().getHours()
+const hours = new Date().getHours();
 // Global State
 const state = ref({
   dense: Screen.lt.sm,
@@ -10,7 +10,20 @@ const state = ref({
 });
 
 // Usuarios registrados
-export const usersArr = ref([{nombre:'Foo',username : 'foo',cargo:"Estudiante"}]);
+export const usersArr = ref([
+  {
+    nombre: "Foo",
+    username: "foo",
+    cargo: "Estudiante",
+    permisos: "ROLE_MODD",
+  },
+  {
+    nombre: "Bar",
+    username: "bar",
+    cargo: "Decano",
+    permisos: "ROLE_MODC",
+  },
+]);
 
 export const usersByRole = ref({
   Revisor: [],

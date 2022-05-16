@@ -1,22 +1,23 @@
 <script setup>
 // Components
-import BaseDrawer from 'src/components/BaseDrawer.vue';
-import BaseBrand from 'src/components/BaseBrand.vue';
-import UserInfo from 'components/UserInfo.vue';
-import { ref } from 'vue';
-import state from 'src/composables/useState.js'
-import { autorizar } from 'src/composables/useAPI.js'
-
+import BaseDrawer from "src/components/BaseDrawer.vue";
+import BaseBrand from "src/components/BaseBrand.vue";
+import UserInfo from "components/UserInfo.vue";
+import { ref } from "vue";
+import state from "src/composables/useState.js";
+import { autorizar } from "src/composables/useAPI.js";
 
 // DRAWER
 const leftDrawerOpen = ref(false);
-const toggleLeftDrawer = () => leftDrawerOpen.value = !leftDrawerOpen.value
+const toggleLeftDrawer = () => (leftDrawerOpen.value = !leftDrawerOpen.value);
 
-console.log("🚀 ~ file: MainLayout.vue ~ line 23 ~ localStorage.getItem('token')", localStorage.getItem('token'))
+console.log(
+  "🚀 ~ file: MainLayout.vue ~ line 23 ~ localStorage.getItem('token')",
+  localStorage.getItem("token")
+);
 
 // Autorizar usuario para persistencia de la sesión
-autorizar()
-
+autorizar();
 </script>
 
 <template>
@@ -45,7 +46,9 @@ autorizar()
         </div>
 
         <!-- USER -->
-        <span class="q-ml-md text-bold text-amber-2 gt-xs">{{ $router.currentRoute.value.name }}</span>
+        <span class="q-ml-md text-bold text-amber-2 gt-xs">{{
+          $router.currentRoute.value.name
+        }}</span>
         <UserInfo v-if="state.loggedUser" />
         <q-btn
           v-show="$router.currentRoute.value.fullPath !== '/'"
@@ -65,9 +68,7 @@ autorizar()
     <BaseDrawer v-model="leftDrawerOpen" />
 
     <!-- CONTENEDOR DE PAGINAS -->
-    <q-page-container
-      style="background:url('https://akademos.uci.cu/public/images/blue_theme/interfaz-modulos.png') no-repeat bottom left"
-    >
+    <q-page-container class="page">
       <router-view v-slot="{ Component, route }">
         <transition>
           <keep-alive>
@@ -79,17 +80,25 @@ autorizar()
 
     <q-footer reveal class="bg-primary text-white q-pa-xs q-px-sm">
       <q-avatar size="sm">
-        <img src="src/public/brand/brand-imagotipo-mini.png" style="opacity: 0.5" alt />
+        <img
+          src="src/public/brand/brand-imagotipo-mini.png"
+          style="opacity: 0.5"
+          alt
+        />
       </q-avatar>
-      <span
-        style="color: #fffa"
-        class="text-caption q-ml-sm"
-      >Universidad de las Ciencias Informáticas. XAUCE, CDIS. © 2021-2022</span>
+      <span style="color: #fffa" class="text-caption q-ml-sm"
+        >Universidad de las Ciencias Informáticas. XAUCE, CDIS. ©
+        2021-2022</span
+      >
     </q-footer>
   </q-layout>
 </template>
 
 <style scoped>
+.page {
+  background: url("https://i.postimg.cc/fRkPc6s1/interfaz-modulos.png")
+    no-repeat bottom left;
+}
 .brand-bar {
   margin-bottom: 2px;
   width: 100%;
