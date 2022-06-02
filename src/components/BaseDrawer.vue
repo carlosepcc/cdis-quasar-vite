@@ -29,6 +29,30 @@ const drawerItems = [
     to: "users",
     forRole: ["Administrador"],
   },
+  {
+    title: "Roles",
+    icon: "r_badge",
+    to: "roles",
+    forRole: ["Administrador"],
+  },
+  {
+    title: "Declaraciones",
+    icon: "r_chat",
+    to: "users",
+    forRole: ["Administrador"],
+  },
+  {
+    title: "Casos",
+    icon: "r_assignment_ind",
+    to: "users",
+    forRole: ["Administrador"],
+  },
+  {
+    title: "Resoluciones",
+    icon: "r_article",
+    to: "users",
+    forRole: ["Administrador"],
+  },
 
   // ALL USERS index 6 - 8 //, forRoles: ['Administrador', 'Asesor_de_calidad', 'Coordinador_de_calidad', 'Encargado_de_proyecto', 'Revisor']
   { title: "Ajustes", icon: "settings", to: "settings", separate: true },
