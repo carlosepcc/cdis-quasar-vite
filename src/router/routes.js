@@ -24,6 +24,21 @@ const routes = [
         component: () => import("pages/ListPages/PageUsers.vue"),
       },
       {
+        name: "Roles",
+        path: "/roles",
+        component: () => import("pages/ListPages/PageRoles.vue"),
+      },
+      {
+        name: "Casos disciplinarios",
+        path: "/casos",
+        component: () => import("pages/ListPages/PageCasos.vue"),
+      },
+      {
+        name: "Declaraciones",
+        path: "/declaraciones",
+        component: () => import("pages/ListPages/PageDeclaraciones.vue"),
+      },
+      {
         name: "Ayuda",
         path: "/help",
         component: () => import("pages/PageHelp.vue"),

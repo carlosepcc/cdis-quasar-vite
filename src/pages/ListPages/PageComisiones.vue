@@ -100,7 +100,7 @@ const comisionesArr = ref([
     procesada: false,
   },
 ]);
-const url = "/Comision";
+const url = "/comision";
 
 //listar
 const listarComisiones = () => listar(comisionesArr, url);
@@ -126,7 +126,7 @@ const openForm = (obj = {}) => {
 
 //SUBMIT
 function submitFormData() {
-  guardar(comisionObject.value, comisionesArr, `${url}/crear`);
+  guardar(comisionObject.value, comisionesArr, url);
 }
 //RESET
 function resetFormData() {
