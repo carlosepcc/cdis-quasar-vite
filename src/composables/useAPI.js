@@ -108,33 +108,9 @@ export const login = (loginObject) => {
     });
 };
 
-export const listarUsersByRole = () => {
-  api
-    .get("/usuario/findByRol", { params: { rol: "Revisor" } })
-    .then((response) => {
-      console.log("🚀 useAPI.js line 115 api.get response", response);
-      usersByRole.value.Revisor = response.data;
-    })
-    .catch((error) =>
-      console.log("No se pudo obtener la lista de revisores", error)
-    );
-
-  api
-    .get("/usuario/findByRol", { params: { rol: "Encargado_de_proyecto" } })
-    .then((response) => {
-      console.log("🚀 useAPI.js 115 api.get response", response);
-      usersByRole.value.Encargado_de_proyecto = response.data;
-    })
-    .catch((error) =>
-      console.log(
-        "No se pudo obtener la lista de encargados de proyecto",
-        error
-      )
-    );
-};
 
 // LISTAR (Actualizar Arreglos en el cliente con datos del servidor)
-const listar = (list = usersArr, url = "/Usuario") => {
+const listar = (list = usersArr, url = "/usuario") => {
   let noti = Notify.create({
     type: "ongoing",
     message: `Accediendo al listado ${url}`,
@@ -166,7 +142,7 @@ const listar = (list = usersArr, url = "/Usuario") => {
 };
 
 // Pedir registro de nuevo objeto o la modificación de uno existente en la base de datos
-export const guardar = (object, refArr, url = "/Usuario") => {
+export const guardar = (object, refArr, url = "/usuario") => {
   console.log("🚀 useAPI 162 guardar refArr", refArr);
   console.log("🚀 useAPI 162 guardar object", object);
   let noti = Notify.create({
@@ -189,7 +165,7 @@ export const guardar = (object, refArr, url = "/Usuario") => {
         message: "Acción realizada con éxito.",
         actions: [{ label: "OK", color: "white" }],
       });
-      listar(refArr, url == "/Usuario/crearUsuario" ? "/Usuario" : url); //TODO: Eliminar condicion una vez que se unifique la url
+      listar(refArr, url); //TODO: Eliminar condicion una vez que se unifique la url
     })
     .catch((error) => {
       console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
