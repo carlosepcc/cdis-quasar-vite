@@ -1,9 +1,9 @@
-import {Dialog, Notify, QSpinnerGears} from "quasar";
-import isJwtTokenExpired, {decode} from "jwt-check-expiry";
-import state, {usersArr, usersByRole} from "./useState";
+import { Dialog, Notify, QSpinnerGears } from "quasar";
+import isJwtTokenExpired, { decode } from "jwt-check-expiry";
+import state, { usersArr, usersByRole } from "./useState";
 
-import {api} from "boot/axios";
-import {handleError} from "vue";
+import { api } from "boot/axios";
+import { handleError } from "vue";
 import route from "src/router";
 
 const Router = route();
@@ -42,7 +42,7 @@ export const autorizar = (token) => {
       state.value.loggedUser
     );
     console.log(
-      "🚀 useAPI.js 45 autorizar api.defaults.headers.common[\"Authorization\"]",
+      '🚀 useAPI.js 45 autorizar api.defaults.headers.common["Authorization"]',
       api.defaults.headers.common["Authorization"]
     );
     // si no existe o ya expiró, se elimina de locaStorage y se enruta a la página inicial para que el usuario inicie sesión.
@@ -75,20 +75,20 @@ export const login = (loginObject) => {
     type: "ongoing",
     message: `Iniciando sesión para ${loginObject.usuario}`,
     spinner: QSpinnerGears,
-    actions: [{label: "Ocultar", color: "white"}],
+    actions: [{ label: "Ocultar", color: "white" }],
   });
 
   api({
-    url: "/Usuario/login",
+    url: "/usuario/login",
     method: "POST",
     data: loginObject,
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
   })
     .then((response) => {
       console.log(response);
 
       let token = response.data.token;
-      console.log('Token:', token);
+      console.log("Token:", token);
 
       // Almacenar en localStorage, chequear y actualizar estado global
       autorizar(token);
@@ -98,19 +98,19 @@ export const login = (loginObject) => {
         type: "positive",
         spinner: null,
         message: `Sesión iniciada`,
-        actions: [{label: "OK", color: "white"}],
+        actions: [{ label: "OK", color: "white" }],
       });
     })
     .catch((error) => {
       console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
-      console.log('loginObject: ',loginObject)
+      console.log("loginObject: ", loginObject);
       notifyError(error, noti, "No se pudo iniciar sesión");
     });
 };
 
 export const listarUsersByRole = () => {
   api
-    .get("/usuario/findByRol", {params: {rol: "Revisor"}})
+    .get("/usuario/findByRol", { params: { rol: "Revisor" } })
     .then((response) => {
       console.log("🚀 useAPI.js line 115 api.get response", response);
       usersByRole.value.Revisor = response.data;
@@ -120,7 +120,7 @@ export const listarUsersByRole = () => {
     );
 
   api
-    .get("/usuario/findByRol", {params: {rol: "Encargado_de_proyecto"}})
+    .get("/usuario/findByRol", { params: { rol: "Encargado_de_proyecto" } })
     .then((response) => {
       console.log("🚀 useAPI.js 115 api.get response", response);
       usersByRole.value.Encargado_de_proyecto = response.data;
@@ -139,18 +139,18 @@ const listar = (list = usersArr, url = "/Usuario") => {
     type: "ongoing",
     message: `Accediendo al listado ${url}`,
     spinner: QSpinnerGears,
-    actions: [{label: "Ocultar", color: "white"}],
+    actions: [{ label: "Ocultar", color: "white" }],
   });
 
   api
     .get(url)
     .then((response) => {
-      noti({timeout: 100});
+      noti({ timeout: 100 });
       // handle success
-      console.log('antes',list.value)
-     // list.value = [{"id":1,"descripcion":"string","acusado":"admin","fecha":"2022-05-07","procesada":false,"casoList":[],"denunciante":"admin"}];
-      list.value = response.data
-      console.log('despues list.value: ',list.value)
+      console.log("antes", list.value);
+      // list.value = [{"id":1,"descripcion":"string","acusado":"admin","fecha":"2022-05-07","procesada":false,"casoList":[],"denunciante":"admin"}];
+      list.value = response.data;
+      console.log("despues list.value: ", list.value);
     })
     .catch((error) => {
       // handle error
@@ -173,7 +173,7 @@ export const guardar = (object, refArr, url = "/Usuario") => {
     type: "ongoing",
     message: `Guardando. ${url}`,
     spinner: QSpinnerGears,
-    actions: [{label: "Ocultar", color: "white"}],
+    actions: [{ label: "Ocultar", color: "white" }],
   });
 
   api({
@@ -187,9 +187,9 @@ export const guardar = (object, refArr, url = "/Usuario") => {
         type: "positive",
         spinner: null,
         message: "Acción realizada con éxito.",
-        actions: [{label: "OK", color: "white"}],
+        actions: [{ label: "OK", color: "white" }],
       });
-      listar(refArr, url == '/Usuario/crearUsuario' ? '/Usuario' : url ); //TODO: Eliminar condicion una vez que se unifique la url
+      listar(refArr, url == "/Usuario/crearUsuario" ? "/Usuario" : url); //TODO: Eliminar condicion una vez que se unifique la url
     })
     .catch((error) => {
       console.log("🚀 ~ file: useAPI.js ~ line 189 ~ guardar ~ error", error);
@@ -205,8 +205,8 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
     message: "La eliminación será permanente.",
     persistent: true,
     color: "negative",
-    ok: {label: "Eliminar", noCaps: true, flat: true},
-    cancel: {color: "primary", noCaps: true, flat: true},
+    ok: { label: "Eliminar", noCaps: true, flat: true },
+    cancel: { color: "primary", noCaps: true, flat: true },
   })
     .onOk(() => {
       let noti = Notify.create({
@@ -216,15 +216,15 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
           objArr.length == 1 ? "." : "s."
         } ${url}`,
         spinner: QSpinnerGears,
-        actions: [{label: "Ocultar", color: "white"}],
+        actions: [{ label: "Ocultar", color: "white" }],
       });
 
       //CREATE an idsArray from the objects array
-      let idsUrl = url + '/'
+      let idsUrl = url + "/";
       console.log(idsUrl);
       objArr.forEach((obj) => idsUrl.push(`${obj.id},`));
       console.log(idsUrl);
-      idsUrl.pop()
+      idsUrl.pop();
       console.log(idsUrl);
       //REQUEST TO SERVER
       api({
@@ -240,7 +240,7 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
             // message: `Eliminación exitosa de (${idsArr.length}) entrada${idsArr.length == 1 ? "." : "s."  })`,
             message: "Acción realizada con éxito.",
             timeout: 1000,
-            actions: [{label: "OK", color: "white"}],
+            actions: [{ label: "OK", color: "white" }],
           });
         })
         .catch((error) => {
@@ -273,7 +273,7 @@ const notifyError = (error, noti, heading = "Acción fallida", notiConfig) => {
       type: "negative",
       spinner: null,
       icon: "report_problem",
-      actions: [{label: "OK", color: "white"}],
+      actions: [{ label: "OK", color: "white" }],
 
       message: `${heading}. ${error.message}.`,
     },
@@ -285,9 +285,9 @@ const notifyError = (error, noti, heading = "Acción fallida", notiConfig) => {
     let serverMessage = error.response.data.mensaje
       ? error.response.data.mensaje
       : error.response.data.error == "Forbidden" &&
-      error.response.data.path == "/login"
-        ? "Credenciales inválidas"
-        : error.response.data.error;
+        error.response.data.path == "/login"
+      ? "Credenciales inválidas"
+      : error.response.data.error;
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
     console.log(

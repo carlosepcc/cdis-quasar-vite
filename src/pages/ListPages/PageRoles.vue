@@ -18,7 +18,7 @@
           ]"
           clearable
           filled
-          label="Nombre"
+          label="Nombre del rol"
           lazy-rules
         />
         <q-select
@@ -30,6 +30,10 @@
           filled
           label="Permisos"
           lazy-rules
+        />
+        <q-checkbox
+          label="Rol para comisión"
+          v-model="rolObject.rolParaComision"
         />
       </template>
     </BaseForm>
@@ -67,6 +71,14 @@ const rolFields = ref([
     field: "permisos",
     sortable: true,
   },
+  {
+    name: "rolParaComision",
+    required: true,
+    label: "Rol de comisión",
+    align: "left",
+    field: "rolParaComision",
+    sortable: true,
+  },
 ]);
 const rolesArr = ref([]);
 const permisosArr = ref(["ROLE_MOD"]);
@@ -88,7 +100,9 @@ const closeForm = () => {
 const rolObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = {permisos:permisosArr.value[0]}) => {
+const openForm = (
+  obj = { permisos: permisosArr.value[0], rolParaComision: false }
+) => {
   rolObject.value = obj;
   showForm.value = true;
 };

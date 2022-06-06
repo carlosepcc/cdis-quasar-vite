@@ -11,15 +11,24 @@
       <template v-slot:default>
         <!-- Nombre declaracion -->
         <q-input
-          v-model.trim="declaracionObject.descripcion"
+          v-model.trim="declaracionObject.nombre"
           :dense="state.dense"
           :rules="[
             (val) => (val && val.length > 0) || 'Por favor, escriba algo',
           ]"
           clearable
           filled
-          autogrow
-          label="Descripcion"
+          label="Nombre"
+          lazy-rules
+        />
+        <q-select
+          v-model="declaracionObject.permisos"
+          multiple
+          :dense="state.dense"
+          :options="permisosArr"
+          :rules="[val || 'Por favor, seleccione algo']"
+          filled
+          label="Permisos"
           lazy-rules
         />
       </template>
@@ -45,7 +54,7 @@ const declaracionFields = ref([
   {
     name: "usuario",
     required: true,
-    label: "Emisor",
+    label: "Usuario",
     align: "left",
     field: "usuario",
     sortable: true,
@@ -60,6 +69,7 @@ const declaracionFields = ref([
   },
 ]);
 const declaracionesArr = ref([]);
+const permisosArr = ref(["DECLARACIONE_MOD"]);
 const url = "/declaracion";
 
 //listar

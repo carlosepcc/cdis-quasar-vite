@@ -38,19 +38,19 @@ const drawerItems = [
   {
     title: "Declaraciones",
     icon: "r_chat",
-    to: "users",
+    to: "declaraciones",
     forRole: ["Administrador"],
   },
   {
     title: "Casos",
     icon: "r_assignment_ind",
-    to: "users",
+    to: "casos",
     forRole: ["Administrador"],
   },
   {
     title: "Resoluciones",
     icon: "r_article",
-    to: "users",
+    to: "resoluciones",
     forRole: ["Administrador"],
   },
 
