@@ -15,7 +15,7 @@ export const usersArr = ref([
     nombre: "Foo",
     username: "foo",
     cargo: "Estudiante",
-    permisos: "ROLE_MODD",
+    permisos: ["ROLE_C_ROL"],
   },
   {
     nombre: "Bar",
@@ -24,9 +24,7 @@ export const usersArr = ref([
     permisos: "ROLE_MODC",
   },
 ]);
+export const rolesArr = ref([]);
+export const denunciasArr = ref([]);
 
-export const usersByRole = ref({
-  Revisor: [],
-  Encargado_de_proyecto: [],
-});
 export default state;

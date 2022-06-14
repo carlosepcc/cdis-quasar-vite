@@ -153,7 +153,7 @@ export const guardar = (object, refArr, url = "/usuario") => {
   });
 
   api({
-    method: "put",
+    method: object.id ? "post" : "put",
     url: url,
     data: object,
   })
