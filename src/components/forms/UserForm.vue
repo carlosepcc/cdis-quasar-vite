@@ -2,12 +2,12 @@
   <q-dialog position="top" persistent>
     <q-card class="hide-scrollbar">
       <q-card-section class="text-h7 text-uppercase text-weight-light row">
-        <span>{{ userObject.id ? 'Modificar' : 'Nuevo' }} Usuario</span>
-        <q-space/>
-        <q-btn color="grey" flat icon="close" @click="$emit('closeForm')"/>
+        <span>{{ userObject.id ? "Modificar" : "Nuevo" }} Usuario</span>
+        <q-space />
+        <q-btn color="grey" flat icon="close" @click="$emit('closeForm')" />
       </q-card-section>
-      <q-separator/>
-      {{userObject}}
+      <q-separator />
+      {{ userObject }}
       <q-card-section>
         <q-form ref="formulario" @submit="onSubmit" @reset="onReset">
           <!--  Example Value
@@ -31,8 +31,14 @@
               label="Nombre"
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-                (val) => (val && /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/i.test(val)) || 'Por favor, sólo letras'
+                (val) =>
+                  (val && val.length > 0) || 'Este campo no puede estar vacío',
+                (val) =>
+                  (val &&
+                    /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/i.test(
+                      val
+                    )) ||
+                  'Por favor, sólo letras',
               ]"
             />
 
@@ -44,8 +50,14 @@
               filled
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-                (val) => (val && /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/i.test(val)) || 'Por favor, sólo letras'
+                (val) =>
+                  (val && val.length > 0) || 'Este campo no puede estar vacío',
+                (val) =>
+                  (val &&
+                    /^[^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/i.test(
+                      val
+                    )) ||
+                  'Por favor, sólo letras',
               ]"
             />
             <q-input
@@ -56,9 +68,14 @@
               filled
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-                (val) => (val && val.length < 32) || 'Por favor, no más de 32 caracteres',
-                (val) => (val && /^[a-z]+$/.test(val)) || 'Por favor, sólo caracteres de a-z',
+                (val) =>
+                  (val && val.length > 0) || 'Este campo no puede estar vacío',
+                (val) =>
+                  (val && val.length < 32) ||
+                  'Por favor, no más de 32 caracteres',
+                (val) =>
+                  (val && /^[a-z]+$/.test(val)) ||
+                  'Por favor, sólo caracteres de a-z',
               ]"
             />
 
@@ -70,9 +87,15 @@
               type="password"
               filled
               lazy-rules
-              :rules="!userObject.id ? [
-                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-              ] : false"
+              :rules="
+                !userObject.id
+                  ? [
+                      (val) =>
+                        (val && val.length > 0) ||
+                        'Este campo no puede estar vacío',
+                    ]
+                  : false
+              "
             >
               <template v-slot:append>
                 <q-icon
@@ -90,10 +113,18 @@
               type="password"
               filled
               lazy-rules
-              :rules="userObject.id ? false : [
-                (val) => (val && val.length > 0) || 'Por favor, escriba algo',
-                (val) => (val === userObject.contrasena) || 'Las contraseñas no coinciden',
-              ]"
+              :rules="
+                userObject.id
+                  ? false
+                  : [
+                      (val) =>
+                        (val && val.length > 0) ||
+                        'Este campo no puede estar vacío',
+                      (val) =>
+                        val === userObject.contrasena ||
+                        'Las contraseñas no coinciden',
+                    ]
+              "
             >
               <template v-slot:append>
                 <q-icon
@@ -103,7 +134,7 @@
                 />
               </template>
             </q-input>
-            <br/>
+            <br />
             <q-select
               v-model="userObject.roles"
               emit-value
@@ -116,7 +147,7 @@
             />
             <!-- !TODO coge todo el objeto y no el valor -->
           </div>
-          <q-separator class="q-mb-sm q-mt-md"/>
+          <q-separator class="q-mb-sm q-mt-md" />
 
           <div class="q-gutter-sm">
             <q-btn-group outline spread clas="full-width q-mt-md">
@@ -152,41 +183,40 @@
   </q-dialog>
 </template>
 <script setup>
-import {ref, inject} from 'vue';
-import {guardar} from "src/composables/useAPI.js";
-import state, {usersArr} from "src/composables/useState.js"
+import { ref, inject } from "vue";
+import { guardar } from "src/composables/useAPI.js";
+import state, { usersArr } from "src/composables/useState.js";
 
 //DOM
-const formulario = ref()
-const showPassword = ref(false)
-const passCheck = ref('')
+const formulario = ref();
+const showPassword = ref(false);
+const passCheck = ref("");
 
 //COMPONENT
-const emits = defineEmits(['closeForm'])
-
+const emits = defineEmits(["closeForm"]);
 
 //STATE
-const userObject = inject('userObject')
-const temp = ref()
+const userObject = inject("userObject");
+const temp = ref();
 const rolesArr = [
-  {label: 'Administrador', value: ['ROLE_ADMIN']},
-  {label: 'Decano', value: ['ROLE_DECANO']},
-  {label: 'Profesor', value: ['ROLE_PROFESOR']},
-  {label: 'Estudiante', value: ['ROLE_ESTUDIANTE']}]
-
+  { label: "Administrador", value: ["ROLE_ADMIN"] },
+  { label: "Decano", value: ["ROLE_DECANO"] },
+  { label: "Profesor", value: ["ROLE_PROFESOR"] },
+  { label: "Estudiante", value: ["ROLE_ESTUDIANTE"] },
+];
 
 //SUBMIT
 const onSubmit = () => {
-  guardar(userObject.value, usersArr, '/Usuario/crearUsuario')
+  guardar(userObject.value, usersArr, "/Usuario/crearUsuario");
   onReset();
   // TODO: No resetear cuando guardar da error.
-}
+};
 
 //RESET FORM
 const onReset = () => {
   //Reset to base values maitaining the id value
-  userObject.value = {id: userObject.value.id, roles: ["ROLE_ESTUDIANTE"]}
+  userObject.value = { id: userObject.value.id, roles: ["ROLE_ESTUDIANTE"] };
   //Clear validation error messages.
   formulario.value.resetValidation();
-}
+};
 </script>

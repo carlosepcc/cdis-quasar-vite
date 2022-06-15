@@ -27,7 +27,8 @@
           v-model.trim="denunciaObject.descripcion"
           :dense="state.dense"
           :rules="[
-            (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+            (val) =>
+              (val && val.length > 0) || 'Este campo no puede estar vacío',
           ]"
           autogrow
           clearable
@@ -103,7 +104,7 @@ const denunciasArr = ref([
     casoList: [],
   },
 ]);
-const url = "/Denuncia";
+const url = "/denuncia";
 
 //listar
 const listarDenuncias = () => listar(denunciasArr, url);
@@ -128,7 +129,7 @@ const openForm = (obj = { acusado: "admin", descripcion: "Sucedio que" }) => {
 
 //SUBMIT
 function submitFormData() {
-  guardar(denunciaObject.value, denunciasArr, `${url}/crear`);
+  guardar(denunciaObject.value, denunciasArr, url);
 }
 //RESET
 function resetFormData() {

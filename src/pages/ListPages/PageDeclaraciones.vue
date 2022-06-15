@@ -14,7 +14,8 @@
           v-model.trim="declaracionObject.nombre"
           :dense="state.dense"
           :rules="[
-            (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+            (val) =>
+              (val && val.length > 0) || 'Este campo no puede estar vacío',
           ]"
           clearable
           filled

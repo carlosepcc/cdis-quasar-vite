@@ -14,9 +14,12 @@
           v-model.trim="rolObject.rol"
           :dense="state.dense"
           :rules="[
-            (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+            (val) =>
+              (val && val.length > 0) || 'Este campo no puede estar vacío',
+            (val) =>
+              (val && /^[A-Za-z_]+$/.test(val)) ||
+              'Sólo se admiten letras y guiones bajos (_)',
           ]"
-          clearable
           filled
           label="Nombre del rol"
           lazy-rules
@@ -31,8 +34,10 @@
           emit-value
           map-options
           multiple
-          :rules="[val || 'Por favor, seleccione algo']"
-          lazy-rules
+          :rules="[
+            (val) =>
+              (val && val.length > 0) || 'Este campo no puede estar vacío',
+          ]"
         />
         {{ rolObject }}
       </template>
@@ -98,7 +103,9 @@ const openForm = (obj = {}) => {
 
 //SUBMIT
 function submitFormData() {
+  rolObject.value.rol = `ROLE_${rolObject.value.rol}`;
   guardar(rolObject.value, rolesArr, url);
+  resetFormData();
 }
 //RESET
 function resetFormData() {

@@ -14,7 +14,8 @@
           v-model.trim="rolObject.nombre"
           :dense="state.dense"
           :rules="[
-            (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+            (val) =>
+              (val && val.length > 0) || 'Este campo no puede estar vacío',
           ]"
           clearable
           filled
@@ -88,7 +89,7 @@ const closeForm = () => {
 const rolObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = {permisos:permisosArr.value[0]}) => {
+const openForm = (obj = { permisos: permisosArr.value[0] }) => {
   rolObject.value = obj;
   showForm.value = true;
 };

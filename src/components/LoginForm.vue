@@ -1,9 +1,19 @@
 <template>
-  <q-card class="q-pa-md shadow-1 hide-scrollbar rounded-borders" style="max-width: 400px">
-    <q-card-section class="text-h7 text-uppercase text-weight-light">Inicie sesión</q-card-section>
+  <q-card
+    class="q-pa-md shadow-1 hide-scrollbar rounded-borders"
+    style="max-width: 400px"
+  >
+    <q-card-section class="text-h7 text-uppercase text-weight-light"
+      >Inicie sesión</q-card-section
+    >
     <q-separator />
     <q-card-section>
-      <q-form @submit="onSubmit" @reset="onReset" ref="formulario" class="q-gutter-md">
+      <q-form
+        @submit="onSubmit"
+        @reset="onReset"
+        ref="formulario"
+        class="q-gutter-md"
+      >
         <q-input
           autofocus
           tabindex="1"
@@ -13,8 +23,10 @@
           v-model="loginObject.usuario"
           label="Usuario"
           lazy-rules
-          max-length="32"
-          :rules="[val => val && val.length > 0 || 'Por favor, escriba algo']"
+          :rules="[
+            (val) =>
+              (val && val.length > 0) || 'Este campo no puede estar vacío',
+          ]"
         />
 
         <q-input
@@ -26,7 +38,8 @@
           label="Contraseña"
           lazy-rules
           :rules="[
-            val => val !== null && val !== '' || 'Por favor, escriba algo'
+            (val) =>
+              (val !== null && val !== '') || 'Este campo no puede estar vacío',
           ]"
         >
           <template v-slot:append>
@@ -41,7 +54,7 @@
         <!-- <q-checkbox v-model="accept" label="Recordar usuario" />  -->
         <div>
           <q-btn-group push spread clas="full-width q-mt-md">
-<!--            <q-btn
+            <!--            <q-btn
               :size="state.dense ? 'sm' : 'md'"
               label="Restablecer"
               type="reset"
@@ -85,31 +98,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 import { login } from "src/composables/useAPI";
-import state from "src/composables/useState"
+import state from "src/composables/useState";
 
+const formulario = ref();
+const showPassword = ref(false);
 
-const formulario = ref()
-const showPassword = ref(false)
-
-const loginObject = ref({ usuario: '', contrasena: '' })
+const loginObject = ref({ usuario: "", contrasena: "" });
 
 //SUBMIT
 const onSubmit = () => {
-  login(loginObject.value)
+  login(loginObject.value);
   onReset();
   //! TODO: No resetear cuando da error
-}
+};
 
 //RESET FORM
 const onReset = () => {
   //Reset to base values
-  loginObject.value = { usuario: '', contrasena: '' }
+  loginObject.value = { usuario: "", contrasena: "" };
   //Clear validation error messages.
   formulario.value.resetValidation();
-}
-
-
-
+};
 </script>

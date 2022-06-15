@@ -1,9 +1,10 @@
 <template>
   <q-dialog persistent position="top">
     <q-card>
-      <q-card-section
-        class="text-h7 text-uppercase text-weight-light"
-      >{{ comisiónObject.id ? 'Modificar' : 'Nuevo' }} Comisión Disciplinaria</q-card-section>
+      <q-card-section class="text-h7 text-uppercase text-weight-light"
+        >{{ comisiónObject.id ? "Modificar" : "Nuevo" }} Comisión
+        Disciplinaria</q-card-section
+      >
       <q-separator />
       <q-card-section>
         <q-form ref="formulario" @submit="onSubmit" @reset="onReset">
@@ -16,7 +17,8 @@
             label="Producto Afectado"
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+              (val) =>
+                (val && val.length > 0) || 'Este campo no puede estar vacío',
             ]"
           />
           <q-input
@@ -27,7 +29,8 @@
             filled
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+              (val) =>
+                (val && val.length > 0) || 'Este campo no puede estar vacío',
             ]"
           />
           <q-input
@@ -39,7 +42,8 @@
             autogrow
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'Por favor, escriba algo',
+              (val) =>
+                (val && val.length > 0) || 'Este campo no puede estar vacío',
             ]"
           />
 
@@ -95,33 +99,32 @@
   </q-dialog>
 </template>
 <script setup>
-import { ref, inject } from 'vue';
+import { ref, inject } from "vue";
 import { guardar } from "src/composables/useAPI";
-import state from "src/composables/useState"
+import state from "src/composables/useState";
 
 //DOM
-const formulario = ref()
+const formulario = ref();
 
 //COMPONENT
-const emits = defineEmits(['closeForm'])
-const url = inject('comisionUrl')
-
+const emits = defineEmits(["closeForm"]);
+const url = inject("comisionUrl");
 
 //STATE
-const denunciasArr = inject('comisionesArr')
+const denunciasArr = inject("comisionesArr");
 
-const comisionObject = inject('comisionObject')
+const comisionObject = inject("comisionObject");
 
 //SUBMIT
 function onSubmit() {
-  guardar(comisionObject.value, comisionesArr, url)
-  onReset()
+  guardar(comisionObject.value, comisionesArr, url);
+  onReset();
 }
 
 //RESET FORM
 function onReset() {
   //Reset fields
-  comisionObject.value = null
+  comisionObject.value = null;
   formulario.value.resetValidation();
 }
 </script>
