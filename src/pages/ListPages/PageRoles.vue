@@ -11,7 +11,7 @@
       <template v-slot:default>
         <!-- Nombre rol -->
         <q-input
-          v-model.trim="rolObject.nombre"
+          v-model.trim="rolObject.rol"
           :dense="state.dense"
           :rules="[
             (val) => (val && val.length > 0) || 'Por favor, escriba algo',
@@ -20,21 +20,21 @@
           filled
           label="Nombre del rol"
           lazy-rules
-        />
-        <q-select
-          v-model="rolObject.permisos"
-          multiple
-          :dense="state.dense"
-          :options="permisosArr"
-          :rules="[val || 'Por favor, seleccione algo']"
-          filled
+        /><q-select
           label="Permisos"
+          :dense="state.dense"
+          filled
+          v-model="rolObject.permisos"
+          :options="permisosArr"
+          option-value="id"
+          option-label="permiso"
+          emit-value
+          map-options
+          multiple
+          :rules="[val || 'Por favor, seleccione algo']"
           lazy-rules
         />
-        <q-checkbox
-          label="Rol para comisión"
-          v-model="rolObject.rolParaComision"
-        />
+        {{ rolObject }}
       </template>
     </BaseForm>
     <ListPage
@@ -53,7 +53,7 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state from "src/composables/useState.js";
+import state, { permisosArr } from "src/composables/useState.js";
 const rolFields = ref([
   {
     name: "nombre",
@@ -71,17 +71,8 @@ const rolFields = ref([
     field: "permisos",
     sortable: true,
   },
-  {
-    name: "rolParaComision",
-    required: true,
-    label: "Rol de comisión",
-    align: "left",
-    field: "rolParaComision",
-    sortable: true,
-  },
 ]);
 const rolesArr = ref([]);
-const permisosArr = ref(["ROLE_MOD"]);
 const url = "/rol";
 
 //listar
@@ -100,9 +91,7 @@ const closeForm = () => {
 const rolObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (
-  obj = { permisos: permisosArr.value[0], rolParaComision: false }
-) => {
+const openForm = (obj = {}) => {
   rolObject.value = obj;
   showForm.value = true;
 };

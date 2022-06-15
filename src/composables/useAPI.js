@@ -1,9 +1,8 @@
 import { Dialog, Notify, QSpinnerGears } from "quasar";
 import isJwtTokenExpired, { decode } from "jwt-check-expiry";
-import state, { usersArr, usersByRole } from "./useState";
+import state, { usersArr } from "./useState";
 
 import { api } from "boot/axios";
-import { handleError } from "vue";
 import route from "src/router";
 
 const Router = route();
