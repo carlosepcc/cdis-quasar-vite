@@ -1,8 +1,7 @@
 <template>
   <q-page padding>
-    <strong>Ayuda</strong>
-    <br />
-    ¿Cómo usar CDIS?
+    <h5>Ayuda</h5>
+    <strong>¿Cómo usar CDIS?</strong>
   </q-page>
 </template>
 

@@ -36,6 +36,10 @@
           label="Descripción"
           lazy-rules
         />
+        <pre  class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
+Developer info
+{{ denunciaObject }}
+        </pre>
       </template>
     </BaseForm>
     <ListPage

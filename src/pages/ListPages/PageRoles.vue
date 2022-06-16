@@ -39,12 +39,11 @@
               (val && val.length > 0) || 'Este campo no puede estar vacío',
           ]"
         />
-        <template v-if="state.loggedUser.usuario == 'admin'"
-          >info for {{ state.loggedUser.usuario }} ROLE_{{
-            rolObject.rol.toUpperCase()
-          }}
-          {{ rolObject }}
-        </template>
+        <pre  class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
+Developer info
+ROLE_{{ rolObject.rol.toUpperCase() }}
+{{ rolObject }}
+        </pre>
       </template>
     </BaseForm>
     <ListPage
@@ -63,7 +62,7 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state, { permisosArr } from "src/composables/useState.js";
+import state, { permisosArr, rolesArr } from "src/composables/useState.js";
 const rolFields = ref([
   {
     name: "nombre",
@@ -82,7 +81,6 @@ const rolFields = ref([
     sortable: true,
   },
 ]);
-const rolesArr = ref([]);
 const url = "/rol";
 
 //listar
@@ -108,7 +106,7 @@ const openForm = (obj = { rol: "", permisos: [] }) => {
 
 //SUBMIT
 function submitFormData() {
-  rolObject.value.rol = `ROLE_${rolObject.value.rol.toUpperCase()}`;
+  rolObject.value.rol = `ROLE_${rolObject.value.rol.toUpperCase()}`; //modificar valor del nombre de rol para encajar con la manera en que se guardan en la base de datos
   guardar(rolObject.value, rolesArr, url);
   resetFormData();
 }

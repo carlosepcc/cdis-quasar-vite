@@ -83,10 +83,10 @@
             @click="$emit('openForm')"
           />
 
-          <!-- ELIMINAR SELECCIÓN-->
+          <!--🗑️ ELIMINAR SELECCIÓN-->
           <q-btn
             :dense="s.dense"
-            :disabled="selected.length == 0"
+            v-show="selected.length != 0"
             flat
             icon="delete"
             label="Eliminar selección"

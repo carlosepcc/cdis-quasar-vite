@@ -12,14 +12,14 @@ const state = ref({
 // Usuarios registrados
 export const usersArr = ref([
   {
-    nombre: "Foo",
-    username: "foo",
+    nombre: "Ana Rodríguez",
+    username: "ana",
     cargo: "Estudiante",
     permisos: ["ROLE_C_ROL"],
   },
   {
-    nombre: "Bar",
-    username: "bar",
+    nombre: "Era González",
+    username: "era",
     cargo: "Decano",
     permisos: ["ROLE_C_DENUNCIA"],
   },
@@ -27,7 +27,7 @@ export const usersArr = ref([
 export const rolesArr = ref([]);
 export const denunciasArr = ref([]);
 export const casosArr = ref([]);
-export const declaracionArr = ref([]);
+export const declaracionesArr = ref([]);
 export const comisionesArr = ref([]);
 export const permisosArr = ref([
   { id: 8, permiso: "ROLE_R_ROL" },
@@ -41,5 +41,6 @@ export const permisosArr = ref([
   { id: 7, permiso: "ROLE_C_CASO" },
   { id: 9, permiso: "ROLE_D_CASO" },
 ]);
+export const permisosLabeledArr = ref([])
 
 export default state;
