@@ -39,7 +39,12 @@
               (val && val.length > 0) || 'Este campo no puede estar vacío',
           ]"
         />
-        {{ rolObject }}
+        <template v-if="state.loggedUser.usuario == 'admin'"
+          >info for {{ state.loggedUser.usuario }} ROLE_{{
+            rolObject.rol.toUpperCase()
+          }}
+          {{ rolObject }}
+        </template>
       </template>
     </BaseForm>
     <ListPage
@@ -93,23 +98,23 @@ const closeForm = () => {
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
-const rolObject = ref({});
+const rolObject = ref();
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = {}) => {
+const openForm = (obj = { rol: "", permisos: [] }) => {
   rolObject.value = obj;
   showForm.value = true;
 };
 
 //SUBMIT
 function submitFormData() {
-  rolObject.value.rol = `ROLE_${rolObject.value.rol}`;
+  rolObject.value.rol = `ROLE_${rolObject.value.rol.toUpperCase()}`;
   guardar(rolObject.value, rolesArr, url);
   resetFormData();
 }
 //RESET
 function resetFormData() {
-  rolObject.value = null;
+  rolObject.value = { rol: "", permisos: [] };
 }
 
 // delete tuples by array of objects

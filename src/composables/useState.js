@@ -6,7 +6,7 @@ const state = ref({
   dense: Screen.lt.sm,
   grid: Screen.lt.sm,
   dark: hours > 18 || hours < 7, //fallback from $q.dark
-  loggedUser: null,
+  loggedUser: false,
 });
 
 // Usuarios registrados

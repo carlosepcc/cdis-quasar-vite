@@ -107,7 +107,6 @@ export const login = (loginObject) => {
     });
 };
 
-
 // LISTAR (Actualizar Arreglos en el cliente con datos del servidor)
 const listar = (list = usersArr, url = "/usuario") => {
   let noti = Notify.create({
