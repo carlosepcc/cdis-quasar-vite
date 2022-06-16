@@ -194,16 +194,16 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
       });
 
       //CREATE an idsArray from the objects array
-      let idsUrl = url + "/";
-      console.log(idsUrl);
-      objArr.forEach((obj) => idsUrl.push(`${obj.id},`));
-      console.log(idsUrl);
-      idsUrl.pop();
-      console.log(idsUrl);
+      // /* let idsUrl = url + "/";
+      // objArr.forEach((obj) => idsUrl.push(`${obj.id},`));
+      // idsUrl.pop(); */
+      let idsArr = [];
+      objArr.forEach((obj) => idsArr.push(obj.id)); //Se llena el arreglo de ids con los ids de los objetos del arreglo de objetos
       //REQUEST TO SERVER
       api({
         method: "delete",
-        url: idsUrl,
+        url: url,
+        data: { ids: idsArr },
       })
         .then((response) => {
           // handle success
