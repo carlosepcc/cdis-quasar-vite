@@ -41,6 +41,31 @@ export const permisosArr = ref([
   { id: 7, permiso: "ROLE_C_CASO" },
   { id: 9, permiso: "ROLE_D_CASO" },
 ]);
-export const permisosLabeledArr = ref([])
+
+//F: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
+const permisoStrToLabel = (permisoStr) => {
+  let permisoLabel = permisoStr;
+  let rules = [
+    { s: "role", r: "" },
+    { s: "_c_", r: "Crear " },
+    { s: "_r_", r: "Leer " },
+    { s: "_u_", r: "Actualizar " },
+    { s: "_d_", r: "Eliminar " },
+    { s: "cion", r: "ción" },
+    { s: "comision", r: "comisión" },
+  ];
+  permisoLabel = permisoLabel.toLowerCase();
+  rules.forEach((rule) => {
+    permisoLabel = permisoLabel.replace(rule.s, rule.r);
+  });
+  return permisoLabel;
+};
+
+//F: Recibe un arreglo de objetos de permiso y les anhade a cada uno un atributo label usando la funcion permisoStrToLabel en base al atributo permiso
+export const permisosArrToLabeled = (permisosObjs) => {
+  permisosObjs.forEach(
+    (permisoObj) => (permisoObj.label = permisoStrToLabel(permisoObj.permiso))
+  );
+};
 
 export default state;

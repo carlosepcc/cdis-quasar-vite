@@ -30,16 +30,16 @@
           v-model="rolObject.permisos"
           :options="permisosArr"
           option-value="id"
-          option-label="permiso"
           emit-value
           map-options
           multiple
+          use-chips
           :rules="[
             (val) =>
               (val && val.length > 0) || 'Este campo no puede estar vacío',
           ]"
         />
-        <pre  class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
+        <pre class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
 Developer info
 ROLE_{{ rolObject.rol.toUpperCase() }}
 {{ rolObject }}
@@ -62,7 +62,11 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state, { permisosArr, rolesArr } from "src/composables/useState.js";
+import state, {
+  permisosArr,
+  rolesArr,
+  permisosArrToLabeled,
+} from "src/composables/useState.js";
 const rolFields = ref([
   {
     name: "nombre",
@@ -86,6 +90,8 @@ const url = "/rol";
 //listar
 const listarRoles = () => listar(rolesArr, url);
 // execute on component load listarRoles();
+//listar(permisosArr, `${url}/mostrarPermisos`);
+permisosArrToLabeled(permisosArr.value);
 
 //form dialog model
 const showForm = ref(false);
