@@ -21,7 +21,6 @@
           option-label="descripcion"
           emit-value
           option-value="id"
-          @filter="filterFn"
         > <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey">
@@ -58,7 +57,6 @@
 
         <pre v-if="state.loggedUser.usuario == 'admin'">
           Developer info
-          {{resolucionesArr}}
           {{comisionObject}}
         </pre>
       </template>
@@ -80,17 +78,6 @@ import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
 import state, { usersArr,comisionesArr,resolucionesArr } from "src/composables/useState.js";
-
-const filterFn =(val, update, abort)=> {
-  if (resolucionesArr.value.length > 0) {
-    // already loaded
-    update()
-    return
-  }
-
-  listar(resolucionesArr,'/resolucion')
-  setTimeout(abort(),500)
-}
 
 const comisionFields = ref([
   {
@@ -130,7 +117,10 @@ const url = "/comision";
 
 //listar
 const listarComisiones = () => listar(comisionesArr, url);
-// execute on component load listarComisiones();
+const listarResoluciones = () => listar(resolucionesArr, '/resolucion')
+// execute on component load
+listarComisiones()
+listarResoluciones()
 
 //form dialog model
 const showForm = ref(false);
