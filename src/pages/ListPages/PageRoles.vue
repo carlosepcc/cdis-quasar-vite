@@ -30,6 +30,7 @@
           v-model="rolObject.permisos"
           :options="permisosArr"
           option-value="id"
+          :option-label="(item)=>item.label ? item.label : item.permiso"
           emit-value
           map-options
           multiple
@@ -43,6 +44,7 @@
 Developer info
 ROLE_{{ rolObject.rol.toUpperCase() }}
 {{ rolObject }}
+          {{permisosArr}}
         </pre>
       </template>
     </BaseForm>
@@ -69,11 +71,11 @@ import state, {
 } from "src/composables/useState.js";
 const rolFields = ref([
   {
-    name: "nombre",
+    name: "rol",
     required: true,
     label: "Nombre",
     align: "left",
-    field: "nombre",
+    field: "rol",
     sortable: true,
   },
   {
@@ -89,8 +91,9 @@ const url = "/rol";
 
 //listar
 const listarRoles = () => listar(rolesArr, url);
-// execute on component load listarRoles();
-//listar(permisosArr, `${url}/mostrarPermisos`);
+// execute on component load
+listarRoles();
+listar(permisosArr, `${url}/mostrarPermisos`);
 permisosArrToLabeled(permisosArr.value);
 
 //form dialog model
