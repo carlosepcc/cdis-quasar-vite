@@ -11,7 +11,13 @@ const state = ref({
 
 
 export const rolesArr = ref([]);
-export const denunciasArr = ref([]);
+export const denunciasArr = ref([{
+  "id": 0,
+  "denunciante": "string",
+  "fecha": "2022-06-18T05:22:17.926Z",
+  "procesada": true,
+  "descripcion": "string"
+}]);
 export const casosArr = ref([]);
 export const declaracionesArr = ref([]);
 export const comisionesArr = ref([]);

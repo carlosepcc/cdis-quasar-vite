@@ -59,9 +59,8 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state from "src/composables/useState.js";
+import state, { usersArr, denunciasArr } from "src/composables/useState.js";
 
-import { usersArr } from "src/composables/useState.js";
 
 const denunciaFields = ref([
   {
@@ -105,20 +104,13 @@ const denunciaFields = ref([
     sortable: true,
   },
 ]);
-const denunciasArr = ref([
-  {
-    "id": 1234,
-    "denunciante": "admin",
-    "fecha": "2022-06-18T04:59:49.265Z",
-    "procesada": true,
-    "descripcion": "string"
-  },
-]);
+
 const url = "/denuncia";
 
 //listar
 const listarDenuncias = () => listar(denunciasArr, url);
-// execute on component load listarDenuncias();
+// execute on component load
+listarDenuncias();
 
 //form dialog model
 const showForm = ref(false);
