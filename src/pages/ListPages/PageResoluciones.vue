@@ -73,7 +73,6 @@ const url = "/resolucion";
 const listarResoluciones = () => listar(resolucionesArr, url);
 // execute on component load
 listarResoluciones();
-listar(permisosArr, `${url}/mostrarPermisos`);//Actualizar el listado de permisos
 
 //form dialog model
 const showForm = ref(false);

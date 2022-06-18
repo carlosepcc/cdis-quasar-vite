@@ -47,7 +47,7 @@
   </q-dialog>
 </template>
 <script setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
 import { guardar } from "src/composables/useAPI.js";
 import state from "src/composables/useState.js";
 
@@ -57,7 +57,6 @@ const formulario = ref();
 //COMPONENT
 const props = defineProps({ formTitle: String, isModifying: Boolean });
 const emit = defineEmits(["closeForm", "submit", "reset"]);
-const url = inject("denunciaUrl");
 
 //SUBMIT
 function onSubmit() {

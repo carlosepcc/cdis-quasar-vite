@@ -10,32 +10,57 @@
     >
       <template v-slot:default>
         <q-select
-          v-model="comisionObject.acusado"
+          v-model="comisionObject.idResolucion"
+          :dense="state.dense"
+          :options="resolucionesArr"
+          :rules="[val || 'Por favor, seleccione una resolución']"
+          filled
+          label="Resolución"
+          lazy-rules
+          map-options
+          option-label="descripcion"
+          emit-value
+          option-value="id"
+          @filter="filterFn"
+        > <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No hay opciones
+            </q-item-section>
+          </q-item>
+        </template></q-select>
+        <q-select
+          v-model="comisionObject.integrantesComision[0].usuario"
           :dense="state.dense"
           :options="usersArr"
-          :rules="[val || 'Por favor, seleccione algo']"
+          :rules="[val || 'Por favor, seleccione un presidente']"
           filled
-          label="Estudiantes involucrados"
+          label="Presidente"
           lazy-rules
           map-options
           option-label="nombre"
           emit-value
           option-value="username"
         />
-        <!-- Descripción comision -->
-        <q-input
-          v-model.trim="comisionObject.descripcion"
-          :dense="state.dense"
-          :rules="[
-            (val) =>
-              (val && val.length > 0) || 'Este campo no puede estar vacío',
-          ]"
-          autogrow
-          clearable
-          filled
-          label="Descripción"
-          lazy-rules
-        />
+        <q-select
+        v-model="comisionObject.integrantesComision[1].usuario"
+        :dense="state.dense"
+        :options="usersArr"
+        :rules="[val || 'Por favor, seleccione un secretario']"
+        filled
+        label="Secretario"
+        lazy-rules
+        map-options
+        option-label="nombre"
+        emit-value
+        option-value="username"
+      />
+
+        <pre v-if="state.loggedUser.usuario == 'admin'">
+          Developer info
+          {{resolucionesArr}}
+          {{comisionObject}}
+        </pre>
       </template>
     </BaseForm>
     <ListPage
@@ -54,32 +79,34 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state, { usersArr } from "src/composables/useState.js";
+import state, { usersArr,comisionesArr,resolucionesArr } from "src/composables/useState.js";
 
-/* {
-  "idResolucion": 0,
-  "integrantesComision": [
-    {
-      "idIntegrante": 0,
-      "idRol": 0
-    }
-  ]
-} */
+const filterFn =(val, update, abort)=> {
+  if (resolucionesArr.value.length > 0) {
+    // already loaded
+    update()
+    return
+  }
+
+  listar(resolucionesArr,'/resolucion')
+  setTimeout(abort(),500)
+}
+
 const comisionFields = ref([
   {
     name: "resolucion",
     required: true,
-    label: "Resolucion",
+    label: "Resolución",
     align: "left",
-    field: (comision) => comision.idResolucion,
+    field: (comision) => comision.resolucion.id,
     sortable: true,
   },
   {
-    name: "jefe",
+    name: "presidente",
     required: true,
-    label: "Jefe",
+    label: "Presidente",
     align: "left",
-    field: (comision) => comision.integrantesComision[0].nombre,
+    field: (comision) => comision.integrantesComision[0].usuario,
     sortable: true,
   },
   {
@@ -87,20 +114,18 @@ const comisionFields = ref([
     required: true,
     label: "Secretario",
     align: "left",
-    field: (comision) => comision.integrantesComision[0].nombre,
+    field: (comision) => comision.integrantesComision[1].usuario,
+    sortable: true,
+  },{
+    name: "caso",
+    required: true,
+    label: "Último caso",
+    align: "left",
+    field: (comision) => comision.casoList[casoList.length-1].casoPK.denuncia,
     sortable: true,
   },
 ]);
-const comisionesArr = ref([
-  {
-    id: 1,
-    idResolucion: 2022,
-    jefe: "admin",
-    secretario: "admin",
-    fecha: "2022-05-07",
-    procesada: false,
-  },
-]);
+
 const url = "/comision";
 
 //listar
@@ -119,7 +144,7 @@ const closeForm = () => {
 const comisionObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = {}) => {
+const openForm = (obj = {integrantesComision:[{idRol:11},{idRol:5}]}) => {
   comisionObject.value = obj;
   showForm.value = true;
   console.log(`openForm triggered. showForm.value is ${showForm.value}`);
