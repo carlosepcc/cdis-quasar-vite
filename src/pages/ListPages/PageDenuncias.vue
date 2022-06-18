@@ -10,12 +10,13 @@
     >
       <template v-slot:default>
         <q-select
-          v-model="denunciaObject.acusado"
+          v-model="denunciaObject.acusados"
+          multiple
           :dense="state.dense"
           :options="usersArr"
           :rules="[val || 'Por favor, seleccione algo']"
           filled
-          label="Estudiantes involucrados"
+          label="Estudiantes implicados"
           lazy-rules
           map-options
           option-label="nombre"
@@ -68,17 +69,17 @@ const denunciaFields = ref([
     required: true,
     label: "Denunciante",
     align: "left",
-    field: (denuncia) => denuncia.denunciaUsuarioList[0].denunciante,
+    field: "denunciante",
     sortable: true,
   },
-  {
-    name: "acusado",
-    required: true,
-    label: "Estudiantes implicados",
-    align: "left",
-    field: "acusado",
-    sortable: true,
-  },
+  // {
+  //   name: "acusados",
+  //   required: true,
+  //   label: "Estudiantes implicados",
+  //   align: "left",
+  //   field: "acusados",
+  //   sortable: true,
+  // },
   {
     name: "fecha",
     required: true,
@@ -95,17 +96,22 @@ const denunciaFields = ref([
     field: "descripcion",
     sortable: true,
   },
+  {
+    name: "procesada",
+    required: true,
+    label: "Procesada",
+    align: "left",
+    field: "procesada",
+    sortable: true,
+  },
 ]);
 const denunciasArr = ref([
   {
-    id: 1,
-    acusado: "admin",
-    fecha: "2022-05-07",
-    descripcion:
-      "Un grupo de estudiantes ingresó al aula inteligente y lorem ipsum dolor sit amet consectectur adspisicting",
-    procesada: false,
-    denunciaUsuarioList: [{ denunciante: "admin" }],
-    casoList: [],
+    "id": 1234,
+    "denunciante": "admin",
+    "fecha": "2022-06-18T04:59:49.265Z",
+    "procesada": true,
+    "descripcion": "string"
   },
 ]);
 const url = "/denuncia";
@@ -126,7 +132,7 @@ const closeForm = () => {
 const denunciaObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { acusado: "admin", descripcion: "Sucedio que" }) => {
+const openForm = (obj = { descripcion: "Sucedio que" }) => {
   denunciaObject.value = obj;
   showForm.value = true;
 };

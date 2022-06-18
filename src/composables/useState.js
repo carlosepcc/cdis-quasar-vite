@@ -9,21 +9,7 @@ const state = ref({
   loggedUser: false,
 });
 
-// Usuarios registrados
-export const usersArr = ref([
-  {
-    nombre: "Ana Rodríguez",
-    username: "ana",
-    cargo: "Estudiante",
-    permisos: ["ROLE_C_ROL"],
-  },
-  {
-    nombre: "Era González",
-    username: "era",
-    cargo: "Decano",
-    permisos: ["ROLE_C_DENUNCIA"],
-  },
-]);
+
 export const rolesArr = ref([]);
 export const denunciasArr = ref([]);
 export const casosArr = ref([]);
@@ -195,8 +181,29 @@ export const permisosArr = ref([
     "permiso": "ROLE_R_PERMISO"
   }
 ])
-watch(permisosArr,()=>permisosArrToLabeled(permisosArr.value))
+watch(permisosArr,()=>permisosArrToLabeled(permisosArr.value)) // Se actualizan las etiquetas de los permisos cada vez que mute el arreglo
 
+// Usuarios registrados
+export const usersArr = ref([
+  {
+    nombre: "Admin",
+    username: "admin",
+    cargo: "Administrador",
+    permisos: permisosArr.value,
+  },
+  {
+    nombre: "Ana Rodríguez",
+    username: "ana",
+    cargo: "Estudiante",
+    permisos: ["ROLE_C_ROL"],
+  },
+  {
+    nombre: "Era González",
+    username: "era",
+    cargo: "Decano",
+    permisos: ["ROLE_C_DENUNCIA"],
+  },
+]);
 //F: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
 const permisoStrToLabel = (permisoStr) => {
   let permisoLabel = permisoStr;

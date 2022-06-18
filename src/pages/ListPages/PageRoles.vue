@@ -44,7 +44,6 @@
 Developer info
 ROLE_{{ rolObject.rol.toUpperCase() }}
 {{ rolObject }}
-          {{permisosArr}}
         </pre>
       </template>
     </BaseForm>
