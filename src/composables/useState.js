@@ -1,5 +1,7 @@
-import { Screen } from "quasar";
 import { ref, watch } from "vue";
+
+import { Screen } from "quasar";
+
 const hours = new Date().getHours();
 // Global State
 const state = ref({
@@ -9,15 +11,9 @@ const state = ref({
   loggedUser: false,
 });
 
-
+export const resolucionesArr = ref([])
 export const rolesArr = ref([]);
-export const denunciasArr = ref([{
-  "id": 0,
-  "denunciante": "string",
-  "fecha": "2022-06-18T05:22:17.926Z",
-  "procesada": true,
-  "descripcion": "string"
-}]);
+export const denunciasArr = ref([]);
 export const casosArr = ref([]);
 export const declaracionesArr = ref([]);
 export const comisionesArr = ref([]);

@@ -9,6 +9,11 @@ const routes = [
         component: () => import("pages/PageIndex.vue"),
       },
       {
+        name: "Resoluciones",
+        path: "/resoluciones",
+        component: () => import("pages/ListPages/PageResoluciones.vue"),
+      },
+      {
         name: "Comisiones Disciplinarias",
         path: "/comisiones",
         component: () => import("pages/ListPages/PageComisiones.vue"),
