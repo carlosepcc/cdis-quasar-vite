@@ -38,7 +38,7 @@
       :columns="declaracionFields"
       :rows="declaracionesArr"
       heading="Declaraciones"
-      rowKey="id"
+      rowKey="declaracionPK"
       @updateList="listarDeclaraciones"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
@@ -51,26 +51,79 @@ import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
 import state from "src/composables/useState.js";
+
+ /*Get /declaracion [ {
+    "declaracionPK": {
+      "usuario": "string",
+      "casocomision": 0,
+      "casodenuncia": 0
+    },
+    "abierta": true,
+    "fecha": "2022-06-19T06:46:21.565Z",
+    "declaracion": "string",
+    "expediente": "string",
+    "caso": {
+      "casoPK": {
+        "comision": 0,
+        "denuncia": 0
+      },
+      "abierto": true,
+      "fechaapertura": "2022-06-19T06:46:21.565Z",
+      "fechaexpiracion": "2022-06-19T06:46:21.565Z",
+      "dictamen": "string"
+    }
+  }] */
 const declaracionFields = ref([
   {
     name: "usuario",
     required: true,
     label: "Usuario",
     align: "left",
-    field: "usuario",
+    field: (declaracion) => declaracion.declaracionPK.usuario,
     sortable: true,
   },
   {
-    name: "descripcion",
+    name: "caso",
     required: true,
-    label: "Descripcion",
+    label: "Caso",
     align: "left",
-    field: "descripcion",
+    field: (declaracion) => declaracion.caso.casoPK.denuncia,
+    sortable: true,
+  },
+  {
+    name: "abierta",
+    required: true,
+    label: "URL de la Declaración",
+    align: "left",
+    field: "abierta",
+    sortable: true,
+  },
+  {
+    name: "fecha",
+    required: true,
+    label: "Fecha",
+    align: "left",
+    field: "fecha",
+    sortable: true,
+  },
+  {
+    name: "declaracion",
+    required: true,
+    label: "URL de la Declaración",
+    align: "left",
+    field: "declaracion",
+    sortable: true,
+  },
+  {
+    name: "expediente",
+    required: true,
+    label: "URL del Expediente",
+    align: "left",
+    field: "expediente",
     sortable: true,
   },
 ]);
 const declaracionesArr = ref([]);
-const permisosArr = ref(["DECLARACIONE_MOD"]);
 const url = "/declaracion";
 
 //listar
