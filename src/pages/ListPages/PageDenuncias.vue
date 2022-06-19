@@ -71,14 +71,14 @@ const denunciaFields = ref([
     field: "denunciante",
     sortable: true,
   },
-  // {
-  //   name: "acusados",
-  //   required: true,
-  //   label: "Estudiantes implicados",
-  //   align: "left",
-  //   field: "acusados",
-  //   sortable: true,
-  // },
+  {
+    name: "acusados",
+    required: true,
+    label: "Estudiantes implicados",
+    align: "left",
+    field: "acusados",
+    sortable: true,
+  },
   {
     name: "fecha",
     required: true,

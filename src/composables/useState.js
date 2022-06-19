@@ -207,7 +207,7 @@ export const usersArr = ref([
   },
 ]);
 //F: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
-const permisoStrToLabel = (permisoStr) => {
+export const permisoStrToLabel = (permisoStr) => {
   let permisoLabel = permisoStr;
   let rules = [
     { s: "role", r: "" },

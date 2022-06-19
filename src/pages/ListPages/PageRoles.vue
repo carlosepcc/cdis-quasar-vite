@@ -17,7 +17,7 @@
             (val) =>
               (val && val.length > 0) || 'Este campo no puede estar vacío',
             (val) =>
-              (val && /^[A-Za-z_]+$/.test(val)) ||
+              (val && /^[A-Za-z_ ]+$/.test(val)) ||
               'Sólo se admiten letras y guiones bajos (_)',
           ]"
           filled
@@ -42,7 +42,7 @@
         />
         <pre class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
 Developer info
-ROLE_{{ rolObject.rol.toUpperCase() }}
+rol se enviará como {{ rolObject.rol.toUpperCase().replace(/\s/g,'_') }}
 {{ rolObject }}
         </pre>
       </template>
@@ -67,6 +67,7 @@ import state, {
   permisosArr,
   rolesArr,
   permisosArrToLabeled,
+  permisoStrToLabel,
 } from "src/composables/useState.js";
 const rolFields = ref([
   {
@@ -80,9 +81,9 @@ const rolFields = ref([
   {
     name: "permisos",
     required: true,
-    label: "Permisos",
+    label: "Primer permiso",
     align: "left",
-    field: "permisos",
+    field: (rol) => permisoStrToLabel(rol.permisos[0].permiso),//Nombre del primer permiso
     sortable: true,
   },
 ]);
@@ -114,11 +115,12 @@ const openForm = (obj = { rol: "", permisos: [] }) => {
 
 //SUBMIT
 function submitFormData() {
-  rolObject.value.rol = `ROLE_${rolObject.value.rol.toUpperCase()}`; //modificar valor del nombre de rol para encajar con la manera en que se guardan en la base de datos
-  guardar(rolObject.value, rolesArr, url);
+ if (!/^ROLE_/i.test(rolObject.value.rol)) rolObject.value.rol = `ROLE_${rolObject.value.rol}`;// Prueba si existe la cadena ROLE_ en el rol y, si no, la coloca
+ rolObject.value.rol = rolObject.value.rol.replace(/\s/g,'_').toUpperCase()//Modificar valor del nombre de rol para encajar con la manera en que se guardan en la base de datos. Reemplaza los espacios en blanco por _ y lleva todos los caracteres a mayúscula
+  guardar(rolObject.value, rolesArr, url);//Hace la petición de guardado al servidor
   resetFormData();
 }
-//RESET
+//RESET object to default
 function resetFormData() {
   rolObject.value = { rol: "", permisos: [] };
 }

@@ -143,7 +143,7 @@ const closeForm = () => {
 const declaracionObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { permisos: permisosArr.value[0] }) => {
+const openForm = (obj = {}) => {
   declaracionObject.value = obj;
   showForm.value = true;
 };
