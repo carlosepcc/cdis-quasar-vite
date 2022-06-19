@@ -9,7 +9,6 @@ import { boot } from 'quasar/wrappers'
 // for each client)
 const api = axios.create({
   baseURL: 'https://cdisserver.herokuapp.com'
-  //baseURL: 'http://localhost:8080'
   })
 
 export default boot(({ app }) => {

@@ -154,6 +154,9 @@ export const guardar = (object, refArr, url = "/usuario") => {
     method: object.id ? "post" : "put",
     url: url,
     data: object,
+    headers: {
+      "Content-Type": url.includes("declaracion") ? "multipart/form-data" : "application/json",
+    }
   })
     .then((response) => {
       // handle success
