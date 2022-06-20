@@ -52,11 +52,13 @@ rol se enviará como {{ rolObject.rol.toUpperCase().replace(/\s/g,'_') }}
       :columns="rolFields"
       :rows="rolesArr"
       heading="Roles"
-      rowKey="id"
+      rowKey="rol"
       @updateList="listarRoles"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
+    <pre>
+    {{rolesArr[0]}}</pre>
   </q-page>
 </template>
 <script setup>
@@ -70,13 +72,14 @@ import state, {
   permisosArrToLabeled,
   permisoStrToLabel,
 } from "src/composables/useState.js";
+
 const rolFields = ref([
   {
     name: "rol",
     required: true,
     label: "Nombre",
     align: "left",
-    field: "rol",
+    field:"rol",
     sortable: true,
   },
   {
@@ -84,7 +87,7 @@ const rolFields = ref([
     required: true,
     label: "Primer permiso",
     align: "left",
-    field: (rol) => permisoStrToLabel(rol.permisos[0].permiso),//Nombre del primer permiso
+    field: (rol) => permisoStrToLabel(rol.permisos[0] ? rol.permisos[0].permiso : 'Sin permisos'),//Nombre del primer permiso
     sortable: true,
   },
 ]);

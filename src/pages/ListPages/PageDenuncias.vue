@@ -22,6 +22,7 @@
           option-label="nombre"
           emit-value
           option-value="username"
+          behavior="dialog"
         />
         <!-- Descripción denuncia -->
         <q-input
