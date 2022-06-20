@@ -102,9 +102,9 @@ const drawerItems = [
             <DrawerItem
               v-bind="drawerItem"
               v-if="
-                drawerItem.forRole === undefined ||
-                state.loggedUser.permisos.some((permiso) => drawerItem.forRole === permiso) //TODO /*si el item del drawer no tiene forRole, o el arreglo de permisos del usuario autenticado tiene algún permiso en común con el arreglo forRoles del item, se muestra, de lo contrario no.*/
-              "
+                drawerItem.forRole === undefined || (state.loggedUser ?
+                state.loggedUser.permisos.some((permiso) => drawerItem.forRole === permiso)//TODO /*si el item del drawer no tiene forRole, o el arreglo de permisos del usuario autenticado tiene algún permiso en común con el arreglo forRoles del item, se muestra, de lo contrario no.*/
+               : false )"
             />
           </transition-group>
         </template>

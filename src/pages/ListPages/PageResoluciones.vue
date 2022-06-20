@@ -7,21 +7,41 @@
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
+      :isModifying="resolucionObject.id"
     >
       <template v-slot:default>
-        <!-- Nombre resolucion -->
-        <q-input
-          v-model.trim="resolucionObject.descripcion"
+        <q-input v-model="resolucionObject.ano"
+                 filled
+                 :dense="state.dense"
+                 label="Año"
+                 max-length="4" class="q-mb-md"/>
+        <q-select
+          v-model="resolucionExportObject.comisiones"
+          multiple
           :dense="state.dense"
-          :rules="[
-            (val) =>
-              (val && val.length > 0) || 'Este campo no puede estar vacío',
-          ]"
+          :options="comisionesArr"
+          :rules="[val || 'Por favor, seleccione las comisiones']"
           filled
-          autogrow
-          label="Descripción"
+          label="Comisiones"
+          behavior="dialog"
+          map-options
+          option-label="id"
+          emit-value
+          option-value="id"
           lazy-rules
-        />
+        ><template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No hay opciones
+            </q-item-section>
+          </q-item>
+        </template></q-select>
+
+        <!--<q-uploader
+          label="Upload"
+          :factory="factoryFn"
+          style="max-width: 300px"
+        />-->
         <pre class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
 Developer info
 
@@ -35,9 +55,10 @@ Developer info
       heading="Resoluciones"
       rowKey="id"
       @updateList="listarResoluciones"
-      @open-form="(payload) => openForm(payload)"
+      @open-form="(payload) => openForm()"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
+<!--    No hay endpoint en el backend para modificar la resolucion-->
   </q-page>
 </template>
 <script setup>
@@ -51,11 +72,11 @@ import state, {
 } from "src/composables/useState.js";
 const resolucionFields = ref([
   {
-    name: "descripcion",
+    name: "url",
     required: true,
-    label: "Descripción",
+    label: "URL de la resolución",
     align: "left",
-    field: "descripcion",
+    field: "url",
     sortable: true,
   },
   {
@@ -68,7 +89,15 @@ const resolucionFields = ref([
   },
 ]);
 const url = "/resolucion";
+const factoryFn = (file) => {
+  console.log(file);
+  let FormData = require('form-data');
+  let fs = require('fs');
+  let data = new FormData();
+  data.append('file', fs.createReadStream(file));
+  data.append('JSONR', '{"ano":"2052"}', {contentType: 'application/json'});
 
+}
 //listar
 const listarResoluciones = () => listar(resolucionesArr, url);
 // execute on component load
@@ -83,10 +112,12 @@ const closeForm = () => {
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
-const resolucionObject = ref();
+const resolucionObject = ref({});
+const resolucionExportObject = ref({})
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = {}) => {
+const currentYear = new Date().getFullYear().toString()
+const openForm = (obj = { ano : currentYear}) => {
   resolucionObject.value = obj;
   showForm.value = true;
 };
@@ -98,7 +129,7 @@ function submitFormData() {
 }
 //RESET
 function resetFormData() {
-  resolucionObject.value = {};
+  resolucionObject.value = { ano : currentYear};
 }
 
 // delete tuples by array of objects

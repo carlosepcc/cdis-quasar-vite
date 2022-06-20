@@ -76,7 +76,7 @@ const logout = () => {
     </q-item-section>
 
     <q-menu fit :offset="[-10, 10]">
-      {{state.loggedUser}}
+
       <div class="column q-pa-md">
         <div class="row items-center">
           <q-btn
@@ -96,9 +96,6 @@ const logout = () => {
           <q-toggle v-model="state.dense" label="Interfaz densa" />
           <DarkModeControl />
         </div>
-
-
-
       </div>
     </q-menu>
   </q-item>
