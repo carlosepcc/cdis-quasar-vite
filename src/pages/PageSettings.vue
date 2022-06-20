@@ -43,10 +43,10 @@
     </q-btn-toggle>
     <DarkModeControl />
 <hr/>
+    <q-card class="q-pa-md">
     <details>
     <summary>Opciones de desarrollador</summary>
-      <span>Base URL</span>
-    <q-select id="serverUrlsSelect" v-model="axiosBaseURL" autofocus @change="setBaseURL" :options="baseUrlsArr" />
+    <q-select label="Base URL" id="serverUrlsSelect" v-model="axiosBaseURL" autofocus @change="setBaseURL" :options="baseUrlsArr" />
       <q-input
         label="Personalizada"
       style="max-width: 20em"
@@ -60,6 +60,7 @@
       <option value="http://cdisserver.herokuapp.com"></option>
     </datalist>
     </details>
+    </q-card>
   </q-page>
 </template>
 
