@@ -90,8 +90,9 @@ const denunciaFields = ref([
     required: true,
     label: "Procesada",
     align: "left",
-    field: (denuncia)=>denuncia.procesada ? 'Sí' : 'No',
+    field: "procesada",
     sortable: true,
+    format: procesada => procesada ? "Sí" : "No",
   },
 ]);
 

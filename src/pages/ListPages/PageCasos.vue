@@ -3,15 +3,15 @@
     <BaseForm
       v-model="showForm"
       v-show="showForm"
-      formTitle="Rol"
+      formTitle="Caso"
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
     >
       <template v-slot:default>
-        <!-- Nombre rol -->
+        <!-- Nombre caso -->
         <q-input
-          v-model.trim="rolObject.nombre"
+          v-model.trim="casoObject.nombre"
           :dense="state.dense"
           :rules="[
             (val) =>
@@ -23,7 +23,7 @@
           lazy-rules
         />
         <q-select
-          v-model="rolObject.permisos"
+          v-model="casoObject.permisos"
           multiple
           :dense="state.dense"
           :options="permisosArr"
@@ -32,14 +32,23 @@
           label="Permisos"
           lazy-rules
         />
+
+        <q-card v-show="update">
+<q-card-section>
+ {{ casoObject.declaracionList.length }} usuarios han declarado para este caso:
+  <span v-for="declaracionObj in casoObject.declaracionList" :key="declaracionObj.declaracionPK">
+    {{ declaracionObj.declaracionPK.usuario }},
+  </span>
+</q-card-section>
+        </q-card>
       </template>
     </BaseForm>
     <ListPage
-      :columns="rolFields"
-      :rows="rolesArr"
-      heading="Roles"
+      :columns="casoFields"
+      :rows="casosArr"
+      heading="Casos"
       rowKey="id"
-      @updateList="listarRoles"
+      @updateList="listarCasos"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
@@ -50,32 +59,42 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state from "src/composables/useState.js";
-const rolFields = ref([
+import state,{casosArr} from "src/composables/useState.js";
+const casoFields = ref([
   {
-    name: "nombre",
+    name: "denuncia",
     required: true,
-    label: "Nombre",
-    align: "left",
-    field: "nombre",
+    label: "Denuncia",
+    field: caso => caso.denuncia1.descripcion.slice(0,30),
     sortable: true,
   },
   {
-    name: "permisos",
+    name: "fechaapertura",
     required: true,
-    label: "Permisos",
-    align: "left",
-    field: "permisos",
+    label: "Fecha de apertura",
+    field: "fechaapertura",
+    sortable: true,
+  },
+  {
+    name: "fechaexpiracion",
+    required: true,
+    label: "Fecha de expiración",
+    field: "fechaexpiracion",
+    sortable: true,
+  },
+  {
+    name: "abierto",
+    required: true,
+    label: "Abierto",
+    field: (caso) => caso.abierto ? 'Sí' : 'No',
     sortable: true,
   },
 ]);
-const rolesArr = ref([]);
-const permisosArr = ref(["ROLE_MOD"]);
-const url = "/rol";
+const url = "/caso";
 
 //listar
-const listarRoles = () => listar(rolesArr, url);
-// execute on component load listarRoles();
+const listarCasos = () => listar(casosArr, url);
+// execute on component load listarCasos();
 
 //form dialog model
 const showForm = ref(false);
@@ -86,24 +105,25 @@ const closeForm = () => {
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
-const rolObject = ref({});
+const casoObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { permisos: permisosArr.value[0] }) => {
-  rolObject.value = obj;
+const openForm = (obj = {}) => {
+  casoObject.value = obj;
   showForm.value = true;
 };
 
+const update = ref(casoObject.value.casoPK !== undefined)
 //SUBMIT
 function submitFormData() {
-  guardar(rolObject.value, rolesArr, url);
+  guardar(casoObject.value, casosArr, url, update.value);
 }
 //RESET
 function resetFormData() {
-  rolObject.value = null;
+  casoObject.value = null;
 }
 
 // delete tuples by array of objects
 const deleteTuples = (selectedRows = []) =>
-  eliminar(selectedRows, rolesArr, url);
+  eliminar(selectedRows, casosArr, url);
 </script>
