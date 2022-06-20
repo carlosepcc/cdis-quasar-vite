@@ -61,24 +61,8 @@ import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
 import state, { usersArr, denunciasArr } from "src/composables/useState.js";
 
-
 const denunciaFields = ref([
-  {
-    name: "denunciante",
-    required: true,
-    label: "Denunciante",
-    align: "left",
-    field: "denunciante",
-    sortable: true,
-  },
-  {
-    name: "acusados",
-    required: true,
-    label: "Estudiantes implicados",
-    align: "left",
-    field: "acusados",
-    sortable: true,
-  },
+ /* {name: "acusados",    required: true,    label: "Estudiantes implicados",    align: "left",    field: "acusados",    sortable: true,},*/
   {
     name: "fecha",
     required: true,
@@ -86,21 +70,26 @@ const denunciaFields = ref([
     align: "left",
     field: "fecha",
     sortable: true,
-  },
-  {
+  },{
     name: "descripcion",
     required: true,
     label: "Descripción",
     align: "left",
     field: "descripcion",
     sortable: true,
-  },
-  {
+  },{
+    name: "denunciante",
+    required: true,
+    label: "Denunciante",
+    align: "left",
+    field: "denunciante",
+    sortable: true,
+  },{
     name: "procesada",
     required: true,
     label: "Procesada",
     align: "left",
-    field: "procesada",
+    field: (denuncia)=>denuncia.procesada ? 'Sí' : 'No',
     sortable: true,
   },
 ]);
@@ -109,8 +98,7 @@ const url = "/denuncia";
 
 //listar
 const listarDenuncias = () => listar(denunciasArr, url);
-// execute on component load
-listarDenuncias();
+// execute on component load listarDenuncias();
 
 //form dialog model
 const showForm = ref(false);
@@ -124,7 +112,7 @@ const closeForm = () => {
 const denunciaObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj = { descripcion: "Sucedio que" }) => {
+const openForm = (obj = { descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore" }) => {
   denunciaObject.value = obj;
   showForm.value = true;
 };
@@ -132,10 +120,11 @@ const openForm = (obj = { descripcion: "Sucedio que" }) => {
 //SUBMIT
 function submitFormData() {
   guardar(denunciaObject.value, denunciasArr, url);
+  closeForm()
 }
 //RESET
 function resetFormData() {
-  denunciaObject.value = null;
+  denunciaObject.value = {descripcion:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"};
 }
 
 // delete tuples by array of objects

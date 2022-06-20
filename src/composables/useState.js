@@ -13,7 +13,15 @@ const state = ref({
 
 export const resolucionesArr = ref([])
 export const rolesArr = ref([]);
-export const denunciasArr = ref([]);
+export const denunciasArr = ref([
+    {"id":1,"denunciante":"admin","fecha":"2022-06-18","procesada":false,
+      "descripcion":"En la noche..","usuarioList":[]},
+    {"id":2,"denunciante":"admin","fecha":"2022-06-18","procesada":false,
+      "descripcion":"Sucedio que","usuarioList":[
+        {"usuario":"admin","nombre":"admin","contrasena":"$","cargo":"ADMIN",},
+      ],
+    }
+  ]);
 export const casosArr = ref([]);
 export const declaracionesArr = ref([]);
 export const comisionesArr = ref([]);
@@ -231,5 +239,11 @@ export const permisosArrToLabeled = (permisosObjs) => {
     (permisoObj) => (permisoObj.label = permisoStrToLabel(permisoObj.permiso))
   );
 };
+
+export const userHasPermission =
+  (permisoStr = "ROlE_R_DENUNCIA", user = state.value.loggedUser) =>
+    user ?
+    user.permisos.some((permisoObj) => permisoStr === permisoObj.permiso)
+    : false
 
 export default state;

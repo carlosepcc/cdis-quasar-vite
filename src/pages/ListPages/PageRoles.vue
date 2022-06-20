@@ -35,6 +35,7 @@
           map-options
           multiple
           use-chips
+          behavior="dialog"
           :rules="[
             (val) =>
               (val && val.length > 0) || 'Este campo no puede estar vacío',

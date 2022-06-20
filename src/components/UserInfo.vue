@@ -1,6 +1,6 @@
 <script setup>
 import DarkModeControl from './DarkModeControl.vue';
-import state from "src/composables/useState"
+import state from "src/composables/useState.js"
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router"
 const $router = useRouter()
@@ -34,7 +34,7 @@ const logout = () => {
     clickable
     v-ripple
     class="text-white q-py-none absolute-right"
-    :title="state.loggedUser.username + '. ' + state.loggedUser.nombre + '. ' + state.loggedUser.roles"
+    :title="state.loggedUser.usuario + '. ' + state.loggedUser.nombre + '. ' + state.loggedUser.permisos"
   >
     <!--    INFORMACIÓN DEL USUARIO-->
     <q-item-section>
@@ -76,18 +76,10 @@ const logout = () => {
     </q-item-section>
 
     <q-menu fit :offset="[-10, 10]">
-      <div class="row no-wrap q-pa-md">
-        <div class="column">
-          <div class="text-weight-light text-uppercase q-mb-md">Ajustes</div>
-          <q-toggle v-model="state.dense" label="Interfaz densa" />
-          <DarkModeControl />
-        </div>
-
-        <q-separator vertical inset class="q-mx-lg" />
-
-        <div class="column items-center">
+      {{state.loggedUser}}
+      <div class="column q-pa-md">
+        <div class="row items-center">
           <q-btn
-            :dense="state.dense"
             icon="r_logout"
             color="negative"
             label="Cerrar sesión"
@@ -98,6 +90,15 @@ const logout = () => {
             @click="logout"
           />
         </div>
+        <q-separator inset class="q-ma-md" />
+        <div class="column">
+          <q-btn flat to="/settings" label="Ajustes"  class="text-weight-light"/>
+          <q-toggle v-model="state.dense" label="Interfaz densa" />
+          <DarkModeControl />
+        </div>
+
+
+
       </div>
     </q-menu>
   </q-item>
