@@ -9,6 +9,7 @@ const state = ref({
   grid: Screen.lt.sm,
   dark: hours > 18 || hours < 7, //fallback from $q.dark
   loggedUser: false,
+  mockUser:{"rol": "ROLE_ADMIN", "permisos": [ "ROLE_C_COMISION", "ROLE_U_COMISION", "ROLE_R_COMISION", "ROLE_C_CASO", ],"nombre": "Naielhi", "usuario": "naie", "cargo": "Profesor", "idrol": -1 }
 });
 
 export const resolucionesArr = ref([])
