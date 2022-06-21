@@ -81,7 +81,7 @@ autorizar();
     <q-footer reveal class="bg-primary text-white q-pa-xs q-px-sm">
       <q-avatar size="sm">
         <img
-          src="src/public/brand/brand-imagotipo-mini.png"
+          src="src/public/brand/imagotipo-mini.png"
           style="opacity: 0.5"
           alt
         />

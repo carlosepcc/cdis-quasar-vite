@@ -289,7 +289,7 @@ const notifyError = (error, noti, heading = "Acción fallida", notiConfig) => {
       error
     );
 
-    notiConfig.message = `${heading}. ${error.message}.`;
+    notiConfig.message = `${heading}. ${error.message ? error.message : ''}.`;
     noti(notiConfig);
   }
 };

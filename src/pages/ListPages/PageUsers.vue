@@ -38,20 +38,22 @@
       :rows="usersArr"
       heading="Usuarios"
       rowKey="username"
-      @updateList="listarUsers"
+      @updateList="listar"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
+    <DevInfo>
+      {{usersArr}}
+    </DevInfo>
   </q-page>
 </template>
 <script setup>
 import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
+import DevInfo from "components/DevInfo.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state from "src/composables/useState.js";
-
-import { usersArr } from "src/composables/useState.js";
+import state, {usersArr} from "src/composables/useState.js";
 
 const userFields = ref([
   {
@@ -63,11 +65,11 @@ const userFields = ref([
     sortable: true,
   },
   {
-    name: "username",
+    name: "usuario",
     required: true,
     label: "Usuario",
     align: "left",
-    field: "username",
+    field: "usuario",
     sortable: true,
   },
   {
@@ -79,19 +81,17 @@ const userFields = ref([
     sortable: true,
   },
   {
-    name: "permisos",
-    required: true,
-    label: "Permisos",
+    name: "rol",
+    label: "Rol",
     align: "center",
-    field: "permisos",
+    field: (u) => u.rol.rol,
     sortable: true,
   },
 ]);
-const url = "/user";
+const url = "/usuario";
 
-//listar
-const listarUsers = () => listar(usersArr, url);
-// execute on component load listarUsers();
+// execute on component load
+listar()
 
 //form dialog model
 const showForm = ref(false);
@@ -99,12 +99,12 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
-  listarUsers()
+  listar()
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
 const userObject = ref({});
-con
+
 //openForm triggered on: Nueva entrada, Modificar
 const openForm = (obj) => {
   userObject.value = obj;
@@ -113,7 +113,7 @@ const openForm = (obj) => {
 
 //SUBMIT
 function submitFormData() {
-  guardar(userObject.value, usersArr, `${url}/crear`);
+  guardar(userObject.value, usersArr, url);
 }
 //RESET
 function resetFormData() {

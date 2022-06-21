@@ -66,12 +66,9 @@
               :label="`Comisión ${ resolucionObject.comisiones.length + 1 }`"
               @click="resolucionObject.comisiones.push({presidente:'',secretario:''})"
        />
-<details v-if="state.loggedUser.usuario == 'admin'">
-  <summary>Dev info</summary>
-  <pre class="text-caption">
-{{ resolucionObject }}
-        </pre>
-</details>
+<DevInfo>
+  {{ resolucionObject }}
+</DevInfo>
       </template>
     </BaseForm>
     <ListPage
@@ -90,6 +87,7 @@
 import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
+import DevInfo from "components/DevInfo.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
 import state, {
   usersArr,

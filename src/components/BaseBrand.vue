@@ -48,9 +48,6 @@ const props = defineProps({
   /* box-shadow: 0 2px 0 0 var(--brand); just if it's needed outside a colored bar*/
   background: linear-gradient(140deg, var(--brand) 30%, #fff 80%);
 }
-.xedro-bar .brand {
-  color: var(--brand);
-}
 
 #brand-frame {
   resize: horizontal;
@@ -112,6 +109,7 @@ const props = defineProps({
 }
 .brand {
   /* color: var(--brand); only if needed outside quasar */
+  color: #E0742D;
   text-transform: uppercase;
   display: block;
   margin-bottom: -12px;

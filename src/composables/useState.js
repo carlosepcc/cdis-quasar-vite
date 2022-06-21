@@ -192,19 +192,28 @@ export const usersArr = ref([
     nombre: "Admin",
     usuario: "admin",
     cargo: "Administrador",
-    permisos: permisosArr.value,
+    rol: {
+      id: 2,
+      rol: "ROLE_ADMIN"
+    },
   },
   {
     nombre: "Ana Rodríguez Mogotes",
     usuario: "ana",
     cargo: "Estudiante",
-    permisos: ["ROLE_C_ROL"],
+    rol: {
+      id: 3,
+      rol: "ROLE_PRESIDENTE_C"
+    },
   },
   {
     nombre: "Era Goneiro Pinales",
     usuario: "era",
     cargo: "Decano",
-    permisos: ["ROLE_C_DENUNCIA"],
+    rol: {
+      id: 4,
+      rol: "ROLE_SECRETARIO_C"
+    },
   },
 ]);
 //def: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
