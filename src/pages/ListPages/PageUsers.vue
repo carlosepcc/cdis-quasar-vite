@@ -99,11 +99,12 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
+  listarUsers()
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
 const userObject = ref({});
-
+con
 //openForm triggered on: Nueva entrada, Modificar
 const openForm = (obj) => {
   userObject.value = obj;

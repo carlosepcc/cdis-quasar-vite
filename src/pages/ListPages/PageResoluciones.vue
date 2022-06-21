@@ -15,8 +15,49 @@
                  :dense="state.dense"
                  label="Año"
                  max-length="4" class="q-mb-md"/>
+
+<!--        COMISIONES-->
+        <q-card v-for="(c,index) in comisiones" flat bordered class="my-card bg-grey-1">
+          <q-card-section>
+            <div class="row items-center no-wrap">
+              <div class="col">
+                <div class="text-light">Comisión {{ index+1 }}</div>
+              </div>
+
+              <div class="col-auto">
+                <q-btn color="grey-7" round flat icon="more_vert">
+                  <q-menu cover auto-close>
+                    <q-list>
+                      <q-item clickable>
+                        <q-item-section>Remove Card</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Send Feedback</q-item-section>
+                      </q-item>
+                      <q-item clickable>
+                        <q-item-section>Share</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-btn>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-actions>
+            <q-btn flat>Action 1</q-btn>
+            <q-btn flat>Action 2</q-btn>
+          </q-card-actions>
+        </q-card>
+
         <q-select
-          v-model="resolucionExportObject.comisiones"
+          v-model="resolucionObject.comisiones"
           multiple
           :dense="state.dense"
           :options="comisionesArr"
@@ -26,10 +67,9 @@
           behavior="dialog"
           map-options
           option-label="id"
-          emit-value
-          option-value="id"
           lazy-rules
-        ><template v-slot:no-option>
+        >
+          <template v-slot:no-option>
           <q-item>
             <q-item-section class="text-grey">
               No hay opciones
@@ -70,6 +110,8 @@ import state, {
   permisosArr,
   resolucionesArr,
 } from "src/composables/useState.js";
+
+const comisiones = ref([{}])
 const resolucionFields = ref([
   {
     name: "url",
@@ -109,6 +151,7 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
+  listarResoluciones();
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)

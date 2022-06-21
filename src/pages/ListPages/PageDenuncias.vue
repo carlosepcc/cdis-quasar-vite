@@ -1,12 +1,13 @@
 <template>
-  <q-page class="q-pb-xl" padding>
+  <q-page padding>
     <BaseForm
       v-model="showForm"
       v-show="showForm"
-      formTitle="Denuncia"
+      :formTitle="`Denuncia ${denunciaObject.idDenuncia ? denunciaObject.idDenuncia : ''}`"
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
+      :isModifying="update"
     >
       <template v-slot:default>
         <q-select
@@ -17,11 +18,12 @@
           :rules="[val || 'Por favor, seleccione algo']"
           filled
           label="Estudiantes implicados"
+          use-chips
           lazy-rules
           map-options
           option-label="nombre"
           emit-value
-          option-value="username"
+          option-value="usuario"
           behavior="dialog"
         />
         <!-- Descripción denuncia -->
@@ -56,7 +58,7 @@ Developer info
   </q-page>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref,computed } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
@@ -100,7 +102,8 @@ const url = "/denuncia";
 
 //listar
 const listarDenuncias = () => listar(denunciasArr, url);
-// execute on component load listarDenuncias();
+// execute on component load
+listarDenuncias();
 
 //form dialog model
 const showForm = ref(false);
@@ -108,20 +111,31 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
+  listarDenuncias()
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
 const denunciaObject = ref({});
+const denunciaRowObject = ref({})
 
+const update = computed(()=> denunciaObject.value.idDenuncia !== undefined)
 //openForm triggered on: Nueva entrada, Modificar
 const openForm = (obj = { descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore" }) => {
-  denunciaObject.value = obj;
+ denunciaRowObject.value = obj
+  let denunciaDto = {}
+  if (obj.id){
+    denunciaDto.idDenuncia = obj.id
+    denunciaDto.descripcion = obj.descripcion
+    denunciaDto.acusados = obj.acusados.map(acusado => acusado.usuario)
+ }
+  denunciaObject.value = denunciaDto;
   showForm.value = true;
 };
 
+
 //SUBMIT
 function submitFormData() {
-  guardar(denunciaObject.value, denunciasArr, url);
+  guardar(denunciaObject.value, denunciasArr, url, update);
   closeForm()
 }
 //RESET

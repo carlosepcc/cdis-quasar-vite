@@ -12,7 +12,7 @@ const props = defineProps({
   <div class="row">
     <div class="column gt-xs">
       <q-avatar>
-        <img src="src/public/icons/imagotipo.svg" alt="" width="48" height="48" />
+        <img src="src/public/brand/imagotipo-delujo.webp" alt="" width="48" height="48" />
       </q-avatar>
     </div>
     <div class="column">

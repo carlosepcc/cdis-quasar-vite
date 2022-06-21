@@ -102,6 +102,7 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
+  listarCasos()
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)

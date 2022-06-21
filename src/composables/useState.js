@@ -14,15 +14,7 @@ const state = ref({
 
 export const resolucionesArr = ref([])
 export const rolesArr = ref([]);
-export const denunciasArr = ref([
-    {"id":1,"denunciante":"admin","fecha":"2022-06-18","procesada":false,
-      "descripcion":"En la noche..","usuarioList":[]},
-    {"id":2,"denunciante":"admin","fecha":"2022-06-18","procesada":false,
-      "descripcion":"Sucedio que","usuarioList":[
-        {"usuario":"admin","nombre":"admin","contrasena":"$","cargo":"ADMIN",},
-      ],
-    }
-  ]);
+export const denunciasArr = ref([]);
 export const casosArr = ref([]);
 export const declaracionesArr = ref([]);
 export const comisionesArr = ref([]);
@@ -198,24 +190,24 @@ watch(permisosArr,()=>permisosArrToLabeled(permisosArr.value)) // Se actualizan 
 export const usersArr = ref([
   {
     nombre: "Admin",
-    username: "admin",
+    usuario: "admin",
     cargo: "Administrador",
     permisos: permisosArr.value,
   },
   {
-    nombre: "Ana Rodríguez",
-    username: "ana",
+    nombre: "Ana Rodríguez Mogotes",
+    usuario: "ana",
     cargo: "Estudiante",
     permisos: ["ROLE_C_ROL"],
   },
   {
-    nombre: "Era González",
-    username: "era",
+    nombre: "Era Goneiro Pinales",
+    usuario: "era",
     cargo: "Decano",
     permisos: ["ROLE_C_DENUNCIA"],
   },
 ]);
-//F: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
+//def: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
 export const permisoStrToLabel = (permisoStr) => {
   let permisoLabel = permisoStr;
   let rules = [
@@ -234,7 +226,7 @@ export const permisoStrToLabel = (permisoStr) => {
   return permisoLabel;
 };
 
-//F: Recibe un arreglo de objetos de permiso y les anhade a cada uno un atributo label usando la funcion permisoStrToLabel en base al atributo permiso
+//def: Recibe un arreglo de objetos de permiso y les anhade a cada uno un atributo label usando la funcion permisoStrToLabel en base al atributo permiso
 export const permisosArrToLabeled = (permisosObjs) => {
   permisosObjs.forEach(
     (permisoObj) => (permisoObj.label = permisoStrToLabel(permisoObj.permiso))

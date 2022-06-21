@@ -140,9 +140,9 @@ const listar = (list = usersArr, url = "/usuario") => {
 };
 
 // Pedir registro de nuevo objeto o la modificación de uno existente en la base de datos
-export const guardar = (object, refArr, url = "/usuario", update = object.id) => {
-  console.log("🚀 useAPI 162 guardar refArr", refArr);
-  console.log("🚀 useAPI 162 guardar object", object);
+export const guardar = (object, refArr, url = "/usuario", update = object.id !== undefined) => {
+  console.log("🚀 useAPI guardar object ", object);
+  console.log("🚀 useAPI guardar Actualizando? ", update);
   let noti = Notify.create({
     type: "ongoing",
     message: `Guardando. ${url}`,
@@ -155,7 +155,7 @@ export const guardar = (object, refArr, url = "/usuario", update = object.id) =>
     url: url,
     data: object,
     headers: {
-      "Content-Type": object.files ? "multipart/form-data" : "application/json",
+      "Content-Type": object.file ? "multipart/form-data" : "application/json",
     }
   })
     .then((response) => {

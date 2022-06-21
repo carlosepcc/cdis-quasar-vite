@@ -51,7 +51,7 @@
       :fullscreen="isTableFullscreen"
       :grid="isTableGrid"
       :hide-header="isTableGrid"
-      :pagination="{ rowsPerPage: 20 }"
+      :pagination="{ rowsPerPage: 15 }"
       :row-key="rowKey"
       :rows="rows"
       :title="heading"
@@ -59,6 +59,7 @@
       rows-per-page-label="Filas por página"
       selection="multiple"
       separator="vertical"
+      table-style="max-height:55vh"
     >
 
       <!-- :flat="!isTableGrid" -->
@@ -67,12 +68,7 @@
         <div class="row">
           <!-- NUEVA ENTRADA -->
           <q-btn
-            v-if="
-              !(
-                heading == 'Reportes técnicos' &&
-                state.loggedUser.roles[0] == 'Coordinador_de_calidad'
-              )
-            "
+            v-if="showAddButton"
             v-show="isTableFullscreen || $q.screen.gt.xs"
             :dense="s.dense"
             flat
@@ -258,10 +254,10 @@ const props = defineProps({
   heading: String,
   rows: Array,
   columns: Array,
-  rowKey: {
-    type: String,
-    default: "id",
-  },
+  rowKey: { type:String, default: "id" },
+  showAddButton: { type:Boolean, default: true },
+  showDeleteButton: { type:Boolean, default: true },
+  showUpdateButton: { type:Boolean, default: true },
 });
 const emit = defineEmits(["openForm", "deleteRows", "updateList"]);
 

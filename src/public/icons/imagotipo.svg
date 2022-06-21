@@ -56,15 +56,15 @@
        y2="0%">
       <stop
          offset="0%"
-         style="stop-color:#D68F1F"
+         style="stop-color:#FFCC05"
          id="stop2" />
       <stop
          offset="40%"
-         style="stop-color:#962"
+         style="stop-color:#F16639"
          id="stop4" />
       <stop
          offset="60%"
-         style="stop-color:#D68F1F"
+         style="stop-color:#FFCC05"
          id="stop6" />
     </linearGradient>
   </defs>

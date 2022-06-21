@@ -57,8 +57,6 @@ rol se enviará como {{ rolObject.rol.toUpperCase().replace(/\s/g,'_') }}
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
-    <pre>
-    {{rolesArr[0]}}</pre>
   </q-page>
 </template>
 <script setup>
@@ -106,6 +104,7 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
+  listarRoles()
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)

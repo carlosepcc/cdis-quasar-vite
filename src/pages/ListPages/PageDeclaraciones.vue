@@ -128,7 +128,7 @@ const url = "/declaracion";
 
 //listar
 const listarDeclaraciones = () => listar(declaracionesArr, url);
-// execute on component load 
+// execute on component load
 listarDeclaraciones();
 
 //form dialog model
@@ -137,6 +137,7 @@ const showForm = ref(false);
 //closeForm triggered on: Cancel
 const closeForm = () => {
   showForm.value = false;
+  listarDeclaraciones()
 };
 
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)

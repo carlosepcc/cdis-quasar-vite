@@ -104,6 +104,7 @@ autorizar();
   width: 100%;
   padding-left: 0;
   padding-inline-start: 0;
+  max-height:3em;
 }
 .xedro-bar {
   /* box-shadow: 0 2px 0 0 var(--xedro); just if it's needed outside a colored bar*/
@@ -119,13 +120,14 @@ autorizar();
   flex-direction: row;
   align-items: center;
   column-gap: 8px;
-  height: fit-content;
+  min-height: fit-content;
+  height: 3rem;
   width: 35%;
   min-width: fit-content;
   max-width: 24rem;
   border-bottom-right-radius: 90px 100px;
   background: linear-gradient(#fff 50%, #dedede);
-  padding: 8px;
+  padding: 4px;
   padding-right: 32px;
   -webkit-box-shadow: 2px 0 12px -2px #0005;
   box-shadow: 2px 0 12px -2px #0005;
