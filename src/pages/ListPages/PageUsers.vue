@@ -10,7 +10,7 @@
     >
       <template v-slot:default>
         <q-select
-          v-model="userObject.username"
+          v-model="userObject.usuario"
           :dense="state.dense"
           :options="usersArr"
           :rules="[val || 'Por favor, seleccione algo']"
@@ -20,18 +20,23 @@
           map-options
           option-label="nombre"
           emit-value
-          option-value="username"
+          option-value="usuario"
         />
         <q-select
-          v-model="userObject.permisos"
+          v-model="userObject.rol"
           :dense="state.dense"
-          :options="usersArr"
+          :options="rolesArr"
           :rules="[val || 'Por favor, seleccione algo']"
           filled
-          label="Permisos"
+          label="Rol"
           lazy-rules
         />
       </template>
+<!--
+      <DevInfo>
+           update: {{update}}
+           userObject: {{userObject}}
+       </DevInfo>-->
     </BaseForm>
     <ListPage
       :columns="userFields"
@@ -53,7 +58,7 @@ import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import DevInfo from "components/DevInfo.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state, {usersArr} from "src/composables/useState.js";
+import state, {usersArr,rolesArr} from "src/composables/useState.js";
 
 const userFields = ref([
   {
@@ -92,6 +97,7 @@ const url = "/usuario";
 
 // execute on component load
 listar()
+listar(rolesArr,'/rol')
 
 //form dialog model
 const showForm = ref(false);
@@ -106,7 +112,7 @@ const closeForm = () => {
 const userObject = ref({});
 
 //openForm triggered on: Nueva entrada, Modificar
-const openForm = (obj) => {
+const openForm = (obj = {}) => {
   userObject.value = obj;
   showForm.value = true;
 };
