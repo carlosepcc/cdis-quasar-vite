@@ -17,76 +17,61 @@
                  max-length="4" class="q-mb-md"/>
 
 <!--        COMISIONES-->
-        <q-card v-for="(c,index) in comisiones" flat bordered class="my-card bg-grey-1">
-          <q-card-section>
+        <q-card v-for="(c,i) in resolucionObject.comisiones" :key="i" flat bordered class="my-card bg-grey-1">
+          <q-card-section class="q-pa-xs q-pl-sm q-pr-none">
             <div class="row items-center no-wrap">
               <div class="col">
-                <div class="text-light">Comisión {{ index+1 }}</div>
+                <div class="text-light">Comisión {{ i + 1 }}</div>
               </div>
 
               <div class="col-auto">
-                <q-btn color="grey-7" round flat icon="more_vert">
-                  <q-menu cover auto-close>
-                    <q-list>
-                      <q-item clickable>
-                        <q-item-section>Remove Card</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Send Feedback</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Share</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
+                <q-btn color="negative" size="sm" title="Descartar comisión" flat icon="r_close"
+                       @click="resolucionObject.comisiones.splice(i,1)"
+                />
               </div>
             </div>
           </q-card-section>
-
+<q-separator/>
           <q-card-section>
-            {{ lorem }}
+            <q-select
+              v-model="c.presidente"
+              :dense="state.dense"
+              :options="usersArr"
+              :rules="[val || 'Por favor, seleccione un presidente']"
+              filled
+              label="Presidente"
+              lazy-rules
+              map-options
+              option-label="nombre"
+              emit-value
+              option-value="usuario"
+            />
+            <q-select
+              v-model="c.secretario"
+              :dense="state.dense"
+              :options="usersArr"
+              :rules="[val || 'Por favor, seleccione un secretario']"
+              filled
+              label="Secretario"
+              lazy-rules
+              map-options
+              option-label="nombre"
+              emit-value
+              option-value="usuario"
+            />
           </q-card-section>
-
-          <q-separator />
-
-          <q-card-actions>
-            <q-btn flat>Action 1</q-btn>
-            <q-btn flat>Action 2</q-btn>
-          </q-card-actions>
         </q-card>
 
-        <q-select
-          v-model="resolucionObject.comisiones"
-          multiple
-          :dense="state.dense"
-          :options="comisionesArr"
-          :rules="[val || 'Por favor, seleccione las comisiones']"
-          filled
-          label="Comisiones"
-          behavior="dialog"
-          map-options
-          option-label="id"
-          lazy-rules
-        >
-          <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey">
-              No hay opciones
-            </q-item-section>
-          </q-item>
-        </template></q-select>
-
-        <!--<q-uploader
-          label="Upload"
-          :factory="factoryFn"
-          style="max-width: 300px"
-        />-->
-        <pre class="text-caption" v-if="state.loggedUser.usuario == 'admin'">
-Developer info
-
+       <q-btn flat size="xl" color="grey" icon="r_add" spread no-caps class="full-width"
+              :label="`Comisión ${ resolucionObject.comisiones.length + 1 }`"
+              @click="resolucionObject.comisiones.push({presidente:'',secretario:''})"
+       />
+<details v-if="state.loggedUser.usuario == 'admin'">
+  <summary>Dev info</summary>
+  <pre class="text-caption">
 {{ resolucionObject }}
         </pre>
+</details>
       </template>
     </BaseForm>
     <ListPage
@@ -107,11 +92,11 @@ import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
 import state, {
+  usersArr,
   permisosArr,
   resolucionesArr,
 } from "src/composables/useState.js";
 
-const comisiones = ref([{}])
 const resolucionFields = ref([
   {
     name: "url",
@@ -131,19 +116,12 @@ const resolucionFields = ref([
   },
 ]);
 const url = "/resolucion";
-const factoryFn = (file) => {
-  console.log(file);
-  let FormData = require('form-data');
-  let fs = require('fs');
-  let data = new FormData();
-  data.append('file', fs.createReadStream(file));
-  data.append('JSONR', '{"ano":"2052"}', {contentType: 'application/json'});
 
-}
 //listar
 const listarResoluciones = () => listar(resolucionesArr, url);
 // execute on component load
 listarResoluciones();
+//listar()//Listar usuarios es el comportamiento por defecto
 
 //form dialog model
 const showForm = ref(false);
@@ -159,8 +137,9 @@ const resolucionObject = ref({});
 const resolucionExportObject = ref({})
 
 //openForm triggered on: Nueva entrada, Modificar
-const currentYear = new Date().getFullYear().toString()
-const openForm = (obj = { ano : currentYear}) => {
+const currentYear = new Date().getFullYear()
+const curso = `${currentYear}-${currentYear+1}`
+const openForm = (obj = { ano : curso, comisiones:[{}]}) => {
   resolucionObject.value = obj;
   showForm.value = true;
 };
@@ -172,7 +151,7 @@ function submitFormData() {
 }
 //RESET
 function resetFormData() {
-  resolucionObject.value = { ano : currentYear};
+  resolucionObject.value = { ano : curso, comisiones:[{}]};
 }
 
 // delete tuples by array of objects
