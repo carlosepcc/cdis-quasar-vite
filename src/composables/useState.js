@@ -188,7 +188,7 @@ watch(permisosArr,()=>permisosArrToLabeled(permisosArr.value)) // Se actualizan 
 
 // Usuarios registrados
 export const usersArr = ref([
-  {
+  /*{
     nombre: "Admin",
     usuario: "admin",
     cargo: "Administrador",
@@ -214,7 +214,7 @@ export const usersArr = ref([
       id: 4,
       rol: "ROLE_SECRETARIO_C"
     },
-  },
+  },*/
 ]);
 //def: recibe una cadena y la transforma de "ROLE_C_EJEMPLO" a "Crear ejemplo"
 export const permisoStrToLabel = (permisoStr) => {

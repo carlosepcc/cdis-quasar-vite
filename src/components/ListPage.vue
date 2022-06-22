@@ -57,7 +57,7 @@
       :title="heading"
       grid-header
       rows-per-page-label="Filas por página"
-      selection="multiple"
+      :selection="canDelete ? 'multiple' : 'none'"
       separator="vertical"
       table-style="max-height:55vh"
     >
@@ -66,38 +66,14 @@
       <!-- TODO :loading="loading" -->
       <template v-slot:top-left>
         <div class="row">
-          <!-- NUEVA ENTRADA -->
-          <q-btn
-            v-if="showAddButton"
-            v-show="isTableFullscreen || $q.screen.gt.xs"
-            :dense="s.dense"
-            flat
-            icon="add"
-            label="Nueva"
-            no-caps
-            title="Añadir una nueva entrada en la tabla"
-            @click="$emit('openForm')"
-          />
-
-          <!--🗑️ ELIMINAR SELECCIÓN-->
-          <q-btn
-            :dense="s.dense"
-            v-show="selected.length != 0"
-            flat
-            icon="delete"
-            label="Eliminar selección"
-            no-caps
-            text-color="negative"
-            @click="$emit('deleteRows', selected)"
-          />
+          <!-- Refrescar-->
+          <q-btn flat icon="refresh" title="Actualizar datos" @click="$emit('updateList')"/>
 
           <!-- FILTER -->
           <q-input
             v-model="filter"
             :dense="s.dense"
             borderless
-            bottom-slots
-            hide-bottom-space
             label="Filtrar"
             placeholder="Escriba para filtrar.."
             title="Filtrar los elementos de la tabla por coincidencia de texto"
@@ -118,18 +94,71 @@
       </template>
 
       <template v-slot:top-right>
-        <!-- Refrescar-->
-        <q-btn flat icon="refresh" round title="Actualizar datos" @click="$emit('updateList')"/>
-        <!-- FULLSCREEN -->
-        <q-toggle
-          v-model="isTableFullscreen"
+        <!--🗑️ ELIMINAR SELECCIÓN-->
+        <q-btn
+          v-if="canDelete"
           :dense="s.dense"
-          icon="r_fullscreen"
-          size="lg"
+          v-show="selected.length != 0"
+          flat
+          icon="r_delete_sweep"
+          label="Eliminar selección"
+          no-caps
+          text-color="negative"
+          @click="$emit('deleteRows', selected)"
+        />
+
+        <!-- NUEVA ENTRADA -->
+        <q-btn
+          v-if="canCreate || props.canUpdate"
+          :icon="canCreate ? 'r_add' : 'r_edit'"
+          :title="canCreate ? 'Adicionar nueva entrada' : 'Modificar entrada existente'"
+          v-show="isTableFullscreen || $q.screen.gt.xs"
+          :dense="s.dense"
+          flat
+          no-caps
+          @click="$emit('openForm')"
+        ><slot name="input-btn">{{canCreate ? 'Nueva' : 'Modificar'}}</slot></q-btn>
+
+        <!-- FULLSCREEN -->
+        <q-btn
           title="Pantalla completa"
+          flat round dense
+          :icon="isTableFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="toggleFullscreen"
         />
       </template>
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th class="actions-column">
+            <template v-if="!canDelete">
+              Acciones
+            </template>
+            <template v-else>
+            <!--🗑️ ELIMINAR SELECCIÓN-->
+            <q-btn
+              :dense="s.dense"
+              v-show="selected.length > -1"
+              :disabled="selected.length === 0"
+              flat
+              icon="r_delete_sweep"
+              title="Eliminar selección"
+              no-caps
+              class="full-width"
+              text-color="negative"
+              @click="$emit('deleteRows', selected)"
+            />
+          </template>
+          </q-th>
 
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+          >
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
       <template v-slot:body="props">
         <q-tr
           :props="props"
@@ -138,16 +167,17 @@
           title="Haga click para ver o modificar esta entrada"
           @click="$emit('openForm', props.row)"
         >
-          <q-td auto-width>
-            <q-checkbox v-model="props.selected" :dense="isTableDense"/>
 
+          <q-td auto-width class="actions-column">
+            <q-checkbox v-if="canDelete" v-model="props.selected" :dense="isTableDense"/>
             <!-- TODO: MODIFY -->
             <!-- 📝-->
             <q-btn
-              :dense="isTableDense"
+              spread
+              v-if="canUpdate"
               flat
-              icon="edit"
               round
+              icon="edit"
               size="sm"
               text-color="accent"
               @click.stop="$emit('openForm', props.row)"
@@ -155,10 +185,9 @@
 
             <!-- 🗑-->
             <q-btn
-              :dense="isTableDense"
+              v-if="canDelete"
               flat
               icon="delete"
-              round
               size="sm"
               text-color="negative"
               @click.stop="$emit('deleteRows', [props.row])"
@@ -181,14 +210,15 @@
         >
           <q-card :class="props.selected ? 'bg-grey-2' : ''">
             <!-- CARD HEADER-->
-            <q-card-section>
-              <q-checkbox v-model="props.selected" :label="props.cols[0].value" dense/>
-
+            <q-card-section class="row">
+              <q-checkbox v-if="canDelete" v-model="props.selected" :label="props.cols[0].value" dense/>
+<q-space/>
               <!-- 📝-->
               <q-btn
+                v-if="canUpdate"
                 :dense="isTableDense"
                 flat
-                icon="edit"
+                icon="r_edit"
                 round
                 size="sm"
                 text-color="accent"
@@ -197,9 +227,10 @@
 
               <!-- 🗑-->
               <q-btn
+                v-if="canDelete"
                 :dense="isTableDense"
                 flat
-                icon="delete"
+                icon="r_delete"
                 round
                 size="sm"
                 text-color="negative"
@@ -227,11 +258,12 @@
 
     <q-page-sticky :offset="[18, 18]" class="lt-sm">
       <q-btn
+        v-if="canCreate || canUpdate"
+        :icon="canCreate ? 'r_add' : 'r_edit'"
+        :title="canCreate ? 'Adicionar nueva entrada' : 'Modificar entrada existente'"
         color="accent"
         fab
-        icon="add"
         position="bottom-right"
-        title="Nueva entrada"
         @click="$emit('openForm')"
       />
     </q-page-sticky>
@@ -255,9 +287,9 @@ const props = defineProps({
   rows: Array,
   columns: Array,
   rowKey: { type:String, default: "id" },
-  showAddButton: { type:Boolean, default: true },
-  showDeleteButton: { type:Boolean, default: true },
-  showUpdateButton: { type:Boolean, default: true },
+  canCreate: { type:Boolean, default: true },
+  canDelete: { type:Boolean, default: true },
+  canUpdate: { type:Boolean, default: true },
 });
 const emit = defineEmits(["openForm", "deleteRows", "updateList"]);
 
@@ -271,3 +303,6 @@ const isTableGrid = ref($q.screen.lt.sm);
 const isTableFullscreen = ref(false);
 const isTableDense = ref($q.screen.lt.sm);
 </script>
+<style>
+.q-table th.actions-column, .q-table td.actions-column {padding:0;}
+</style>

@@ -93,7 +93,7 @@ const declaracionFields = ref([
   {
     name: "abierta",
     required: true,
-    label: "URL de la Declaración",
+    label: "Abierta",
     align: "left",
     field: "abierta",
     sortable: true,

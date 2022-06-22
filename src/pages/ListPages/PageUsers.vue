@@ -7,6 +7,7 @@
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
+      :isModifying="true"
     >
       <template v-slot:default>
         <q-select
@@ -29,6 +30,9 @@
           :rules="[val || 'Por favor, seleccione algo']"
           filled
           label="Rol"
+          option-label="rol"
+          map-options
+          option-value="id"
           lazy-rules
         />
       </template>
@@ -42,11 +46,15 @@
       :columns="userFields"
       :rows="usersArr"
       heading="Usuarios"
-      rowKey="username"
+      rowKey="usuario"
       @updateList="listar"
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
-    ></ListPage>
+      :canCreate="false"
+      :canDelete="false"
+    >
+      <template v-slot:add-btn>Modificar</template>
+    </ListPage>
     <DevInfo>
       {{usersArr}}
     </DevInfo>
@@ -119,7 +127,7 @@ const openForm = (obj = {}) => {
 
 //SUBMIT
 function submitFormData() {
-  guardar(userObject.value, usersArr, url);
+  guardar(userObject.value, usersArr, url,true);
 }
 //RESET
 function resetFormData() {
