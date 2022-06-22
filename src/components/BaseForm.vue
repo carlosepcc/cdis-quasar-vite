@@ -22,6 +22,7 @@
       <q-card-section>
         <q-form ref="formulario" @submit="onSubmit" @reset="resetFormFields">
           <slot></slot>
+          <slot name="footer">
           <q-btn-group push spread>
             <q-btn
               push
@@ -41,6 +42,7 @@
               icon="r_save"
             />
           </q-btn-group>
+          </slot>
         </q-form>
       </q-card-section>
     </q-card>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--TABLE UI SETTINGS-->
     <div class="q-gutter-sm row items-center">
       <!-- TABLE / GRID -->
       <q-btn-toggle
@@ -42,6 +43,7 @@
         </template>
       </q-btn-toggle>
     </div>
+
     <q-table
       v-model:selected="selected"
       :class="tableClass"
@@ -92,7 +94,6 @@
           </q-input>
         </div>
       </template>
-
       <template v-slot:top-right>
         <!--🗑️ ELIMINAR SELECCIÓN-->
         <q-btn
@@ -125,7 +126,7 @@
           title="Pantalla completa"
           flat round dense
           :icon="isTableFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-          @click="toggleFullscreen"
+          @click="isTableFullscreen = !isTableFullscreen"
         />
       </template>
       <template v-slot:header="props">
@@ -164,7 +165,6 @@
         <q-tr
           :props="props"
           class="cursor-pointer"
-
           title="Haga click para ver o modificar esta entrada"
           @click="$emit('openForm', props.row)"
         >
@@ -177,7 +177,7 @@
               spread
               v-if="canUpdate"
               flat
-              round
+
               icon="edit"
               size="sm"
               text-color="accent"
@@ -194,7 +194,7 @@
               @click.stop="$emit('deleteRows', [props.row])"
             />
           </q-td>
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">{{
+          <q-td v-for="col in props.cols" :key="col.name" :props="props" style="max-width:100px;overflow:hidden">{{
               col.value
             }}
           </q-td>
@@ -202,7 +202,6 @@
       </template>
 
       <!--      CARD VIEW-->
-
       <template v-slot:item="props">
         <div :style="props.selected ? 'transition:.2s;transform: scale(0.95);' : ''"
              class="cursor-pointer q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
@@ -280,7 +279,7 @@ import {useQuasar} from "quasar";
 const $q = useQuasar();
 
 var s = state.value;
-const tableClass = `q-pb-xl overflow-hidden ${
+const tableClass = `q-pb-xl sticky-header-table overflow-hidden ${
   !$q.dark.isActive ? "bg-light" : ""
 }`;
 const props = defineProps({
@@ -303,7 +302,27 @@ const selected = ref([]);
 const isTableGrid = ref($q.screen.lt.sm);
 const isTableFullscreen = ref(false);
 const isTableDense = ref($q.screen.lt.sm);
+/*.q-table th.actions-column, .q-table td.actions-column {padding:0;}
+*/
 </script>
-<style>
-.q-table th.actions-column, .q-table td.actions-column {padding:0;}
+<style lang="sass">
+.sticky-header-table
+  /* height or max-height is important */
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th
+    /* bg color is important for th; just specify one */
+    background-color: white
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
 </style>

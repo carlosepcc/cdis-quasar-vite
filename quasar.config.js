@@ -89,18 +89,18 @@ module.exports = configure(function (/* ctx */) {
       config: {
         dark: "auto", // or Boolean true/false
         brand: {
-          primary: "#d78200",
-          secondary: "#C37800",
-          accent: "#ea5",
+          primary: "#d68f00",
+          secondary: "#c28100",
+          accent: "#edbb55",
 
-          dark: "#1d1d1d",
+          dark: "#332f22",
 
           positive: "#21BA45",
-          negative: "#C10015",
+          negative: "#ff334b",
           info: "#FFE4B5",
-          warning: "#f2bd29",
+          warning: "#ffab00",
 
-          brand: "#d78200",
+          brand: "#d68f00",
         },
 
         notify: {

@@ -7,38 +7,47 @@
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
-      :isModifying="resolucionObject.id"
+      :isModifying="update"
     >
+      <template v-slot:header v-if="update">VER RESOLUCION</template>
+      <template v-slot:footer v-if="update">
+        <q-btn flat no-caps
+        :size="state.dense ? 'sm' : 'md'"
+        label="Cerrar"
+        icon="r_close" class="full-width"
+        @click="closeForm"
+        /></template>
       <template v-slot:default>
-        <q-input v-model="resolucionObject.ano"
-                 filled
-                 :dense="state.dense"
-                 label="Año"
-                 max-length="4" class="q-mb-md"/>
+        <q-input
+          v-model="resolucionObject.ano"
+          :borderless="update" :dense="state.dense"
+          label="Curso" :readonly="update"
+          max-length="4" class="q-mb-md"
+        />
 
 <!--        COMISIONES-->
-        <q-card v-for="(c,i) in resolucionObject.comisiones" :key="i" flat bordered class="my-card bg-grey-1">
+        <q-card v-for="(c,i) in resolucionObject.comisiones" :key="i" flat bordered class="my-card bg-grey-1 q-mb-sm">
           <q-card-section class="q-pa-xs q-pl-sm q-pr-none">
             <div class="row items-center no-wrap">
               <div class="col">
                 <div class="text-light">Comisión {{ i + 1 }}</div>
               </div>
 
-              <div class="col-auto">
+              <div class="col-auto" v-if="!update">
                 <q-btn color="negative" size="sm" title="Descartar comisión" flat icon="r_close"
                        @click="resolucionObject.comisiones.splice(i,1)"
                 />
               </div>
             </div>
           </q-card-section>
-<q-separator/>
+          <q-separator/>
           <q-card-section>
             <q-select
+              :readonly="update"
               v-model="c.presidente"
               :dense="state.dense"
               :options="usersArr"
               :rules="[val || 'Por favor, seleccione un presidente']"
-              filled
               label="Presidente"
               lazy-rules
               map-options
@@ -47,11 +56,11 @@
               option-value="usuario"
             />
             <q-select
+              :readonly="update"
               v-model="c.secretario"
               :dense="state.dense"
               :options="usersArr"
               :rules="[val || 'Por favor, seleccione un secretario']"
-              filled
               label="Secretario"
               lazy-rules
               map-options
@@ -62,9 +71,9 @@
           </q-card-section>
         </q-card>
 
-       <q-btn flat size="xl" color="grey" icon="r_add" spread no-caps class="full-width"
+       <q-btn v-show="!update" flat size="xl" color="grey" icon="r_add" spread no-caps class="full-width"
               :label="`Comisión ${ resolucionObject.comisiones.length + 1 }`"
-              @click="resolucionObject.comisiones.push({presidente:'',secretario:''})"
+              @click="resolucionObject.comisiones.push({presidente:'',secretario:'',idRolP: 4, idRolS: 5,})"
        />
 <DevInfo>
   {{ resolucionObject }}
@@ -77,15 +86,19 @@
       heading="Resoluciones"
       rowKey="id"
       @updateList="listarResoluciones"
-      @open-form="(payload) => openForm()"
+      @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
+      :canUpdate="false"
     ></ListPage>
-    <DevInfo>{{resolucionesArr}}</DevInfo>
+    <DevInfo>
+resolucionObject: {{resolucionObject}}<br/>
+      resolucionesArr: {{resolucionesArr}}
+    </DevInfo>
 <!--    No hay endpoint en el backend para modificar la resolucion-->
   </q-page>
 </template>
 <script setup>
-import { ref } from "vue";
+import {computed, ref} from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import DevInfo from "components/DevInfo.vue";
@@ -102,7 +115,7 @@ const resolucionFields = ref([
     label: "Curso",
     field: "url",
     align: "center",
-    format: url => url.replace('ARCHIVOS/RESOLUCIONES/',''),
+    format: url => pathToCurso(url),
     sortable: true,
   },
   {
@@ -120,7 +133,7 @@ const url = "/resolucion";
 const listarResoluciones = () => listar(resolucionesArr, url);
 // execute on component load
 listarResoluciones();
-//listar()//Listar usuarios es el comportamiento por defecto
+listar()//Listar usuarios es el comportamiento por defecto
 
 //form dialog model
 const showForm = ref(false);
@@ -130,16 +143,33 @@ const closeForm = () => {
   showForm.value = false;
   listarResoluciones();
 };
-
+const pathToCurso = path => path.replace('ARCHIVOS/RESOLUCIONES/','')
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
 const resolucionObject = ref({});
+const resolucionRowObject = ref({})
 const resolucionExportObject = ref({})
 
+const update = computed(()=> resolucionObject.value.id !== undefined)
 //openForm triggered on: Nueva entrada, Modificar
 const currentYear = new Date().getFullYear()
 const curso = `${currentYear}-${currentYear+1}`
-const openForm = (obj = { ano : curso, comisiones:[{}]}) => {
+const openForm = (obj = { ano : curso, comisiones:[{
+    "idRolP": 4,
+    "idRolS": 5,}]}) => {
+  resolucionRowObject.value = obj
   resolucionObject.value = obj;
+  let resolucionDto = {}
+  if (obj.id !== undefined){
+    resolucionDto.id = obj.id
+    resolucionDto.ano = pathToCurso(obj.url)
+    resolucionDto.comisiones = obj.comisionList.map(c => {
+      return {
+      presidente: c.comisionUsuarioList[0].usuario.usuario,
+      secretario: c.comisionUsuarioList[1].usuario.usuario
+      }
+    })
+    resolucionObject.value = resolucionDto;
+  }
   showForm.value = true;
 };
 
@@ -147,6 +177,7 @@ const openForm = (obj = { ano : curso, comisiones:[{}]}) => {
 function submitFormData() {
   guardar(resolucionObject.value, resolucionesArr, url);
   resetFormData();
+  closeForm()
 }
 //RESET
 function resetFormData() {

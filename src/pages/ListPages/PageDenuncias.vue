@@ -104,6 +104,7 @@ const url = "/denuncia";
 const listarDenuncias = () => listar(denunciasArr, url);
 // execute on component load
 listarDenuncias();
+listar()
 
 //form dialog model
 const showForm = ref(false);
@@ -122,20 +123,21 @@ const update = computed(()=> denunciaObject.value.idDenuncia !== undefined)
 //openForm triggered on: Nueva entrada, Modificar
 const openForm = (obj = { descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore" }) => {
  denunciaRowObject.value = obj
+  denunciaObject.value = obj
   let denunciaDto = {}
-  if (obj.id){
+  if (obj.id !== undefined){
     denunciaDto.idDenuncia = obj.id
     denunciaDto.descripcion = obj.descripcion
     denunciaDto.acusados = obj.acusados.map(acusado => acusado.usuario)
+    denunciaObject.value = denunciaDto;
  }
-  denunciaObject.value = denunciaDto;
   showForm.value = true;
 };
 
 
 //SUBMIT
 function submitFormData() {
-  guardar(denunciaObject.value, denunciasArr, url, update);
+  guardar(denunciaObject.value, denunciasArr, url, update.value);
   closeForm()
 }
 //RESET
