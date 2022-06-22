@@ -80,6 +80,7 @@
       @open-form="(payload) => openForm()"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
+    <DevInfo>{{resolucionesArr}}</DevInfo>
 <!--    No hay endpoint en el backend para modificar la resolucion-->
   </q-page>
 </template>
@@ -97,11 +98,11 @@ import state, {
 
 const resolucionFields = ref([
   {
-    name: "url",
-    required: true,
-    label: "URL de la resolución",
-    align: "left",
+    name: "curso",
+    label: "Curso",
     field: "url",
+    align: "center",
+    format: url => url.replace('ARCHIVOS/RESOLUCIONES/',''),
     sortable: true,
   },
   {
@@ -109,7 +110,7 @@ const resolucionFields = ref([
     required: true,
     label: "Comisiones",
     align: "left",
-    field: "comisionList",
+    field: r => r.comisionList.map(c => c.id),
     sortable: true,
   },
 ]);

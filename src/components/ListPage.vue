@@ -97,6 +97,7 @@
         <!--🗑️ ELIMINAR SELECCIÓN-->
         <q-btn
           v-if="canDelete"
+          class="gt-sm"
           :dense="s.dense"
           v-show="selected.length != 0"
           flat
