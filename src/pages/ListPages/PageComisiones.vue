@@ -70,12 +70,16 @@
       @open-form="(payload) => openForm(payload)"
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
+    <DevInfo>
+      {{comisionesArr}}
+    </DevInfo>
   </q-page>
 </template>
 <script setup>
 import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
+import DevInfo from "components/DevInfo.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
 import state, { usersArr,comisionesArr,resolucionesArr } from "src/composables/useState.js";
 

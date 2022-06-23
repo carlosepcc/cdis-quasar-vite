@@ -308,21 +308,37 @@ const isTableDense = ref($q.screen.lt.sm);
 <style lang="sass">
 .sticky-header-table
   /* height or max-height is important */
+  th.actions-column, td.actions-column
+    padding: 0
 
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th
-    /* bg color is important for th; just specify one */
-    background-color: white
+  td:first-child
+    /* bg color is important for td; just specify one */
+    background-color: #fafafa !important
 
-  thead tr th
+  tr th
     position: sticky
-    z-index: 1
-  thead tr:first-child th
-    top: 0
+    /* higher than z-index for td below */
+    z-index: 2
+    /* bg color is important; just specify one */
+    background: #fafafa
 
-  /* this is when the loading indicator appears */
-  &.q-table--loading thead tr:last-child th
+  /* this will be the loading indicator */
+  thead tr:last-child th
     /* height of all previous header rows */
     top: 48px
+    /* highest z-index */
+    z-index: 3
+  thead tr:first-child th
+    top: 0
+    z-index: 1
+  tr:first-child th:first-child
+    /* highest z-index */
+    z-index: 3
+
+  td:first-child
+    z-index: 1
+
+  td:first-child, th:first-child
+    position: sticky
+    left: 0
 </style>
