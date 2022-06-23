@@ -107,6 +107,7 @@ import state, {
   usersArr,
   permisosArr,
   resolucionesArr,
+  pathToCurso,
 } from "src/composables/useState.js";
 
 const resolucionFields = ref([
@@ -143,7 +144,6 @@ const closeForm = () => {
   showForm.value = false;
   listarResoluciones();
 };
-const pathToCurso = path => path.replace('ARCHIVOS/RESOLUCIONES/','')
 // MODIFICAR (Abrir formulario con datos del objeto a modificar)
 const resolucionObject = ref({});
 const resolucionRowObject = ref({})

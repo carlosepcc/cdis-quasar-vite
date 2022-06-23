@@ -11,7 +11,7 @@ const state = ref({
   loggedUser: false,
   mockUser:{"rol": "ROLE_ADMIN", "permisos": [ "ROLE_C_COMISION", "ROLE_U_COMISION", "ROLE_R_COMISION", "ROLE_C_CASO", ],"nombre": "Naielhi", "usuario": "naie", "cargo": "Profesor", "idrol": -1 }
 });
-
+export const pathToCurso = path => path.replace('ARCHIVOS/RESOLUCIONES/','')
 export const resolucionesArr = ref([])
 export const rolesArr = ref([]);
 export const denunciasArr = ref([]);

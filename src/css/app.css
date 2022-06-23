@@ -20,3 +20,11 @@
 .nobg {
   background: none !important;
 }
+body.body--dark .opaque {
+  background: var(--q-dark);
+  color: var(--q-light);
+}
+body.body--light .opaque, body .opaque {
+  background: var(--q-light);
+  color: var(--q-dark);
+}

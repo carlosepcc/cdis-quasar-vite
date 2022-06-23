@@ -10,26 +10,14 @@
     >
       <template v-slot:default>
         <!-- Nombre declaracion -->
-        <q-input
-          v-model.trim="declaracionObject.nombre"
-          :dense="state.dense"
-          :rules="[
-            (val) =>
-              (val && val.length > 0) || 'Este campo no puede estar vacío',
-          ]"
-          clearable
-          filled
-          label="Nombre"
-          lazy-rules
-        />
         <q-select
-          v-model="declaracionObject.permisos"
+          v-model="declaracionObject.idDenuncia"
           multiple
           :dense="state.dense"
-          :options="permisosArr"
+          :options="denunciasArr"
           :rules="[val || 'Por favor, seleccione algo']"
           filled
-          label="Permisos"
+          label="Denuncia"
           lazy-rules
         />
       </template>
@@ -50,7 +38,7 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state from "src/composables/useState.js";
+import state,{denunciasArr} from "src/composables/useState.js";
 
  /*Get /declaracion [ {
     "declaracionPK": {
@@ -108,7 +96,6 @@ const declaracionFields = ref([
   },
   {
     name: "declaracion",
-    required: true,
     label: "URL de la Declaración",
     align: "left",
     field: "declaracion",
@@ -116,7 +103,6 @@ const declaracionFields = ref([
   },
   {
     name: "expediente",
-    required: true,
     label: "URL del Expediente",
     align: "left",
     field: "expediente",

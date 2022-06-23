@@ -7,7 +7,6 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
 const { configure } = require("quasar/wrappers");
 
 module.exports = configure(function (/* ctx */) {
@@ -94,6 +93,8 @@ module.exports = configure(function (/* ctx */) {
           accent: "#edbb55",
 
           dark: "#332f22",
+          light: "#FaFaFa",
+          solid: "#FAFAFA",
 
           positive: "#21BA45",
           negative: "#ff334b",

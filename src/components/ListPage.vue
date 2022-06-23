@@ -61,7 +61,7 @@
       rows-per-page-label="Filas por página"
       :selection="canDelete ? 'multiple' : 'none'"
       separator="vertical"
-      table-style="max-height:55vh"
+      :table-style="isTableFullscreen ? 'height:90vh' : 'max-height:55vh'"
     >
 
       <!-- :flat="!isTableGrid" -->
@@ -124,7 +124,7 @@
         <!-- FULLSCREEN -->
         <q-btn
           title="Pantalla completa"
-          flat round dense
+          flat round
           :icon="isTableFullscreen ? 'fullscreen_exit' : 'fullscreen'"
           @click="isTableFullscreen = !isTableFullscreen"
         />
@@ -279,7 +279,7 @@ import {useQuasar} from "quasar";
 const $q = useQuasar();
 
 var s = state.value;
-const tableClass = `q-pb-xl sticky-header-table overflow-hidden ${
+const tableClass = `sticky-header-table overflow-hidden ${
   !$q.dark.isActive ? "bg-light" : ""
 }`;
 const props = defineProps({
@@ -310,17 +310,16 @@ const isTableDense = ref($q.screen.lt.sm);
   /* height or max-height is important */
   th.actions-column, td.actions-column
     padding: 0
+    border-right: 1px solid #0002
 
   td:first-child
-    /* bg color is important for td; just specify one */
-    background-color: #fafafa !important
+    background-color: var(--q-solid)
+    border-right: 1px solid #0002
 
   tr th
     position: sticky
-    /* higher than z-index for td below */
-    z-index: 2
-    /* bg color is important; just specify one */
-    background: #fafafa
+    z-index: 2 /* higher than z-index for td below */
+    background: var(--q-solid)
 
   /* this will be the loading indicator */
   thead tr:last-child th
@@ -341,4 +340,19 @@ const isTableDense = ref($q.screen.lt.sm);
   td:first-child, th:first-child
     position: sticky
     left: 0
+  
+  .q-table__top
+    padding:0
+    padding-right:8px
+
+body.body--dark .sticky-header-table
+  tr th, td:first-child
+    background: var(--q-dark)
+    color: var(--q-light)
+
+  td:first-child
+    border-right: 1px solid #fff2
+  
+  th.actions-column, td.actions-column
+    border-right: 1px solid #fff2
 </style>

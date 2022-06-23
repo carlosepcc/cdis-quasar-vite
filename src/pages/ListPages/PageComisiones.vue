@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pb-xl" padding>
+  <q-page class="" padding>
     <BaseForm
       v-model="showForm"
       v-show="showForm"
@@ -71,7 +71,8 @@
       @delete-rows="(selectedRows) => deleteTuples(selectedRows)"
     ></ListPage>
     <DevInfo>
-      {{comisionesArr}}
+      comisinObject: {{comisionObject}}
+      comisionesArr: {{comisionesArr}}
     </DevInfo>
   </q-page>
 </template>
@@ -81,7 +82,7 @@ import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import DevInfo from "components/DevInfo.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state, { usersArr,comisionesArr,resolucionesArr } from "src/composables/useState.js";
+import state, { usersArr,comisionesArr,resolucionesArr,pathToCurso } from "src/composables/useState.js";
 
 const comisionFields = ref([
   {
@@ -89,7 +90,7 @@ const comisionFields = ref([
     required: true,
     label: "Resolución",
     align: "left",
-    field: (comision) => comision.resolucion.id,
+    field: c => pathToCurso(c.resolucion.url),
     sortable: true,
   },
   {
@@ -97,7 +98,7 @@ const comisionFields = ref([
     required: true,
     label: "Presidente",
     align: "left",
-    field: (comision) => comision.integrantesComision[0].usuario,
+    field: c => c.comisionUsuarioList.length > 0 ? c.comisionUsuarioList[0].usuario.nombre : 'Sin usuarios',
     sortable: true,
   },
   {
@@ -105,14 +106,14 @@ const comisionFields = ref([
     required: true,
     label: "Secretario",
     align: "left",
-    field: (comision) => comision.integrantesComision[1].usuario,
+    field: c => c.comisionUsuarioList.length > 1 ? c.comisionUsuarioList[1].usuario.nombre : 'Sin secretario',
     sortable: true,
   },{
     name: "caso",
     required: true,
     label: "Último caso",
     align: "left",
-    field: (comision) => comision.casoList[casoList.length-1].casoPK.denuncia,
+    field: c => c.casoList.length > 0 ? c.casoList[casoList.length-1].casoPK.denuncia : 'Sin casos asignados',
     sortable: true,
   },
 ]);
