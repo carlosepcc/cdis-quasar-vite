@@ -106,7 +106,7 @@
           label="Eliminar selección"
           no-caps
           text-color="negative"
-          @click="$emit('deleteRows', selected)"
+          @click="emitDelete"
         />
 
         <!-- NUEVA ENTRADA -->
@@ -147,7 +147,7 @@
               no-caps
               class="full-width"
               text-color="negative"
-              @click="$emit('deleteRows', selected)"
+              @click="emitDelete"
             />
           </template>
           </q-th>
@@ -191,7 +191,7 @@
               icon="delete"
               size="sm"
               text-color="negative"
-              @click.stop="$emit('deleteRows', [props.row])"
+              @click.stop="emitDelete(props.row)"
             />
           </q-td>
           <q-td v-for="col in props.cols" :key="col.name" :props="props" style="max-width:100px;overflow:hidden">{{
@@ -255,6 +255,9 @@
         </div>
       </template>
     </q-table>
+    <DevInfo>
+Filas seleccionadas: {{selected}}
+    </DevInfo>
 
     <q-page-sticky :offset="[18, 18]" class="lt-sm">
       <q-btn
@@ -273,6 +276,7 @@
 <script setup>
 import {ref} from "vue";
 import state from "src/composables/useState";
+import DevInfo from "src/components/DevInfo.vue"
 
 import {useQuasar} from "quasar";
 
@@ -292,6 +296,11 @@ const props = defineProps({
   canUpdate: { type:Boolean, default: true },
 });
 const emit = defineEmits(["openForm", "deleteRows", "updateList"]);
+const emitDelete = (rowObject = null) => {
+  selected.value.push(rowObject)
+  console.log(selected)
+  emit('deleteRows', selected)
+}
 
 // FILTRAR
 const filter = ref("");
@@ -340,7 +349,7 @@ const isTableDense = ref($q.screen.lt.sm);
   td:first-child, th:first-child
     position: sticky
     left: 0
-  
+
   .q-table__top
     padding:0
     padding-right:8px
@@ -352,7 +361,7 @@ body.body--dark .sticky-header-table
 
   td:first-child
     border-right: 1px solid #fff2
-  
+
   th.actions-column, td.actions-column
     border-right: 1px solid #fff2
 </style>

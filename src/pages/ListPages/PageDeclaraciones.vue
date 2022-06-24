@@ -12,13 +12,20 @@
         <!-- Nombre declaracion -->
         <q-select
           v-model="declaracionObject.idDenuncia"
-          multiple
-          :dense="state.dense"
-          :options="denunciasArr"
+          :dense="state.dense" :options="denunciasArr"
           :rules="[val || 'Por favor, seleccione algo']"
-          filled
-          label="Denuncia"
-          lazy-rules
+          filled lazy-rules map-options emit-value
+          label="Caso disciplinario" behavior="dialog"
+          :option-label="d=>d.descripcion.slice(0,50)+'(...)'"
+          option-value="id"
+        />
+        <q-select
+          v-model="declaracionObject.usuario"
+          :options="usersArr" :dense="state.dense"
+          :rules="[val || 'Por favor, seleccione un usuario']"
+          label="Usuario a declarar"
+          lazy-rules filled map-options emit-value
+          option-label="nombre" option-value="usuario"
         />
       </template>
     </BaseForm>
@@ -38,7 +45,7 @@ import { ref } from "vue";
 import ListPage from "components/ListPage.vue";
 import BaseForm from "components/BaseForm.vue";
 import listar, { eliminar, guardar } from "src/composables/useAPI.js";
-import state,{denunciasArr} from "src/composables/useState.js";
+import state,{denunciasArr, usersArr} from "src/composables/useState.js";
 
  /*Get /declaracion [ {
     "declaracionPK": {
@@ -116,6 +123,8 @@ const url = "/declaracion";
 const listarDeclaraciones = () => listar(declaracionesArr, url);
 // execute on component load
 listarDeclaraciones();
+listar()
+listar(denunciasArr,'/denuncia')
 
 //form dialog model
 const showForm = ref(false);

@@ -175,7 +175,7 @@ export const guardar = (object, refArr, url = "/usuario", update = object.id !==
 };
 
 // Pedir la eliminación de objetos en la base de datos
-export const eliminar = (objArr = [], list, url = "/usuario") => {
+export const eliminar = (selectedRowsRef = null, list, url = "/usuario") => {
   console.log("Eliminar");
   Dialog.create({
     title: "Confirme la eliminación",
@@ -189,8 +189,8 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
       let noti = Notify.create({
         type: "ongoing",
         position: "bottom",
-        message: `Eliminando ${objArr.length} entrada${
-          objArr.length == 1 ? "." : "s."
+        message: `Eliminando ${selectedRowsRef.value.length} entrada${
+          selectedRowsRef.value.length === 1 ? "." : "s."
         } ${url}`,
         spinner: QSpinnerGears,
         actions: [{ label: "Ocultar", color: "white" }],
@@ -201,7 +201,7 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
       // objArr.forEach((obj) => idsUrl.push(`${obj.id},`));
       // idsUrl.pop(); */
       let idsArr = [];
-      objArr.forEach((obj) => idsArr.push(obj.id)); //Se llena el arreglo de ids con los ids de los objetos del arreglo de objetos
+      selectedRowsRef.value.forEach((obj) => idsArr.push(obj.id)); //Se llena el arreglo de ids con los ids de los objetos del arreglo de objetos
       //REQUEST TO SERVER
       api({
         method: "delete",
@@ -210,6 +210,7 @@ export const eliminar = (objArr = [], list, url = "/usuario") => {
       })
         .then((response) => {
           // handle success
+          selectedRowsRef.value = [] //Desceleccionar las filas si se completó la petición con éxito
           listar(list, url);
           noti({
             type: "positive",
