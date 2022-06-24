@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pb-xl" padding>
+  <q-page padding>
     <BaseForm
       v-model="showForm"
       v-show="showForm"
