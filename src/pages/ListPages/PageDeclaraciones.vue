@@ -74,7 +74,7 @@ const declaracionFields = ref([
     required: true,
     label: "Usuario",
     align: "left",
-    field: (declaracion) => declaracion.declaracionPK.usuario,
+    field: declaracion => declaracion.id?.usuario,
     sortable: true,
   },
   {
@@ -82,7 +82,7 @@ const declaracionFields = ref([
     required: true,
     label: "Caso",
     align: "left",
-    field: (declaracion) => declaracion.caso.casoPK.denuncia,
+    field: (declaracion) => declaracion.caso?.casoPK?.denuncia,
     sortable: true,
   },
   {

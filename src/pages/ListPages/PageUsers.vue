@@ -97,7 +97,7 @@ const userFields = ref([
     name: "rol",
     label: "Rol",
     align: "center",
-    field: (u) => u.rol.rol,
+    field: u => u.rol.rol,
     sortable: true,
   },
 ]);

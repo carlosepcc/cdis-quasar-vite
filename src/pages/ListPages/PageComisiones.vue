@@ -98,7 +98,7 @@ const comisionFields = ref([
     required: true,
     label: "Presidente",
     align: "left",
-    field: c => c.comisionUsuarioList.length > 0 ? c.comisionUsuarioList[0].usuario.nombre : 'Sin usuarios',
+    field: c => c.comisionUsuarioList[1]?.usuario?.nombre ?? 'Sin presidente',
     sortable: true,
   },
   {
@@ -106,14 +106,14 @@ const comisionFields = ref([
     required: true,
     label: "Secretario",
     align: "left",
-    field: c => c.comisionUsuarioList.length > 1 ? c.comisionUsuarioList[1].usuario.nombre : 'Sin secretario',
+    field: c => c.comisionUsuarioList[1]?.usuario?.nombre ?? 'Sin secretario',
     sortable: true,
   },{
     name: "caso",
     required: true,
     label: "Último caso",
     align: "left",
-    field: c => c.casoList.length > 0 ? c.casoList[casoList.length-1].casoPK.denuncia : 'Sin casos asignados',
+    field: c => c.casoList[casoList.length-1]?.casoPK?.denuncia ?? 'Sin casos asignados',
     sortable: true,
   },
 ]);

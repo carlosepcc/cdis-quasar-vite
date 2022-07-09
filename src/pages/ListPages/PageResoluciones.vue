@@ -164,8 +164,8 @@ const openForm = (obj = { ano : curso, comisiones:[{
     resolucionDto.ano = pathToCurso(obj.url)
     resolucionDto.comisiones = obj.comisionList.map(c => {
       return {
-      presidente: c.comisionUsuarioList[0].usuario.usuario,
-      secretario: c.comisionUsuarioList[1].usuario.usuario
+      presidente: c.comisionUsuarioList[0]?.usuario?.usuario,
+      secretario: c.comisionUsuarioList[1]?.usuario?.usuario
       }
     })
     resolucionObject.value = resolucionDto;

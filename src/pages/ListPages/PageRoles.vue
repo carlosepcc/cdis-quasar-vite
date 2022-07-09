@@ -30,7 +30,7 @@
           v-model="rolObject.permisos"
           :options="permisosArr"
           option-value="id"
-          :option-label="(item)=>item.label ? item.label : item.permiso"
+          :option-label="(item) => item.label ?? item.permiso"
           emit-value
           map-options
           multiple
@@ -85,7 +85,7 @@ const rolFields = ref([
     required: true,
     label: "Primer permiso",
     align: "left",
-    field: (rol) => permisoStrToLabel(rol.permisos[0] ? rol.permisos[0].permiso : 'Sin permisos'),//Nombre del primer permiso
+    field: rol => permisoStrToLabel(rol.permisos[0]?.permiso ?? 'Sin permisos'),//Nombre del primer permiso
     sortable: true,
   },
 ]);

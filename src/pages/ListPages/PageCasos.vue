@@ -24,7 +24,7 @@
           :rules="[val || 'Por favor, seleccione una comisión']"
           filled lazy-rules map-options emit-value
           label="Comisión"
-          :option-label="c => c.comisionUsuarioList[0].usuario.nombre"
+          :option-label="c => c.comisionUsuarioList[0]?.usuario?.nombre"
           option-value="id"
         />
         <!--TODO <q-date/>-->
@@ -59,7 +59,7 @@ const casoFields = ref([
     name: "denuncia",
     required: true,
     label: "Denuncia",
-    field: caso => caso.denuncia1.descripcion.slice(0,30),
+    field: caso => caso.denuncia1?.descripcion.slice(0,30),
     sortable: true,
   },
   {
@@ -80,7 +80,8 @@ const casoFields = ref([
     name: "abierto",
     required: true,
     label: "Abierto",
-    field: (caso) => caso.abierto ? 'Sí' : 'No',
+    field: "abierto",
+    format: abierto => abierto ? 'Sí' : 'No',
     sortable: true,
   },
 ]);

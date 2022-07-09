@@ -3,7 +3,7 @@
     <BaseForm
       v-model="showForm"
       v-show="showForm"
-      :formTitle="`Denuncia ${denunciaObject.idDenuncia ? denunciaObject.idDenuncia : ''}`"
+      :formTitle="`Denuncia ${denunciaObject.idDenuncia ?? ''}`"
       @submit="submitFormData"
       @reset="resetFormData"
       @close-form="closeForm"
